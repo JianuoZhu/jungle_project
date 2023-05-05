@@ -25,7 +25,8 @@ public class Chessboard {
 
     private void initPieces() {
         grid[0][0].setPiece(new ChessPiece(PlayerColor.BLUE, "Elephant",8));
-        grid[8][6].setPiece(new ChessPiece(PlayerColor.RED, "Elephant",8));
+        grid[0][1].setPiece(new ChessPiece(PlayerColor.RED, "Elephant",8));
+        grid[8][0].setPiece(new ChessPiece(PlayerColor.RED, "Elephant",8));
     }
 
     private ChessPiece getChessPieceAt(ChessboardPoint point) {
@@ -62,6 +63,8 @@ public class Chessboard {
             throw new IllegalArgumentException("Illegal chess capture!");
         }
         // TODO: Finish the method.
+        removeChessPiece(dest);
+        setChessPiece(dest, removeChessPiece(src));
     }
 
     public Cell[][] getGrid() {
@@ -81,6 +84,8 @@ public class Chessboard {
 
     public boolean isValidCapture(ChessboardPoint src, ChessboardPoint dest) {
         // TODO:Fix this method
+        if(getChessPieceAt(src).canCapture(getChessPieceAt(dest)))
+            return true;
         return false;
     }
 }

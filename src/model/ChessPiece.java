@@ -21,8 +21,8 @@ public class ChessPiece {
 
     public boolean canCapture(ChessPiece target) {
         // TODO: Finish this method!
-        if(this.rank == 7 && target.getRank() == 1) return false;
-        if(this.rank == 1 && target.getRank() == 7) return true;
+        if(this.rank == 8 && target.getRank() == 1) return false;
+        if(this.rank == 1 && target.getRank() == 8) return true;
         if(this.rank >= target.getRank()) return true;
         return false;
     }
