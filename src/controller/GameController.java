@@ -9,7 +9,6 @@ import model.ChessboardPoint;
 import view.CellComponent;
 import view.ElephantChessComponent;
 import view.ChessboardComponent;
-import view.LionChessComponent;
 
 /**
  * Controller is the connection between model and view,
