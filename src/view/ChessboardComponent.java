@@ -49,12 +49,22 @@ public class ChessboardComponent extends JComponent {
                 // TODO: Implement the initialization checkerboard
 
                 if (grid[i][j].getPiece() != null) {
-                    ChessPiece chessPiece = grid[i][j].getPiece();
-                    System.out.println(chessPiece.getOwner());
-                    gridComponents[i][j].add(
-                            new ElephantChessComponent(
-                                    chessPiece.getOwner(),
-                                    CHESS_SIZE));
+                    if(grid[i][j].getPiece().getName().equals("Lion")){
+                        ChessPiece chessPiece = grid[i][j].getPiece();
+                        System.out.println(chessPiece.getOwner());
+                        gridComponents[i][j].add(
+                                new LionChessComponent(
+                                        chessPiece.getOwner(),
+                                        CHESS_SIZE));
+                    }
+                    else {
+                        ChessPiece chessPiece = grid[i][j].getPiece();
+                        System.out.println(chessPiece.getOwner());
+                        gridComponents[i][j].add(
+                                new ElephantChessComponent(
+                                        chessPiece.getOwner(),
+                                        CHESS_SIZE));
+                    }
                 }
             }
         }
