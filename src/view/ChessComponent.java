@@ -19,6 +19,10 @@ public class ChessComponent extends JComponent {
         setVisible(true);
     }
 
+    public ChessComponent() {
+
+    }
+
     public boolean isSelected() {
         return selected;
     }

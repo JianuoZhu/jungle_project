@@ -1,7 +1,7 @@
 package view;
 
+import java.net.URL;
 
-import model.ChessPiece;
 import model.PlayerColor;
 
 import javax.swing.*;
@@ -28,9 +28,8 @@ public class ElephantChessComponent extends ChessComponent {
         g2.drawString("象", getWidth() / 4, getHeight() * 5 / 8);
         if (isSelected()) { // Highlights the model if selected.
             g.setColor(Color.RED);
-            g.drawOval(0, 0, getWidth() , getHeight());
+            g.drawOval(0, 0, getWidth(), getHeight());
         }
-        // FIXME: Use library to find the correct offset.
 
 
-}}
+    }}
