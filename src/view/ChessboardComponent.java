@@ -49,12 +49,75 @@ public class ChessboardComponent extends JComponent {
                 // TODO: Implement the initialization checkerboard
 
                 if (grid[i][j].getPiece() != null) {
-                    ChessPiece chessPiece = grid[i][j].getPiece();
-                    System.out.println(chessPiece.getOwner());
-                    gridComponents[i][j].add(
-                            new ElephantChessComponent(
-                                    chessPiece.getOwner(),
-                                    CHESS_SIZE));
+                    if (grid[i][j].getPiece().getName().equals("Elephant")){
+                        ChessPiece chessPiece = grid[i][j].getPiece();
+                        System.out.println(chessPiece.getOwner());
+                        gridComponents[i][j].add(
+                                new ElephantChessComponent(
+                                        chessPiece.getOwner(),
+                                        CHESS_SIZE));
+                    }
+
+                    if(grid[i][j].getPiece().getName().equals("Lion")){
+                        ChessPiece chessPiece = grid[i][j].getPiece();
+                        System.out.println(chessPiece.getOwner());
+                        gridComponents[i][j].add(
+                                new LionChessComponent(
+                                        chessPiece.getOwner(),
+                                        CHESS_SIZE));
+                    }
+                    if (grid[i][j].getPiece().getName().equals("Tiger")){
+                        ChessPiece chessPiece = grid[i][j].getPiece();
+                        System.out.println(chessPiece.getOwner());
+                        gridComponents[i][j].add(
+                                new TigerChessComponent(
+                                        chessPiece.getOwner(),
+                                        CHESS_SIZE));
+                    }
+                    if (grid[i][j].getPiece().getName().equals("Leopard")){
+                        ChessPiece chessPiece = grid[i][j].getPiece();
+                        System.out.println(chessPiece.getOwner());
+                        gridComponents[i][j].add(
+                                new LeopardChessComponent(
+                                        chessPiece.getOwner(),
+                                        CHESS_SIZE));
+                    }
+                    if (grid[i][j].getPiece().getName().equals("Wolf")){
+                        ChessPiece chessPiece = grid[i][j].getPiece();
+                        System.out.println(chessPiece.getOwner());
+                        gridComponents[i][j].add(
+                                new WolfChessComponent(
+                                        chessPiece.getOwner(),
+                                        CHESS_SIZE));
+                    }
+                    if (grid[i][j].getPiece().getName().equals("Dog")){
+                        ChessPiece chessPiece = grid[i][j].getPiece();
+                        System.out.println(chessPiece.getOwner());
+                        gridComponents[i][j].add(
+                                new DogChessComponent(
+                                        chessPiece.getOwner(),
+                                        CHESS_SIZE));
+                    }
+                    if (grid[i][j].getPiece().getName().equals("Cat")){
+                        ChessPiece chessPiece = grid[i][j].getPiece();
+                        System.out.println(chessPiece.getOwner());
+                        gridComponents[i][j].add(
+                                new CatChessComponent(
+                                        chessPiece.getOwner(),
+                                        CHESS_SIZE));
+                    }
+                    if (grid[i][j].getPiece().getName().equals("Rat")){
+                        ChessPiece chessPiece = grid[i][j].getPiece();
+                        System.out.println(chessPiece.getOwner());
+                        gridComponents[i][j].add(
+                                new RatChessComponent(
+                                        chessPiece.getOwner(),
+                                        CHESS_SIZE));
+                    }
+
+
+
+
                 }
             }
         }
@@ -97,13 +160,13 @@ public class ChessboardComponent extends JComponent {
         this.gameController = gameController;
     }
 
-    public void setChessComponentAtGrid(ChessboardPoint point, ElephantChessComponent chess) {
+    public void setChessComponentAtGrid(ChessboardPoint point, ChessComponent chess) {
         getGridComponentAt(point).add(chess);
     }
 
-    public ElephantChessComponent removeChessComponentAtGrid(ChessboardPoint point) {
+    public ChessComponent removeChessComponentAtGrid(ChessboardPoint point) {
         // Note re-validation is required after remove / removeAll.
-        ElephantChessComponent chess = (ElephantChessComponent) getGridComponentAt(point).getComponents()[0];
+        ChessComponent chess = (ChessComponent) getGridComponentAt(point).getComponents()[0];
         getGridComponentAt(point).removeAll();
         getGridComponentAt(point).revalidate();
         chess.setSelected(false);
@@ -138,7 +201,7 @@ public class ChessboardComponent extends JComponent {
                 gameController.onPlayerClickCell(getChessboardPoint(e.getPoint()), (CellComponent) clickedComponent);
             } else {
                 System.out.print("One chess here and ");
-                gameController.onPlayerClickChessPiece(getChessboardPoint(e.getPoint()), (ElephantChessComponent) clickedComponent.getComponents()[0]);
+                gameController.onPlayerClickChessPiece(getChessboardPoint(e.getPoint()), (ChessComponent) clickedComponent.getComponents()[0]);
             }
         }
     }

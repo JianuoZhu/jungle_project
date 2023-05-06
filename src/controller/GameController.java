@@ -7,6 +7,7 @@ import model.PlayerColor;
 import model.Chessboard;
 import model.ChessboardPoint;
 import view.CellComponent;
+import view.ChessComponent;
 import view.ElephantChessComponent;
 import view.ChessboardComponent;
 
@@ -70,9 +71,14 @@ public class GameController implements GameListener {
         }
     }
 
-    // click a cell with a chess
     @Override
     public void onPlayerClickChessPiece(ChessboardPoint point, ElephantChessComponent component) {
+
+    }
+
+    // click a cell with a chess
+
+    public void onPlayerClickChessPiece(ChessboardPoint point, ChessComponent component) {
         if (selectedPoint == null) {
             if (model.getChessPieceOwner(point).equals(currentPlayer)) {
                 selectedPoint = point;
@@ -100,4 +106,6 @@ public class GameController implements GameListener {
             }
         }
     }
+
+
 }
