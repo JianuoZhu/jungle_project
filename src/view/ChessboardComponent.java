@@ -161,6 +161,8 @@ public class ChessboardComponent extends JComponent {
     }
 
     public void setChessComponentAtGrid(ChessboardPoint point, ChessComponent chess) {
+        //getGridComponentAt(point).add(chess);
+        getGridComponentAt(point).removeAll();
         getGridComponentAt(point).add(chess);
     }
 
