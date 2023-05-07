@@ -174,6 +174,9 @@ public class ChessboardComponent extends JComponent {
         return chess;
     }
 
+    public ChessComponent getChessComponentAtGrid(ChessboardPoint point){
+        return (ChessComponent) getGridComponentAt(point).getComponents()[0];
+    }
     private CellComponent getGridComponentAt(ChessboardPoint point) {
         return gridComponents[point.getRow()][point.getCol()];
     }

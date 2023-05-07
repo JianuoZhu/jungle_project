@@ -29,6 +29,5 @@ public class CatChessComponent extends  ChessComponent {
             g.drawOval(0, 0, getWidth() , getHeight());
         }
 
-
     }
 }
