@@ -95,9 +95,17 @@ public class Chessboard {
     }
 
     public boolean isValidMove(ChessboardPoint src, ChessboardPoint dest) {
-        if (getChessPieceAt(src) == null || getChessPieceAt(dest) != null) {
+        if(getGrid()[src.getRow()][src.getCol()].getPiece().getOwner()==PlayerColor.BLUE
+                &&dest.getCol()==3&&dest.getRow()==8){
             return false;
-        }
+
+        }else if(getGrid()[src.getRow()][src.getCol()].getPiece().getOwner()==PlayerColor.RED
+                &&dest.getCol()==3&&dest.getRow()==0){
+            return false;
+
+        } else if (getChessPieceAt(src) == null || getChessPieceAt(dest) != null) {
+            return false;
+        }else
         return calculateDistance(src, dest) == 1;
     }
 

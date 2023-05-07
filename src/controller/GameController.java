@@ -11,6 +11,8 @@ import view.ChessComponent;
 import view.ElephantChessComponent;
 import view.ChessboardComponent;
 
+import java.awt.*;
+
 /**
  * Controller is the connection between model and view,
  * when a Controller receive a request from a view, the Controller
@@ -67,6 +69,8 @@ public class GameController implements GameListener {
                 selectedPoint = null;
                 swapColor();
                 view.repaint();
+
+
             // TODO: if the chess enter Dens or Traps and so on
         }
 
