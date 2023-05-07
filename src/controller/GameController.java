@@ -98,7 +98,12 @@ public class GameController implements GameListener {
                 component.setSelected(false);
                 component.repaint();
             }
-            else {
+            else if(!model.isValidCapture(selectedPoint, point)){
+                selectedPoint = null;
+                component.setSelected(false);
+                component.repaint();
+            }
+            else{
                 model.captureChessPiece(selectedPoint, point);
                 view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
                 selectedPoint = null;

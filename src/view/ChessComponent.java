@@ -10,7 +10,7 @@ public class ChessComponent extends JComponent {
     protected PlayerColor owner;
 
     protected boolean selected;
-
+    protected Image image;
     public ChessComponent(PlayerColor owner, int size) {
         this.owner = owner;
         this.selected = false;
