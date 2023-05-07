@@ -104,7 +104,7 @@ public class Chessboard {
 
     public boolean isValidCapture(ChessboardPoint src, ChessboardPoint dest) {
         // TODO:Fix this method
-        if(getChessPieceAt(src).canCapture(getChessPieceAt(dest)))
+        if(getChessPieceAt(src).canCapture(getChessPieceAt(dest)) && isValidMove(src, dest))
             return true;
         return false;
     }
