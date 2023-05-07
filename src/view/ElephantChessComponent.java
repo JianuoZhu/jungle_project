@@ -7,6 +7,8 @@ import model.PlayerColor;
 import javax.swing.*;
 import java.awt.*;
 
+import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
+
 /**
  * This is the equivalent of the ChessPiece class,
  * but this class only cares how to draw Chess on ChessboardComponent
@@ -16,6 +18,8 @@ public class ElephantChessComponent extends ChessComponent {
     public ElephantChessComponent(PlayerColor owner, int size) {
         super(owner, size);
     }
+
+
 
     @Override
     protected void paintComponent(Graphics g) {//paints the piece
