@@ -1,11 +1,13 @@
 package view;
 
+import java.net.URL;
 
-import model.ChessPiece;
 import model.PlayerColor;
 
 import javax.swing.*;
 import java.awt.*;
+
+import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 /**
  * This is the equivalent of the ChessPiece class,
@@ -22,6 +24,8 @@ public class ElephantChessComponent extends ChessComponent {
         //this.image = new ImageIcon("../../resource/Elephant-blue.png").getImage();
     }
 
+
+
     @Override
     protected void paintComponent(Graphics g) {//paints the piece
         super.paintComponent(g);
@@ -34,9 +38,8 @@ public class ElephantChessComponent extends ChessComponent {
         g2.drawImage(this.image, 0, 0, getWidth(), getHeight(), this);
         if (isSelected()) { // Highlights the model if selected.
             g.setColor(Color.RED);
-            g.drawOval(0, 0, getWidth() , getHeight());
+            g.drawOval(0, 0, getWidth(), getHeight());
         }
-        // FIXME: Use library to find the correct offset.
 
 
-}}
+    }}
