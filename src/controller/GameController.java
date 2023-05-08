@@ -58,13 +58,12 @@ public class GameController implements GameListener {
         return false;
     }
 
-    public  void Restart(){
-        model.RestartPieces();
-        view.initiateGridComponents();
-        view.initiateChessComponent(model);
+    public void Restart(){
+        model.RestartPieces();//right;
+        view.initiateGridComponents();//right;
+        view.initiateChessComponent(model);//???
         view.repaint();
         currentPlayer=PlayerColor.BLUE;
-
     }//easy init to be finished;
 
     // click an empty cell
@@ -76,7 +75,6 @@ public class GameController implements GameListener {
                 selectedPoint = null;
                 swapColor();
                 view.repaint();
-
 
             // TODO: if the chess enter Dens or Traps and so on
         }

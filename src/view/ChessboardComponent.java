@@ -50,7 +50,12 @@ public class ChessboardComponent extends JComponent {
         Cell[][] grid = chessboard.getGrid();
         for (int i = 0; i < CHESSBOARD_ROW_SIZE.getNum(); i++) {
             for (int j = 0; j < CHESSBOARD_COL_SIZE.getNum(); j++) {
-                // TODO: Implement the initialization checkerboard
+                gridComponents[i][j].removeAll();
+            }
+        }
+
+        for (int i = 0; i < CHESSBOARD_ROW_SIZE.getNum(); i++) {
+            for (int j = 0; j < CHESSBOARD_COL_SIZE.getNum(); j++) {
 
                 if (grid[i][j].getPiece() != null) {
                     if (grid[i][j].getPiece().getName().equals("Elephant")){
@@ -118,10 +123,6 @@ public class ChessboardComponent extends JComponent {
                                         chessPiece.getOwner(),
                                         CHESS_SIZE));
                     }
-
-
-
-
                 }
             }
         }
@@ -129,6 +130,14 @@ public class ChessboardComponent extends JComponent {
     }
 
     public void initiateGridComponents() {
+        for (int i = 0; i < CHESSBOARD_ROW_SIZE.getNum(); i++) {
+            for (int j = 0; j < CHESSBOARD_COL_SIZE.getNum(); j++) {
+                if (gridComponents[i][j] != null) {
+                    this.remove(gridComponents[i][j]);
+                    gridComponents[i][j] = null;
+                }
+            }
+        }//remove all first
 
         riverCell.add(new ChessboardPoint(3,1));
         riverCell.add(new ChessboardPoint(3,2));
