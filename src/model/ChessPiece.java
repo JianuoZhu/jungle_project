@@ -5,6 +5,10 @@ public class ChessPiece {
     // the owner of the chess
     private PlayerColor owner;
 
+    public void setOwner(PlayerColor owner) {
+        this.owner = owner;
+    }
+
     // Elephant? Cat? Dog? ...
     private String name;
     private int rank;

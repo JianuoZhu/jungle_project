@@ -18,10 +18,9 @@ public class Chessboard {
     private void initGrid() {
         for (int i = 0; i < Constant.CHESSBOARD_ROW_SIZE.getNum(); i++) {
             for (int j = 0; j < Constant.CHESSBOARD_COL_SIZE.getNum(); j++) {
-                grid[i][j] = new Cell();
-            }
+           grid[i][j]=new Cell();
         }
-    }
+    }}
 
     private void initPieces() {
         grid[2][6].setPiece(new ChessPiece(PlayerColor.RED, "Elephant",8));
@@ -48,6 +47,39 @@ public class Chessboard {
         grid[2][0].setPiece(new ChessPiece(PlayerColor.RED, "Rat",1));
         grid[6][6].setPiece(new ChessPiece(PlayerColor.BLUE, "Rat",1));
     }
+
+
+    public void RestartPieces(){//restart the chessboard and pieces;
+        for (int i = 0; i < Constant.CHESSBOARD_ROW_SIZE.getNum(); i++) {
+            for (int j = 0; j < Constant.CHESSBOARD_COL_SIZE.getNum(); j++) {
+                grid[i][j].removePiece();
+            }
+        }
+        grid[2][6].setPiece(new ChessPiece(PlayerColor.RED, "Elephant",8));
+        grid[6][0].setPiece(new ChessPiece(PlayerColor.BLUE, "Elephant",8));
+
+        grid[0][0].setPiece(new ChessPiece(PlayerColor.RED, "Lion",7));
+        grid[8][6].setPiece(new ChessPiece(PlayerColor.BLUE, "Lion",7));
+
+        grid[0][6].setPiece(new ChessPiece(PlayerColor.RED, "Tiger",6));
+        grid[8][0].setPiece(new ChessPiece(PlayerColor.BLUE, "Tiger",6));
+
+        grid[2][2].setPiece(new ChessPiece(PlayerColor.RED, "Leopard",5));
+        grid[6][4].setPiece(new ChessPiece(PlayerColor.BLUE, "Leopard",5));
+
+        grid[2][4].setPiece(new ChessPiece(PlayerColor.RED, "Wolf",4));
+        grid[6][2].setPiece(new ChessPiece(PlayerColor.BLUE, "Wolf",4));
+
+        grid[1][1].setPiece(new ChessPiece(PlayerColor.RED, "Dog",3));
+        grid[7][5].setPiece(new ChessPiece(PlayerColor.BLUE, "Dog",3));
+
+        grid[1][5].setPiece(new ChessPiece(PlayerColor.RED, "Cat",2));
+        grid[7][1].setPiece(new ChessPiece(PlayerColor.BLUE, "Cat",2));
+
+        grid[2][0].setPiece(new ChessPiece(PlayerColor.RED, "Rat",1));
+        grid[6][6].setPiece(new ChessPiece(PlayerColor.BLUE, "Rat",1));
+
+    }    //need to  be added;
 
     private ChessPiece getChessPieceAt(ChessboardPoint point) {
         return getGridAt(point).getPiece();

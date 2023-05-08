@@ -30,5 +30,7 @@ public class ChessComponent extends JComponent {
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
+
+
 }
 

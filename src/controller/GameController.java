@@ -48,7 +48,6 @@ public class GameController implements GameListener {
             }
         }
     }
-
     // after a valid move swap the player
     private void swapColor() {
         currentPlayer = currentPlayer == PlayerColor.BLUE ? PlayerColor.RED : PlayerColor.BLUE;
@@ -59,6 +58,14 @@ public class GameController implements GameListener {
         return false;
     }
 
+    public  void Restart(){
+        model.RestartPieces();
+        view.initiateGridComponents();
+        view.initiateChessComponent(model);
+        view.repaint();
+        currentPlayer=PlayerColor.BLUE;
+
+    }//easy init to be finished;
 
     // click an empty cell
     @Override
