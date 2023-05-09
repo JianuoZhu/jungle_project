@@ -78,7 +78,9 @@ public class GameController implements GameListener {
 
             // TODO: if the chess enter Dens or Traps and so on
         }
+        else{
 
+        }
     }
 
     @Override
@@ -103,14 +105,18 @@ public class GameController implements GameListener {
         // TODO: Implement capture function
         else{
             if (model.getChessPieceOwner(point).equals(currentPlayer)){
-                selectedPoint = null;
                 component.setSelected(false);
                 component.repaint();
+                view.getChessComponentAtGrid(selectedPoint).setSelected(false);
+                view.getChessComponentAtGrid(selectedPoint).repaint();
+                selectedPoint = null;
             }
             else if(!model.isValidCapture(selectedPoint, point)){
-                selectedPoint = null;
                 component.setSelected(false);
                 component.repaint();
+                view.getChessComponentAtGrid(selectedPoint).setSelected(false);
+                view.getChessComponentAtGrid(selectedPoint).repaint();
+                selectedPoint = null;
             }
             else{
                 model.captureChessPiece(selectedPoint, point);

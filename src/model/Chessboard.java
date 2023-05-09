@@ -88,7 +88,7 @@ public class Chessboard {
         return getGridAt(point).getPiece();
     }
 
-    private Cell getGridAt(ChessboardPoint point) {
+    public Cell getGridAt(ChessboardPoint point) {
         return grid[point.getRow()][point.getCol()];
     }
 
@@ -147,7 +147,7 @@ public class Chessboard {
 
     public boolean isValidCapture(ChessboardPoint src, ChessboardPoint dest) {
         // TODO:Fix this method
-        if(getChessPieceAt(src).canCapture(getChessPieceAt(dest)))
+        if(getChessPieceAt(src).canCapture(getChessPieceAt(dest)) && calculateDistance(src, dest) == 1)
             return true;
         return false;
     }
