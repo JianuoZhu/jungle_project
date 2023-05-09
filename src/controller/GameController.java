@@ -19,7 +19,7 @@ import java.awt.*;
  * analyzes and then hands over to the model for processing
  * [in this demo the request methods are onPlayerClickCell() and onPlayerClickChessPiece()]
  *
-*/
+ */
 public class GameController implements GameListener {
 
 
@@ -70,11 +70,11 @@ public class GameController implements GameListener {
     @Override
     public void onPlayerClickCell(ChessboardPoint point, CellComponent component) {
         if (selectedPoint != null && model.isValidMove(selectedPoint, point)) {
-                model.moveChessPiece(selectedPoint, point);
-                view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
-                selectedPoint = null;
-                swapColor();
-                view.repaint();
+            model.moveChessPiece(selectedPoint, point);
+            view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
+            selectedPoint = null;
+            swapColor();
+            view.repaint();
 
             // TODO: if the chess enter Dens or Traps and so on
         }
