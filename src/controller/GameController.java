@@ -11,7 +11,10 @@ import view.ChessComponent;
 import view.ElephantChessComponent;
 import view.ChessboardComponent;
 
+import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
+import java.io.File;
 
 /**
  * Controller is the connection between model and view,
@@ -57,6 +60,18 @@ public class GameController implements GameListener {
         // TODO: Check the board if there is a winner
         return false;
     }
+
+
+//    public void Save(){//save the current game
+//        JFileChooser jfc=new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+//        int returnValue = jfc.showOpenDialog(null);
+//        if (returnValue == JFileChooser.APPROVE_OPTION) {
+//            File selectedFile = jfc.getSelectedFile();
+//            System.out.println(selectedFile.getAbsolutePath());
+//        }
+//
+//
+//    }
 
     public void Restart(){
         model.RestartPieces();//right;
