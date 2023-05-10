@@ -40,6 +40,6 @@ public class ElephantChessComponent extends ChessComponent {
             g.setColor(Color.RED);
             g.drawOval(0, 0, getWidth(), getHeight());
         }
+    }
 
-
-    }}
+}

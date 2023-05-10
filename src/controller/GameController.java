@@ -61,7 +61,7 @@ public class GameController implements GameListener {
     public void Restart(){
         model.RestartPieces();//right;
         view.initiateGridComponents();//right;
-        view.initiateChessComponent(model);//???
+        view.initiateChessComponent(model);
         view.repaint();
         currentPlayer=PlayerColor.BLUE;
     }//easy init to be finished;

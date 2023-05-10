@@ -31,8 +31,8 @@ public class ChessboardComponent extends JComponent {
 
     public ChessboardComponent(int chessSize) {
         CHESS_SIZE = chessSize;
-        int width = CHESS_SIZE * 7;
-        int height = CHESS_SIZE * 9;
+       final int width = CHESS_SIZE * 7;
+       final int height = CHESS_SIZE * 9;//
         enableEvents(AWTEvent.MOUSE_EVENT_MASK);// Allow mouse events to occur
         setLayout(null); // Use absolute layout.
         setSize(width, height);
