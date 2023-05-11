@@ -114,9 +114,22 @@ public class ChessboardComponent extends JComponent {
                                         chessPiece.getOwner(),
                                         CHESS_SIZE));
                     }
-
-
-
+                    if (grid[i][j].getPiece().getName().equals("Trap")){
+                        ChessPiece chessPiece = grid[i][j].getPiece();
+                        System.out.println(chessPiece.getOwner());
+                        gridComponents[i][j].add(
+                                new TrapChessComponent(
+                                        chessPiece.getOwner(),
+                                        CHESS_SIZE));
+                    }
+                    if (grid[i][j].getPiece().getName().equals("Home")){
+                        ChessPiece chessPiece = grid[i][j].getPiece();
+                        System.out.println(chessPiece.getOwner());
+                        gridComponents[i][j].add(
+                                new HomeChessComponent(
+                                        chessPiece.getOwner(),
+                                        CHESS_SIZE));
+                    }
 
                 }
             }
