@@ -1,6 +1,7 @@
 package view;
 
 import controller.GameController;
+import controller.Saver;
 import model.Chessboard;
 
 import javax.swing.*;
@@ -91,6 +92,7 @@ public class ChessGameFrame extends JFrame {
         button.setSize(200, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
+        button.addActionListener(e -> Saver.save());
 
     }
 
