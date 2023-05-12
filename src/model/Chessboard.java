@@ -47,6 +47,17 @@ public class Chessboard {
 
         grid[2][0].setPiece(new ChessPiece(PlayerColor.RED, "Rat",1));
         grid[6][6].setPiece(new ChessPiece(PlayerColor.BLUE, "Rat",1));
+
+        grid[0][2].setPiece(new ChessPiece(PlayerColor.RED, "Trap", -1));
+        grid[0][4].setPiece(new ChessPiece(PlayerColor.RED, "Trap", -1));
+        grid[1][3].setPiece(new ChessPiece(PlayerColor.RED, "Trap", -1));
+
+        grid[8][2].setPiece(new ChessPiece(PlayerColor.BLUE, "Trap", -1));
+        grid[8][4].setPiece(new ChessPiece(PlayerColor.BLUE, "Trap", -1));
+        grid[7][3].setPiece(new ChessPiece(PlayerColor.BLUE, "Trap", -1));
+
+        grid[0][3].setPiece(new ChessPiece(PlayerColor.RED, "Home", 0));
+        grid[8][3].setPiece(new ChessPiece(PlayerColor.BLUE, "Home", 0));
     }
 
 
@@ -118,6 +129,23 @@ public class Chessboard {
             throw new IllegalArgumentException("Illegal chess capture!");
         }
         // TODO: Finish the method.
+        if(getChessPieceAt(dest).getRank() == -1){
+            if(getChessPieceAt(dest).isStacked() && (getChessPieceAt(dest).getStackedChess().getOwner() != getChessPieceAt(src).getOwner())){
+                //capture stacked chess than rank go -1;
+            }
+            else if(getChessPieceAt(dest).isStacked() && (getChessPieceAt(dest).getStackedChess().getOwner() == getChessPieceAt(src).getOwner())){
+                throw new IllegalArgumentException("Illegal chess capture!");
+            }
+            else if(!getChessPieceAt(dest).isStacked() && (getChessPieceAt(dest).getOwner() != getChessPieceAt(src).getOwner())){
+                //walk in and set rank -1;
+            }
+            else if(!getChessPieceAt(dest).isStacked() && (getChessPieceAt(dest).getOwner() == getChessPieceAt(src).getOwner())){
+                //walk in;
+                ChessPiece removedChess = removeChessPiece(src);
+                getChessPieceAt(dest).setStackedChess(removedChess);
+                getChessPieceAt(dest).setStacked(true);
+            }
+        }
         removeChessPiece(dest);
         setChessPiece(dest, removeChessPiece(src));
     }
@@ -130,6 +158,10 @@ public class Chessboard {
     }
 
     public boolean isValidMove(ChessboardPoint src, ChessboardPoint dest) {
+        if(getChessPieceAt(src).getRank()==-1){
+            if(!getChessPieceAt(src).isStacked()) return false;
+            else return  true;
+        }
         if(getGrid()[src.getRow()][src.getCol()].getPiece().getOwner()==PlayerColor.BLUE
                 &&dest.getCol()==3&&dest.getRow()==8){
             return false;
@@ -149,6 +181,7 @@ public class Chessboard {
         // TODO:Fix this method
         if(getChessPieceAt(src).canCapture(getChessPieceAt(dest)) && calculateDistance(src, dest) == 1)
             return true;
+        if(getChessPieceAt(dest).getRank() == -1) return true;
         return false;
     }
 }

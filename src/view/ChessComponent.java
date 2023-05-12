@@ -10,7 +10,26 @@ public class ChessComponent extends JComponent {
     protected PlayerColor owner;
 
     protected boolean selected;
+
+    public boolean isStacked() {
+        return stacked;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
     protected Image image;
+    protected boolean stacked;
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
+    public void setStacked(boolean stacked) {
+        this.stacked = stacked;
+    }
+
     public ChessComponent(PlayerColor owner, int size) {
         this.owner = owner;
         this.selected = false;

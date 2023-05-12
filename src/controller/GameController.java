@@ -6,10 +6,7 @@ import model.Constant;
 import model.PlayerColor;
 import model.Chessboard;
 import model.ChessboardPoint;
-import view.CellComponent;
-import view.ChessComponent;
-import view.ElephantChessComponent;
-import view.ChessboardComponent;
+import view.*;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
@@ -119,6 +116,18 @@ public class GameController implements GameListener {
         }
         // TODO: Implement capture function
         else{
+            if (model.getChessPieceOwner(point).equals(currentPlayer) && model.getGridAt(point).getPiece().getRank() == -1){
+                model.captureChessPiece(selectedPoint, point);
+                ChessComponent removedChess = view.removeChessComponentAtGrid(selectedPoint);
+                TrapChessComponent trap = (TrapChessComponent) view.getChessComponentAtGrid(point);
+                trap.setStacked(true);
+                trap.setStackedChess(removedChess);
+                trap.setStackedImage(removedChess.getImage());
+                selectedPoint = null;
+                swapColor();
+                view.repaint();
+                return;
+            }
             if (model.getChessPieceOwner(point).equals(currentPlayer)){
                 component.setSelected(false);
                 component.repaint();
