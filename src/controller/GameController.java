@@ -111,47 +111,6 @@ public class GameController implements GameListener,Serializable {
         frame.setVisible(true);
     }
 //saving and loading
-    public void save(){
-        try {//创建一个ObjectOutputStream输出流
-             FileOutputStream fpt =new FileOutputStream("object.txt");
-             ObjectOutputStream oos = new ObjectOutputStream(fpt) ;
-            //将对象序列化到文件s
-            oos.writeObject(this.model);
-            oos.writeObject(this.currentPlayer);
-            oos.writeObject(this.view);
-            oos.close();
-            fpt.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-    public void load(){
-        try
-        {
-            FileInputStream fileIn = new FileInputStream("object.txt");
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            view = (ChessboardComponent) in.readObject();
-            model =(Chessboard) in.readObject();
-            currentPlayer=(PlayerColor) in.readObject();
-            System.out.println(currentPlayer);
-            in.close();
-            fileIn.close();
-        }catch(IOException i)
-        {
-            i.printStackTrace();
-            return;
-        }catch(ClassNotFoundException c)
-        {
-
-            return;
-        }
-        view.repaint();
-
-    }
-
-
-
 
 
 // restart the game

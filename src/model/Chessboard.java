@@ -2,6 +2,9 @@ package model;
 
 import controller.GameController;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 /**
@@ -17,9 +20,10 @@ public class Chessboard implements Serializable {
         grid[i][j].setPiece(new ChessPiece(PlayerColor.RED,name,k));
     }//used in GameController to reset ChessPieces;
 
+    private void writeObject(ObjectOutputStream out) throws IOException {
+       out.writeObject(grid);
 
-
-
+    }
     boolean trapUsed[][] = new boolean[Constant.CHESSBOARD_ROW_SIZE.getNum()][Constant.CHESSBOARD_COL_SIZE.getNum()];
     boolean trapRemoved[][] = new boolean[Constant.CHESSBOARD_ROW_SIZE.getNum()][Constant.CHESSBOARD_COL_SIZE.getNum()];
 
