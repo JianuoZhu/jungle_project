@@ -7,8 +7,7 @@ import model.PlayerColor;
 import model.Chessboard;
 import model.ChessboardPoint;
 import view.*;
-import model.Chessboard;
-import java.util.*;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +19,10 @@ import java.io.File;
 import static model.Constant.CHESSBOARD_COL_SIZE;
 import static model.Constant.CHESSBOARD_ROW_SIZE;
 
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+//>>>>>>> origin/JnZ
 
 /**
  * Controller is the connection between model and view,
@@ -88,9 +91,21 @@ public class GameController implements GameListener {
         currentPlayer = currentPlayer == PlayerColor.BLUE ? PlayerColor.RED : PlayerColor.BLUE;
     }
 
-    private boolean win() {
-        // TODO: Check the board if there is a winner
-        return false;
+    private void win(PlayerColor winnerColor) {
+        JFrame frame = new JFrame("Pop-up Window");
+
+        // Set the size and location of the frame
+        frame.setSize(300, 200);
+        frame.setLocationRelativeTo(null); // Center the frame on the screen
+
+        // Create a new JLabel object with some text
+        JLabel label = new JLabel("Hello, world!");
+
+        // Add the label to the frame's content pane
+        frame.getContentPane().add(label);
+
+        // Set the frame to be visible
+        frame.setVisible(true);
     }
 
 
@@ -300,13 +315,24 @@ public class GameController implements GameListener {
     // click an empty cell
     @Override
     public void onPlayerClickCell(ChessboardPoint point, CellComponent component) {
-        if (selectedPoint != null && model.isValidMove(selectedPoint, point)) {
-            model.moveChessPiece(selectedPoint, point);
-            view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
-            selectedPoint = null;
-            swapColor();
-            view.repaint();
-
+        if (selectedPoint != null && model.isValidMove(selectedPoint, point, view.isWater(point))) {
+                model.moveChessPiece(selectedPoint, point);
+                view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
+                selectedPoint = null;
+                swapColor();
+                view.repaint();
+                if(model.getTrapUsed()[point.getRow()][point.getCol()] && !model.getTrapRemoved()[point.getRow()][point.getCol()]){
+                    view.getGridComponents()[point.getRow()][point.getCol()].setImage(null);
+                    //view.getGridComponents()[point.getRow()][point.getCol()].add(new CellComponent(Color.LIGHT_GRAY, view.calculatePoint(point.getRow(), point.getCol()), view.CHESS_SIZE));
+                    model.getTrapRemoved()[point.getRow()][point.getCol()] = true;
+                }
+                if(model.isHome(point)){
+                    if((point.getRow() < 5 && model.getChessPieceOwner(point) == PlayerColor.BLUE)
+                        || (point.getRow() > 5 && model.getChessPieceOwner(point) == PlayerColor.RED)){
+                        win(model.getChessPieceOwner(point));
+                    }
+                }
+//>>>>>>> origin/JnZ
             // TODO: if the chess enter Dens or Traps and so on
         }
         else{
@@ -335,7 +361,7 @@ public class GameController implements GameListener {
         }
         // TODO: Implement capture function
         else{
-            if (model.getChessPieceOwner(point).equals(currentPlayer) && model.getGridAt(point).getPiece().getRank() == -1){
+            /*if (model.getChessPieceOwner(point).equals(currentPlayer) && model.getGridAt(point).getPiece().getRank() == -1){
                 model.captureChessPiece(selectedPoint, point);
                 ChessComponent removedChess = view.removeChessComponentAtGrid(selectedPoint);
                 TrapChessComponent trap = (TrapChessComponent) view.getChessComponentAtGrid(point);
@@ -346,6 +372,21 @@ public class GameController implements GameListener {
                 swapColor();
                 view.repaint();
                 return;
+            }*/
+            if(view.isWater(selectedPoint) || view.isWater(point)){
+                component.setSelected(false);
+                component.repaint();
+                view.getChessComponentAtGrid(selectedPoint).setSelected(false);
+                view.getChessComponentAtGrid(selectedPoint).repaint();
+                selectedPoint = null;
+            }
+            if(model.isTrap(point)){
+                model.captureChessPiece(selectedPoint, point);
+                model.getGridAt(point).getPiece().setRank(0);
+                view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
+                selectedPoint = null;
+                swapColor();
+                view.repaint();
             }
             if (model.getChessPieceOwner(point).equals(currentPlayer)){
                 component.setSelected(false);
