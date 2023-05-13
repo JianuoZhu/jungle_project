@@ -112,6 +112,53 @@ public class GameController implements GameListener,Serializable {
     }
 //saving and loading
 
+    public void save() {
+        String filePath = "object.ser";
+        ArrayList<Object> objectsToSave = new ArrayList<>();
+
+        // Add the objects to the ArrayList
+        objectsToSave.add(view);
+        objectsToSave.add(model);
+        objectsToSave.add(gameFrame);
+
+        System.out.println("Serialized data is saved in " + filePath);
+        // Serialize the ArrayList to a file
+        try {
+            ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(filePath));
+            outputStream.writeObject(objectsToSave);
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void load(){
+        String filePath = "object.ser";
+        ArrayList<Object> loadedObjects = new ArrayList<>();
+        try {
+            ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(filePath));
+            loadedObjects = (ArrayList<Object>) inputStream.readObject();
+            inputStream.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        // Process the loaded objects
+        for (Object obj : loadedObjects) {
+            if (obj instanceof ChessboardComponent) {
+                view = (ChessboardComponent)obj;
+            } else if (obj instanceof Chessboard) {
+                model = (Chessboard) obj;
+            }
+            else if(obj instanceof ChessGameFrame){
+                gameFrame = (ChessGameFrame) obj;
+            }
+        }
+        view.repaint();
+        gameFrame.repaint();
+    }
+
+
+
 
 // restart the game
     public void Restart(){
