@@ -6,7 +6,7 @@ package model;
  */
 public class Chessboard {
     private Cell[][] grid;
-
+    boolean trapUsed[][] = new boolean[Constant.CHESSBOARD_ROW_SIZE.getNum()][Constant.CHESSBOARD_COL_SIZE.getNum()];
     public Chessboard() {
         this.grid =
                 new Cell[Constant.CHESSBOARD_ROW_SIZE.getNum()][Constant.CHESSBOARD_COL_SIZE.getNum()];//19X19
@@ -48,7 +48,7 @@ public class Chessboard {
         grid[2][0].setPiece(new ChessPiece(PlayerColor.RED, "Rat",1));
         grid[6][6].setPiece(new ChessPiece(PlayerColor.BLUE, "Rat",1));
 
-        grid[0][2].setPiece(new ChessPiece(PlayerColor.RED, "Trap", -1));
+        /*grid[0][2].setPiece(new ChessPiece(PlayerColor.RED, "Trap", -1));
         grid[0][4].setPiece(new ChessPiece(PlayerColor.RED, "Trap", -1));
         grid[1][3].setPiece(new ChessPiece(PlayerColor.RED, "Trap", -1));
 
@@ -57,7 +57,7 @@ public class Chessboard {
         grid[7][3].setPiece(new ChessPiece(PlayerColor.BLUE, "Trap", -1));
 
         grid[0][3].setPiece(new ChessPiece(PlayerColor.RED, "Home", 0));
-        grid[8][3].setPiece(new ChessPiece(PlayerColor.BLUE, "Home", 0));
+        grid[8][3].setPiece(new ChessPiece(PlayerColor.BLUE, "Home", 0));*/
     }
 
     private ChessPiece getChessPieceAt(ChessboardPoint point) {
@@ -82,9 +82,52 @@ public class Chessboard {
         getGridAt(point).setPiece(chessPiece);
     }
 
+    public boolean isTrap(ChessboardPoint point){
+        /*trapCell.add(new ChessboardPoint(0,2));
+        trapCell.add(new ChessboardPoint(0,4));
+        trapCell.add(new ChessboardPoint(1,3));
+        trapCell.add(new ChessboardPoint(8,2));
+        trapCell.add(new ChessboardPoint(8,4));
+        trapCell.add(new ChessboardPoint(7,3));
+
+        homeCell.add(new ChessboardPoint(0,3));
+        homeCell.add(new ChessboardPoint(8,3));*/
+        if((point.getRow() == 0 && point.getRow() == 2)
+        || (point.getRow() == 0 && point.getRow() == 4)
+        || (point.getRow() == 1 && point.getRow() == 3)
+        || (point.getRow() == 8 && point.getRow() == 2)
+        || (point.getRow() == 8 && point.getRow() == 4)
+        || (point.getRow() == 7 && point.getRow() == 3)){
+            if(!trapUsed[point.getRow()][point.getCol()]) return true;
+        }
+        return false;
+    }
+    public boolean isHome(ChessboardPoint point){
+        /*trapCell.add(new ChessboardPoint(0,2));
+        trapCell.add(new ChessboardPoint(0,4));
+        trapCell.add(new ChessboardPoint(1,3));
+        trapCell.add(new ChessboardPoint(8,2));
+        trapCell.add(new ChessboardPoint(8,4));
+        trapCell.add(new ChessboardPoint(7,3));
+
+        homeCell.add(new ChessboardPoint(0,3));
+        homeCell.add(new ChessboardPoint(8,3));*/
+        if((point.getRow() == 0 && point.getRow() == 3)
+                || (point.getRow() == 8 && point.getRow() == 3)){
+            return true;
+        }
+        return false;
+    }
     public void moveChessPiece(ChessboardPoint src, ChessboardPoint dest) {
         if (!isValidMove(src, dest)) {
             throw new IllegalArgumentException("Illegal chess move!");
+        }
+        if (isTrap(dest)){
+            if((getChessPieceOwner(src) == PlayerColor.BLUE && dest.getRow() < 5)
+            || (getChessPieceOwner(dest) == PlayerColor.RED && dest.getRow() > 5)){
+                trapUsed[dest.getRow()][dest.getCol()] = true;
+                getChessPieceAt(src).setRank(0);
+            }
         }
         setChessPiece(dest, removeChessPiece(src));
     }
@@ -94,7 +137,7 @@ public class Chessboard {
             throw new IllegalArgumentException("Illegal chess capture!");
         }
         // TODO: Finish the method.
-        if(getChessPieceAt(dest).getRank() == -1){
+        /*if(getChessPieceAt(dest).getRank() == -1){
             if(getChessPieceAt(dest).isStacked() && (getChessPieceAt(dest).getStackedChess().getOwner() != getChessPieceAt(src).getOwner())){
                 //capture stacked chess than rank go -1;
             }
@@ -110,7 +153,7 @@ public class Chessboard {
                 getChessPieceAt(dest).setStackedChess(removedChess);
                 getChessPieceAt(dest).setStacked(true);
             }
-        }
+        }*/
         removeChessPiece(dest);
         setChessPiece(dest, removeChessPiece(src));
     }
@@ -123,10 +166,10 @@ public class Chessboard {
     }
 
     public boolean isValidMove(ChessboardPoint src, ChessboardPoint dest) {
-        if(getChessPieceAt(src).getRank()==-1){
+        /*if(getChessPieceAt(src).getRank()==-1){
             if(!getChessPieceAt(src).isStacked()) return false;
             else return  true;
-        }
+        }*/
         if(getGrid()[src.getRow()][src.getCol()].getPiece().getOwner()==PlayerColor.BLUE
                 &&dest.getCol()==3&&dest.getRow()==8){
             return false;
@@ -146,7 +189,7 @@ public class Chessboard {
         // TODO:Fix this method
         if(getChessPieceAt(src).canCapture(getChessPieceAt(dest)) && calculateDistance(src, dest) == 1)
             return true;
-        if(getChessPieceAt(dest).getRank() == -1) return true;
+        //if(getChessPieceAt(dest).getRank() == -1) return true;
         return false;
     }
 }

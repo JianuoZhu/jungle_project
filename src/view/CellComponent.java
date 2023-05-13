@@ -10,12 +10,26 @@ import java.awt.*;
 
 public class CellComponent extends JPanel {
     private Color background;
+    private Image Image;
+
+    @Override
+    public Color getBackground() {
+        return background;
+    }
 
     public CellComponent(Color background, Point location, int size) {
         setLayout(new GridLayout(1,1));
         setLocation(location);
         setSize(size, size);
         this.background = background;
+    }
+
+    public java.awt.Image getImage() {
+        return Image;
+    }
+
+    public void setImage(java.awt.Image image) {
+        Image = image;
     }
 
     @Override
