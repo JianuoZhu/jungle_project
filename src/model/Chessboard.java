@@ -303,6 +303,7 @@ public class Chessboard {
                 || (point.getRow() == 3 && point.getCol() == 2)
                 || (point.getRow() == 4 && point.getCol() == 1)
                 || (point.getRow() == 4 && point.getCol() == 2)
+                || (point.getRow() == 5 && point.getCol() == 1)
                 || (point.getRow() == 5 && point.getCol() == 2)
                 || (point.getRow() == 3 && point.getCol() == 4)
                 || (point.getRow() == 3 && point.getCol() == 5)

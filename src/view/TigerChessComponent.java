@@ -26,7 +26,10 @@ public class TigerChessComponent extends ChessComponent {
         //g2.setFont(font);
         g2.setColor(owner.getColor());
         //g2.drawString("象", getWidth() / 4, getHeight() * 5 / 8);
-        g2.drawImage(this.image, 0, 0, getWidth(), getHeight(), this);
+        AlphaComposite alpha = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f);
+        g2.setComposite(alpha);
+        g2.drawImage(this.getImage(), 0, 0, getWidth(), getHeight(), this);
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
         if (isSelected()) { // Highlights the model if selected.
             g.setColor(Color.RED);
             g.drawOval(0, 0, getWidth() , getHeight());
