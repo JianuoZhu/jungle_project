@@ -2,13 +2,14 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 
 /**
  * This is the equivalent of the Cell class,
  * but this class only cares how to draw Cells on ChessboardComponent
  */
 
-public class CellComponent extends JPanel {
+public class CellComponent extends JPanel implements Serializable {
     private Color background;
     private Image Image;
 

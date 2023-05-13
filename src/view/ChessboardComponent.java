@@ -7,6 +7,7 @@ import model.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -18,7 +19,7 @@ import static model.Constant.CHESSBOARD_ROW_SIZE;
 /**
  * This class represents the checkerboard component object on the panel
  */
-public class ChessboardComponent extends JComponent {
+public class ChessboardComponent extends JComponent implements Serializable {
     public GameController getGameController() {
         return gameController;
     }

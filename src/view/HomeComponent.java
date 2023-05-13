@@ -2,8 +2,9 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 
-public class HomeComponent extends CellComponent{
+public class HomeComponent extends CellComponent implements Serializable {
     public HomeComponent(Color background, Point location, int size) {
         super(background, location, size);
         String currentDir = System.getProperty("user.dir");

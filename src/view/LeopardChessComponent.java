@@ -4,7 +4,9 @@ import model.PlayerColor;
 
 import javax.swing.*;
 import java.awt.*;
-public class LeopardChessComponent extends ChessComponent {
+import java.io.Serializable;
+
+public class LeopardChessComponent extends ChessComponent implements Serializable {
     public LeopardChessComponent(PlayerColor owner, int size) {
         super(owner, size);
         String currentDir = System.getProperty("user.dir");

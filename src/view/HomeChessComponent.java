@@ -3,8 +3,9 @@ import model.PlayerColor;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 
-public class HomeChessComponent extends ChessComponent {
+public class HomeChessComponent extends ChessComponent implements Serializable {
 
 
     public HomeChessComponent(PlayerColor owner, int size) {

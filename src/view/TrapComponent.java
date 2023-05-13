@@ -2,8 +2,9 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 
-public class TrapComponent extends CellComponent{
+public class TrapComponent extends CellComponent implements Serializable {
     public TrapComponent(Color background, Point location, int size) {
         super(background, location, size);
         String currentDir = System.getProperty("user.dir");

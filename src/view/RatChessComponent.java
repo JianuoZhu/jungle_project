@@ -4,8 +4,9 @@ import model.PlayerColor;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 
-public class RatChessComponent extends  ChessComponent {
+public class RatChessComponent extends  ChessComponent implements Serializable {
     public RatChessComponent(PlayerColor owner, int size) {
         super(owner, size);
         String currentDir = System.getProperty("user.dir");

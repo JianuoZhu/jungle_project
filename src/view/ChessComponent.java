@@ -5,8 +5,9 @@ import model.PlayerColor;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 
-public class ChessComponent extends JComponent {
+public class ChessComponent extends JComponent implements Serializable{
     protected PlayerColor owner;
 
     protected boolean selected;

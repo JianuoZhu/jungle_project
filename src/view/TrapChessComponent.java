@@ -4,8 +4,9 @@ import model.PlayerColor;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 
-public class TrapChessComponent extends ChessComponent {
+public class TrapChessComponent extends ChessComponent implements Serializable {
 
     private Image stackedImage;
 

@@ -1,5 +1,6 @@
 package view;
 
+import java.io.Serializable;
 import java.net.URL;
 
 import model.PlayerColor;
@@ -13,7 +14,7 @@ import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
  * This is the equivalent of the ChessPiece class,
  * but this class only cares how to draw Chess on ChessboardComponent
  */
-public class ElephantChessComponent extends ChessComponent {
+public class ElephantChessComponent extends ChessComponent implements Serializable {
     public ElephantChessComponent(PlayerColor owner, int size) {
         super(owner, size);
         String currentDir = System.getProperty("user.dir");

@@ -2,13 +2,15 @@ package model;
 
 import controller.GameController;
 
+import java.io.Serializable;
+
 /**
  * This class store the real chess information.
  * The Chessboard has 9*7 cells, and each cell has a position for chess
  */
-public class Chessboard {
+public class Chessboard implements Serializable {
     private Cell[][] grid;
-    public void setGridBule(int i, int j ,String name ,int k){
+   public void setGridBule(int i, int j, String name, int k){
         grid[i][j].setPiece(new ChessPiece(PlayerColor.BLUE,name,k));
     }//used in Gamecontroller to reset chesspieces;
     public void setGridRed(int i, int j ,String name ,int k){

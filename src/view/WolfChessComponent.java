@@ -4,7 +4,9 @@ import model.PlayerColor;
 
 import javax.swing.*;
 import java.awt.*;
-public class WolfChessComponent extends  ChessComponent {
+import java.io.Serializable;
+
+public class WolfChessComponent extends  ChessComponent implements Serializable {
     public WolfChessComponent(PlayerColor owner, int size) {
         super(owner, size);
         String currentDir = System.getProperty("user.dir");
