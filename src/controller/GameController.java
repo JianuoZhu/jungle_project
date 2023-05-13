@@ -152,6 +152,10 @@ public class GameController implements GameListener,Serializable {
                 gameFrame = (ChessGameFrame) obj;
             }
         }
+
+        //view.initiateChessComponent(model);
+
+        view.registerController(this);
         view.repaint();
         gameFrame.repaint();
     }
@@ -191,7 +195,6 @@ public class GameController implements GameListener,Serializable {
                         win(model.getChessPieceOwner(point));
                     }
                 }
-//>>>>>>> origin/JnZ
             // TODO: if the chess enter Dens or Traps and so on
         }
         else{
