@@ -1,8 +1,9 @@
 package view;
 
 import controller.GameController;
-import controller.Saver;
+
 import model.Chessboard;
+import model.PlayerColor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,6 +35,7 @@ public class ChessGameFrame extends JFrame {
         addLabel();
         addRestartButton();
         addSaveButton();
+        addLoadButton();
     }
 
     public ChessboardComponent getChessboardComponent() {
@@ -57,7 +59,12 @@ public class ChessGameFrame extends JFrame {
      * 在游戏面板中添加标签
      */
     private void addLabel() {
-        JLabel statusLabel = new JLabel("Sample label");
+        String a="PlayColor";
+//        if(chessboardComponent.getGameController().getCurrentPlayer()==PlayerColor.BLUE){
+//            a="BLUE";
+//        }
+        JLabel statusLabel = new JLabel();
+        statusLabel.setText(a);
         statusLabel.setLocation(HEIGTH, HEIGTH / 10);
         statusLabel.setSize(200, 60);
         statusLabel.setFont(new Font("Rockwell", Font.BOLD, 20));
@@ -92,9 +99,19 @@ public class ChessGameFrame extends JFrame {
         button.setSize(200, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
-        button.addActionListener(e -> Saver.save());
+        button.addActionListener(e -> chessboardComponent.getGameController().save());
 
     }
+    private void  addLoadButton(){
+        JButton button = new JButton("Load");
+        button.setLocation(HEIGTH, HEIGTH / 10 +320);
+        button.setSize(200, 60);
+        button.setFont(new Font("Rockwell", Font.BOLD, 20));
+        add(button);
+        button.addActionListener(e -> chessboardComponent.getGameController().load());
+
+    }
+
 
 
 

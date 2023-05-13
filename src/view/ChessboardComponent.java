@@ -46,6 +46,17 @@ public class ChessboardComponent extends JComponent {
      * This method represents how to initiate ChessComponent
      * according to Chessboard information
      */
+
+    public void removeChessComponent(Chessboard chessboard){
+        Cell[][] grid = chessboard.getGrid();
+        for (int i = 0; i < CHESSBOARD_ROW_SIZE.getNum(); i++) {
+            for (int j = 0; j < CHESSBOARD_COL_SIZE.getNum(); j++) {
+                gridComponents[i][j].removeAll();
+            }
+        }
+    }
+
+
     public void initiateChessComponent(Chessboard chessboard) {
         Cell[][] grid = chessboard.getGrid();
         for (int i = 0; i < CHESSBOARD_ROW_SIZE.getNum(); i++) {
@@ -123,8 +134,7 @@ public class ChessboardComponent extends JComponent {
                                         chessPiece.getOwner(),
                                         CHESS_SIZE));
                     }
-<<<<<<< HEAD
-=======
+
                     if (grid[i][j].getPiece().getName().equals("Trap")){
                         ChessPiece chessPiece = grid[i][j].getPiece();
                         System.out.println(chessPiece.getOwner());
@@ -142,7 +152,7 @@ public class ChessboardComponent extends JComponent {
                                         CHESS_SIZE));
                     }
 
->>>>>>> origin/JnZ
+
                 }
             }
         }

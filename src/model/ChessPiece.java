@@ -17,9 +17,6 @@ public class ChessPiece {
 
     private ChessPiece StackedChess;
 
-    public void setOwner(PlayerColor owner) {
-        this.owner = owner;
-    }
 
     public void setName(String name) {
         this.name = name;

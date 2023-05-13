@@ -13,6 +13,7 @@ public class Cell implements Serializable {
         return piece;
     }
 
+
     public void setPiece(ChessPiece piece) {
         this.piece = piece;
     }

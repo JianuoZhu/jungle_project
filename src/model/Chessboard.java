@@ -1,11 +1,20 @@
 package model;
 
+import controller.GameController;
+
 /**
  * This class store the real chess information.
  * The Chessboard has 9*7 cells, and each cell has a position for chess
  */
 public class Chessboard {
     private Cell[][] grid;
+    public void setGridBule(int i, int j ,String name ,int k){
+        grid[i][j].setPiece(new ChessPiece(PlayerColor.BLUE,name,k));
+    }//used in Gamecontroller to reset chesspieces;
+    public void setGridRed(int i, int j ,String name ,int k){
+        grid[i][j].setPiece(new ChessPiece(PlayerColor.RED,name,k));
+    }//used in GameController to reset ChessPieces;
+
 
     public Chessboard() {
         this.grid =
@@ -60,6 +69,14 @@ public class Chessboard {
         grid[8][3].setPiece(new ChessPiece(PlayerColor.BLUE, "Home", 0));
     }
 
+
+    public void removeAllpieces(){
+        for (int i = 0; i < Constant.CHESSBOARD_ROW_SIZE.getNum(); i++) {
+            for (int j = 0; j < Constant.CHESSBOARD_COL_SIZE.getNum(); j++) {
+                grid[i][j].removePiece();
+            }
+        }
+    }
 
     public void RestartPieces(){//restart the chessboard and pieces;
         //clean
@@ -175,7 +192,6 @@ public class Chessboard {
         }else
         return calculateDistance(src, dest) == 1;
     }
-
 
     public boolean isValidCapture(ChessboardPoint src, ChessboardPoint dest) {
         // TODO:Fix this method
