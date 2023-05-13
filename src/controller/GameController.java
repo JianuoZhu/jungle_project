@@ -113,7 +113,7 @@ public class GameController implements GameListener,Serializable {
 //saving and loading
     public void save(){
         try {//创建一个ObjectOutputStream输出流
-             FileOutputStream fpt =new FileOutputStream("object.txt");
+             FileOutputStream fpt =new FileOutputStream("object.ser");
              ObjectOutputStream oos = new ObjectOutputStream(fpt) ;
             //将对象序列化到文件s
             oos.writeObject(this.model);
@@ -129,11 +129,11 @@ public class GameController implements GameListener,Serializable {
     public void load(){
         try
         {
-            FileInputStream fileIn = new FileInputStream("object.txt");
+            FileInputStream fileIn = new FileInputStream("object.ser");
             ObjectInputStream in = new ObjectInputStream(fileIn);
-            view = (ChessboardComponent) in.readObject();
             model =(Chessboard) in.readObject();
             currentPlayer=(PlayerColor) in.readObject();
+            view = (ChessboardComponent) in.readObject();
             System.out.println(currentPlayer);
             in.close();
             fileIn.close();
