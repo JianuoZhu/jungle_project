@@ -113,7 +113,8 @@ public class GameController implements GameListener,Serializable {
 //saving and loading
     public void save(){
         try {//创建一个ObjectOutputStream输出流
-             FileOutputStream fpt =new FileOutputStream("object.ser");
+            String filePath = "object.ser";
+             FileOutputStream fpt =new FileOutputStream(filePath);
              ObjectOutputStream oos = new ObjectOutputStream(fpt) ;
             //将对象序列化到文件s
             oos.writeObject(this.model);
@@ -121,15 +122,17 @@ public class GameController implements GameListener,Serializable {
             oos.writeObject(this.view);
             oos.close();
             fpt.close();
+            System.out.println("Serialized data is saved in " + filePath);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
     public void load(){
+        String filePath = "object.ser";
         try
         {
-            FileInputStream fileIn = new FileInputStream("object.ser");
+            FileInputStream fileIn = new FileInputStream(filePath);
             ObjectInputStream in = new ObjectInputStream(fileIn);
             model =(Chessboard) in.readObject();
             currentPlayer=(PlayerColor) in.readObject();

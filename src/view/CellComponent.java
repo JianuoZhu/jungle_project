@@ -30,7 +30,7 @@ public class CellComponent extends JPanel implements Serializable {
     }
 
     public void setImage(String ImagePath) {
-        this.imagePath = imagePath;
+        this.imagePath = ImagePath;
     }
 
     @Override
