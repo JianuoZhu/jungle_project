@@ -21,7 +21,7 @@ public class ElephantChessComponent extends ChessComponent implements Serializab
         String ImagePath;
         if(owner.getColor() == Color.BLUE) ImagePath = currentDir + "\\resource\\elep_b.jpg";
         else  ImagePath = currentDir + "\\resource\\elep_r.jpg";
-        this.image = new ImageIcon(ImagePath).getImage();
+        this.imagePath = ImagePath;
         //this.image = new ImageIcon("../../resource/Elephant-blue.png").getImage();
     }
 

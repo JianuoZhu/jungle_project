@@ -13,7 +13,7 @@ public class DogChessComponent extends ChessComponent implements Serializable {
         String ImagePath;
         if(owner.getColor() == Color.BLUE) ImagePath = currentDir + "\\resource\\dog_b.jpg";
         else  ImagePath = currentDir + "\\resource\\dog_r.jpg";
-        this.image = new ImageIcon(ImagePath).getImage();
+        this.imagePath = ImagePath;
     }
 
     @Override

@@ -13,7 +13,7 @@ public class WolfChessComponent extends  ChessComponent implements Serializable 
         String ImagePath;
         if(owner.getColor() == Color.BLUE) ImagePath = currentDir + "\\resource\\wolf_b.jpg";
         else  ImagePath = currentDir + "\\resource\\wolf_r.jpg";
-        this.image = new ImageIcon(ImagePath).getImage();
+        this.imagePath = ImagePath;
     }
 
     @Override

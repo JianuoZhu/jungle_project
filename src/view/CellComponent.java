@@ -11,7 +11,7 @@ import java.io.Serializable;
 
 public class CellComponent extends JPanel implements Serializable {
     private Color background;
-    private Image Image;
+    private String imagePath;
 
     @Override
     public Color getBackground() {
@@ -26,11 +26,11 @@ public class CellComponent extends JPanel implements Serializable {
     }
 
     public java.awt.Image getImage() {
-        return Image;
+        return new ImageIcon(imagePath).getImage();
     }
 
-    public void setImage(java.awt.Image image) {
-        Image = image;
+    public void setImage(String ImagePath) {
+        this.imagePath = imagePath;
     }
 
     @Override

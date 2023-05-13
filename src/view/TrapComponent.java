@@ -10,7 +10,7 @@ public class TrapComponent extends CellComponent implements Serializable {
         String currentDir = System.getProperty("user.dir");
         String ImagePath;
         ImagePath = currentDir + "\\resource\\trap_c.jpg";
-        this.setImage(new ImageIcon(ImagePath).getImage());
+        this.setImage(ImagePath);
     }
     @Override
     protected void paintComponent(Graphics g) {

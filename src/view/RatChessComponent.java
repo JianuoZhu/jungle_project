@@ -13,7 +13,7 @@ public class RatChessComponent extends  ChessComponent implements Serializable {
         String ImagePath;
         if(owner.getColor() == Color.BLUE) ImagePath = currentDir + "\\resource\\rat_b.jpg";
         else  ImagePath = currentDir + "\\resource\\rat_r.jpg";
-        this.image = new ImageIcon(ImagePath).getImage();
+        this.imagePath = ImagePath;
     }
 
     @Override

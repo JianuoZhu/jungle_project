@@ -15,7 +15,7 @@ public class LionChessComponent extends ChessComponent implements Serializable {
         String ImagePath;
         if(owner.getColor() == Color.BLUE) ImagePath = currentDir + "\\resource\\lion_b.jpg";
         else  ImagePath = currentDir + "\\resource\\lion_r.jpg";
-        this.image = new ImageIcon(ImagePath).getImage();
+        this.imagePath = ImagePath;
     }
 
     protected void paintComponent(Graphics g) {//paints the piece

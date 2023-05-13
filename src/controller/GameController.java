@@ -116,9 +116,9 @@ public class GameController implements GameListener,Serializable {
              FileOutputStream fpt =new FileOutputStream("object.txt");
              ObjectOutputStream oos = new ObjectOutputStream(fpt) ;
             //将对象序列化到文件s
-            oos.writeObject(this.view);
             oos.writeObject(this.model);
             oos.writeObject(this.currentPlayer);
+            oos.writeObject(this.view);
             oos.close();
             fpt.close();
         } catch (Exception e) {

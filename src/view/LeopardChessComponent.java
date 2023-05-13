@@ -13,7 +13,7 @@ public class LeopardChessComponent extends ChessComponent implements Serializabl
         String ImagePath;
         if(owner.getColor() == Color.BLUE) ImagePath = currentDir + "\\resource\\leo_b.jpg";
         else  ImagePath = currentDir + "\\resource\\leo_r.jpg";
-        this.image = new ImageIcon(ImagePath).getImage();
+        this.imagePath = ImagePath;
     }
 
     @Override

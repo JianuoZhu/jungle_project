@@ -10,7 +10,7 @@ public class HomeComponent extends CellComponent implements Serializable {
         String currentDir = System.getProperty("user.dir");
         String ImagePath;
         ImagePath = currentDir + "\\resource\\home.png";
-        this.setImage(new ImageIcon(ImagePath).getImage());
+        this.setImage(ImagePath);
     }
     @Override
     protected void paintComponent(Graphics g) {

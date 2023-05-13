@@ -13,7 +13,7 @@ public class HomeChessComponent extends ChessComponent implements Serializable {
         String currentDir = System.getProperty("user.dir");
         String ImagePath;
         ImagePath = currentDir + "\\resource\\home.png";
-        this.image = new ImageIcon(ImagePath).getImage();
+        this.imagePath = ImagePath;
     }
 
     @Override
@@ -30,7 +30,7 @@ public class HomeChessComponent extends ChessComponent implements Serializable {
         Image Icon2 = new ImageIcon((String)System.getProperty("user.dir")+"\\resource\\trap_c.jpg").getImage();
         g2.drawImage(Icon2, 0, 0, getWidth(), getHeight(), this);
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
-        g2.drawImage(this.image, 0, 0, getWidth(), getHeight(), this);
+        g2.drawImage(this.getImage(), 0, 0, getWidth(), getHeight(), this);
         if (isSelected()) { // Highlights the model if selected.
             g.setColor(Color.RED);
             g.drawOval(0, 0, getWidth() , getHeight());

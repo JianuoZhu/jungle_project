@@ -13,7 +13,7 @@ import java.io.Serializable;
         String ImagePath;
         if(owner.getColor() == Color.BLUE) ImagePath = currentDir + "\\resource\\cat_b.jpg";
         else  ImagePath = currentDir + "\\resource\\cat_r.jpg";
-        this.image = new ImageIcon(ImagePath).getImage();
+        this.imagePath = ImagePath;
     }
 
     @Override

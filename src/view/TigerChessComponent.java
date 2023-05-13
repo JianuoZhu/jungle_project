@@ -15,7 +15,7 @@ public class TigerChessComponent extends ChessComponent implements Serializable 
         String ImagePath;
         if(owner.getColor() == Color.BLUE) ImagePath = currentDir + "\\resource\\tiger_b.jpg";
         else  ImagePath = currentDir + "\\resource\\tiger_r.jpg";
-        this.image = new ImageIcon(ImagePath).getImage();
+        this.imagePath = ImagePath;
     }
 
     @Override

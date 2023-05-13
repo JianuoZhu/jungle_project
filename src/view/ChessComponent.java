@@ -17,15 +17,11 @@ public class ChessComponent extends JComponent implements Serializable{
     }
 
     public Image getImage() {
-        return image;
+        return new ImageIcon(imagePath).getImage();
     }
 
-    protected Image image;
+    protected String imagePath;
     protected boolean stacked;
-
-    public void setImage(Image image) {
-        this.image = image;
-    }
 
     public void setStacked(boolean stacked) {
         this.stacked = stacked;
