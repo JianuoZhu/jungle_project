@@ -20,13 +20,19 @@ import static model.Constant.CHESSBOARD_ROW_SIZE;
  */
 public class ChessboardComponent extends JComponent {
     private final CellComponent[][] gridComponents = new CellComponent[CHESSBOARD_ROW_SIZE.getNum()][CHESSBOARD_COL_SIZE.getNum()];
-    private final int CHESS_SIZE;
+    public final int CHESS_SIZE;
     private final Set<ChessboardPoint> riverCell = new HashSet<>();
     private final Set<ChessboardPoint> trapCell = new HashSet<>();
 
     private final Set<ChessboardPoint> homeCell = new HashSet<>();
     private GameController gameController;
 
+    public CellComponent[][] getGridComponents() {
+        return gridComponents;
+    }
+    public boolean isWater(ChessboardPoint point){
+        return riverCell.contains(point);
+    }
     public ChessboardComponent(int chessSize) {
         CHESS_SIZE = chessSize;
         int width = CHESS_SIZE * 7;
@@ -217,7 +223,7 @@ public class ChessboardComponent extends JComponent {
         System.out.println("[" + point.y/CHESS_SIZE +  ", " +point.x/CHESS_SIZE + "] Clicked");
         return new ChessboardPoint(point.y/CHESS_SIZE, point.x/CHESS_SIZE);
     }
-    private Point calculatePoint(int row, int col) {
+    public Point calculatePoint(int row, int col) {
         return new Point(col * CHESS_SIZE, row * CHESS_SIZE);
     }
 
