@@ -111,47 +111,51 @@ public class GameController implements GameListener,Serializable {
         frame.setVisible(true);
     }
 //saving and loading
-    public void save(){
-        try {//创建一个ObjectOutputStream输出流
-            String filePath = "object.ser";
-             FileOutputStream fpt =new FileOutputStream(filePath);
-             ObjectOutputStream oos = new ObjectOutputStream(fpt) ;
-            //将对象序列化到文件s
-            oos.writeObject(this.model);
-            oos.writeObject(this.currentPlayer);
-            oos.writeObject(this.view);
-            oos.close();
-            fpt.close();
-            System.out.println("Serialized data is saved in " + filePath);
-        } catch (Exception e) {
+    public void save() {
+        String filePath = "object.ser";
+        ArrayList<Object> objectsToSave = new ArrayList<>();
+
+        // Add the objects to the ArrayList
+        objectsToSave.add(view);
+        objectsToSave.add(model);
+        objectsToSave.add(gameFrame);
+
+        System.out.println("Serialized data is saved in " + filePath);
+        // Serialize the ArrayList to a file
+        try {
+            ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(filePath));
+            outputStream.writeObject(objectsToSave);
+            outputStream.close();
+        } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
     public void load(){
         String filePath = "object.ser";
-        try
-        {
-            FileInputStream fileIn = new FileInputStream(filePath);
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            model =(Chessboard) in.readObject();
-            currentPlayer=(PlayerColor) in.readObject();
-            view = (ChessboardComponent) in.readObject();
-            System.out.println(currentPlayer);
-            in.close();
-            fileIn.close();
-        }catch(IOException i)
-        {
-            i.printStackTrace();
-            return;
-        }catch(ClassNotFoundException c)
-        {
+        ArrayList<Object> loadedObjects = new ArrayList<>();
+        try {
+            ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(filePath));
+            loadedObjects = (ArrayList<Object>) inputStream.readObject();
+            inputStream.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
-            return;
+        // Process the loaded objects
+        for (Object obj : loadedObjects) {
+            if (obj instanceof ChessboardComponent) {
+                view = (ChessboardComponent)obj;
+            } else if (obj instanceof Chessboard) {
+                model = (Chessboard) obj;
+            }
+            else if(obj instanceof ChessGameFrame){
+                gameFrame = (ChessGameFrame) obj;
+            }
         }
         view.repaint();
-
+        gameFrame.repaint();
     }
+
 
 
 
