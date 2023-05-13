@@ -45,7 +45,7 @@ public class GameController implements GameListener {
     private Chessboard model;
     private ChessboardComponent view;
     private PlayerColor currentPlayer;
-
+    private ChessGameFrame gameFrame;
     public Chessboard getModel() {
         return model;
     }
@@ -68,11 +68,11 @@ public class GameController implements GameListener {
     // Record whether there is a selected piece before
     private ChessboardPoint selectedPoint;
 
-    public GameController(ChessboardComponent view, Chessboard model) {
+    public GameController(ChessboardComponent view, Chessboard model, ChessGameFrame frame) {
         this.view = view;
         this.model = model;
         this.currentPlayer = PlayerColor.BLUE;
-
+        this.gameFrame = frame;
         view.registerController(this);
         initialize();
         view.initiateChessComponent(model);
@@ -89,6 +89,9 @@ public class GameController implements GameListener {
     // after a valid move swap the player
     private void swapColor() {
         currentPlayer = currentPlayer == PlayerColor.BLUE ? PlayerColor.RED : PlayerColor.BLUE;
+        gameFrame.remove(ChessGameFrame.current_currentPlayer_JLabel);
+        ChessGameFrame.current_currentPlayer_JLabel = gameFrame.addCurrentPlayers();
+        gameFrame.repaint();
     }
 
     private void win(PlayerColor winnerColor) {
@@ -318,6 +321,7 @@ public class GameController implements GameListener {
         if (selectedPoint != null && model.isValidMove(selectedPoint, point, view.isWater(point))) {
                 model.moveChessPiece(selectedPoint, point);
                 view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
+                turn++;
                 selectedPoint = null;
                 swapColor();
                 view.repaint();
@@ -385,6 +389,7 @@ public class GameController implements GameListener {
                 model.getGridAt(point).getPiece().setRank(0);
                 view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
                 selectedPoint = null;
+                turn++;
                 swapColor();
                 view.repaint();
             }
@@ -406,6 +411,7 @@ public class GameController implements GameListener {
                 model.captureChessPiece(selectedPoint, point);
                 view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
                 selectedPoint = null;
+                turn++;
                 swapColor();
                 view.repaint();
             }
