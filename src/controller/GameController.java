@@ -111,6 +111,7 @@ public class GameController implements GameListener,Serializable {
         frame.setVisible(true);
     }
 //saving and loading
+
     public void save() {
         String filePath = "object.ser";
         ArrayList<Object> objectsToSave = new ArrayList<>();
@@ -169,14 +170,11 @@ public class GameController implements GameListener,Serializable {
 
 
 
-
-
 // restart the game
     public void Restart(){
         model.RestartPieces();//right;
         view.initiateGridComponents();//right;
         view.initiateChessComponent(model);
-        //view.repaint();
         view.paintComponents(view.getGraphics());
         currentPlayer=PlayerColor.BLUE;
     }//easy init to be finished;
