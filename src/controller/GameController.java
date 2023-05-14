@@ -157,7 +157,7 @@ public class GameController implements GameListener,Serializable {
         //view.initiateChessComponent(model);
 
         view.registerController(this);
-        view.repaint();
+        view.repaint();//
         //gameFrame.repaint();
     }
 
@@ -169,7 +169,7 @@ public class GameController implements GameListener,Serializable {
         model.RestartPieces();//right;
         view.initiateGridComponents();//right;
         view.initiateChessComponent(model);
-        view.repaint();
+        view.paintComponents(view.getGraphics());
         currentPlayer=PlayerColor.BLUE;
     }//easy init to be finished;
 
