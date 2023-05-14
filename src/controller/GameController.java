@@ -157,7 +157,7 @@ public class GameController implements GameListener,Serializable {
 
         view.registerController(this);
         view.repaint();
-        gameFrame.repaint();
+        //gameFrame.repaint();
     }
 
 
