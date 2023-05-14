@@ -24,10 +24,32 @@ public class ChessboardComponent extends JComponent implements Serializable {
         return gameController;
     }
 
-    private final CellComponent[][] gridComponents = new CellComponent[CHESSBOARD_ROW_SIZE.getNum()][CHESSBOARD_COL_SIZE.getNum()];
+    private CellComponent[][] gridComponents = new CellComponent[CHESSBOARD_ROW_SIZE.getNum()][CHESSBOARD_COL_SIZE.getNum()];
     public final int CHESS_SIZE;
+
+
+    public Set<ChessboardPoint> getRiverCell() {
+        return riverCell;
+    }
+
+    public Set<ChessboardPoint> getTrapCell() {
+        return trapCell;
+    }
+
+    public Set<ChessboardPoint> getHomeCell() {
+        return homeCell;
+    }
+
     private final Set<ChessboardPoint> riverCell = new HashSet<>();
     private final Set<ChessboardPoint> trapCell = new HashSet<>();
+
+    public void setGridComponents(CellComponent[][] gridComponents) {
+        this.gridComponents = gridComponents;
+    }
+
+    public void setGameController(GameController gameController) {
+        this.gameController = gameController;
+    }
 
     private final Set<ChessboardPoint> homeCell = new HashSet<>();
     private GameController gameController;

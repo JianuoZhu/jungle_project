@@ -140,11 +140,15 @@ public class GameController implements GameListener,Serializable {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
+        //view.removeAll();
+        view.repaint();
         // Process the loaded objects
         for (Object obj : loadedObjects) {
             if (obj instanceof ChessboardComponent) {
-                view = (ChessboardComponent)obj;
+                //view.setGridComponents(((ChessboardComponent) obj).getGridComponents());
+                //view.
+                //view.set
+                //view.set
             } else if (obj instanceof Chessboard) {
                 model = (Chessboard) obj;
             }
@@ -156,7 +160,9 @@ public class GameController implements GameListener,Serializable {
         //view.initiateChessComponent(model);
 
         view.registerController(this);
-        view.repaint();
+        //view.repaint();
+
+        view.paintComponents(view.getGraphics());
         //gameFrame.repaint();
     }
 
@@ -170,7 +176,8 @@ public class GameController implements GameListener,Serializable {
         model.RestartPieces();//right;
         view.initiateGridComponents();//right;
         view.initiateChessComponent(model);
-        view.repaint();
+        //view.repaint();
+        view.paintComponents(view.getGraphics());
         currentPlayer=PlayerColor.BLUE;
     }//easy init to be finished;
 
