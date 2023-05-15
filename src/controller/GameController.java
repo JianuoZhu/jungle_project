@@ -171,9 +171,39 @@ public class GameController implements GameListener,Serializable {
         view.paintComponents(view.getGraphics());
         //gameFrame.repaint();
     }
+    int []dirx={1,0,0,-1};
+    int []diry= {0,1,-1,0};//方向数组
+
+//玩家vs电脑
+    public void  EasyAImove(){//turn 为偶数时AI操作
+         label1:   for (int i = 0; i < CHESSBOARD_ROW_SIZE.getNum(); i++) {
+                for (int j = 0; j < CHESSBOARD_COL_SIZE.getNum(); j++) {
+                    if(model.getGrid()[i][j].getPiece()!=null&&model.getGrid()[i][j].getPiece().getOwner()==PlayerColor.RED){
+                        for (int k=0;k<4;k++){
+                            int m=i+dirx[k];
+                            int n=j+diry[k];
+                            if(m>0&&n>0&&m<9&&n<7){
+                                if(model.getGrid()[m][n].getPiece()!=null&&model.getGrid()[m][n].getPiece().getOwner()==PlayerColor.BLUE
+                                        && model.isValidMove(new ChessboardPoint(i,j),new ChessboardPoint(m,n), model.isWaterCell(new ChessboardPoint(m,n)))){
+                                    model.moveChessPiece(new ChessboardPoint(i,j),new ChessboardPoint(m,n));
+                                    break label1;
+
+                                }
+
+                            }
+
+                        }
 
 
 
+
+                    }
+
+                }
+            }
+        view.repaint();
+
+    }
 
     // restart the game
     public void Restart(){
@@ -182,6 +212,7 @@ public class GameController implements GameListener,Serializable {
         view.initiateChessComponent(model);
         currentPlayer=PlayerColor.BLUE;
         view.paintComponents(view.getGraphics());
+        turn=1;
     }//easy init to be finished;
 
     // click an empty cell
@@ -191,6 +222,7 @@ public class GameController implements GameListener,Serializable {
                 model.moveChessPiece(selectedPoint, point);
                 view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
                 turn++;
+                System.out.println(turn);
                 selectedPoint = null;
                 repaintGreenCell();
                 swapColor();
