@@ -111,17 +111,7 @@ public class ChessGameFrame extends JFrame implements Serializable {
         );
 
     }
-    private void addAImoveButton() {
-        JButton button = new JButton("AImove");
-        button.setLocation(HEIGTH, HEIGTH / 10 +420);
-        button.setSize(200, 60);
-        button.setFont(new Font("Rockwell", Font.BOLD, 20));
-        add(button);
-        button.addActionListener(e ->
-                chessboardComponent.getGameController().EasyAImove()
-        );
 
-    }
 
     private void  addSaveButton(){
         JButton button = new JButton("Save");

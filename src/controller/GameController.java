@@ -349,6 +349,11 @@ int [][] ChessArray=new int[9][8];
         currentPlayer=PlayerColor.BLUE;
         view.paintComponents(view.getGraphics());
         turn=1;
+        gameFrame.remove(ChessGameFrame.current_currentPlayer_JLabel);
+        ChessGameFrame.current_currentPlayer_JLabel = gameFrame.addCurrentPlayers();
+        gameFrame.remove(ChessGameFrame.current_turn_JLabel);
+        ChessGameFrame.current_turn_JLabel = gameFrame.addCurrentTurns();
+        gameFrame.repaint();
     }//easy init to be finished;
 
     // click an empty cell
