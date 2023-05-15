@@ -243,6 +243,13 @@ public class Chessboard implements Serializable {
                 getChessPieceAt(dest).setStacked(true);
             }
         }*/
+        if (isTrap(dest)){
+            if((getChessPieceOwner(src) == PlayerColor.BLUE && dest.getRow() < 5)
+                    || (getChessPieceOwner(src) == PlayerColor.RED && dest.getRow() > 5)){
+                trapUsed[dest.getRow()][dest.getCol()] = true;
+                getChessPieceAt(src).setRank(0);
+            }
+        }
         removeChessPiece(dest);
         setChessPiece(dest, removeChessPiece(src));
     }

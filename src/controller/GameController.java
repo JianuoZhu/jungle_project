@@ -11,10 +11,8 @@ import view.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
-import javax.naming.Name;
-import javax.swing.*;
-import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.io.File;
 import static model.Constant.CHESSBOARD_COL_SIZE;
@@ -311,8 +309,8 @@ public class GameController implements GameListener,Serializable {
     int []diry= {0,1,-1,0};//方向数组
 
 //玩家vs电脑
-    public void  EasyAImove(){//turn 为偶数时AI操作
-         label1:   for (int i = 0; i < CHESSBOARD_ROW_SIZE.getNum(); i++) {
+    public void RedEasyAImove(){//turn 为偶数时AI操作
+         /*label1:   for (int i = 0; i < CHESSBOARD_ROW_SIZE.getNum(); i++) {
                 for (int j = 0; j < CHESSBOARD_COL_SIZE.getNum(); j++) {
                     if(model.getGrid()[i][j].getPiece()!=null&&model.getGrid()[i][j].getPiece().getOwner()==PlayerColor.RED){
                         for (int k=0;k<4;k++){
@@ -335,8 +333,67 @@ public class GameController implements GameListener,Serializable {
                     }
 
                 }
+            }*/
+        ArrayList<ChessboardPoint> availableChessPosition = new ArrayList<ChessboardPoint>();
+        for(int i=0; i < CHESSBOARD_ROW_SIZE.getNum(); i++){
+            for(int j=0; j < CHESSBOARD_COL_SIZE.getNum(); j++){
+                ChessboardPoint point = new ChessboardPoint(i, j);
+                if(model.getGridAt(point).getPiece() != null && model.getChessPieceOwner(point) == PlayerColor.RED){
+                    availableChessPosition.add(point);
+                }
             }
-        view.repaint();
+        }
+        Random random = new Random();
+        int p = random.nextInt(availableChessPosition.size());
+        int x = availableChessPosition.get(p).getRow();
+        int y = availableChessPosition.get(p).getCol();
+        ChessboardPoint src = availableChessPosition.get(p);
+        boolean flag = false;
+        while(!flag){
+            ChessboardPoint dest = new ChessboardPoint(x+random.nextInt(3)-1,y+ random.nextInt(3)-1);
+            if(dest.getRow() < 0 || dest.getRow() >= CHESSBOARD_ROW_SIZE.getNum() || dest.getCol() < 0 || dest.getCol() >= CHESSBOARD_COL_SIZE.getNum()) continue;
+            if(model.getGridAt(dest).getPiece() == null){
+                if(model.isValidMove(src, dest, view.isWater(dest))){
+                    flag = true;
+                    model.moveChessPiece(src, dest);
+                    view.setChessComponentAtGrid(dest, view.removeChessComponentAtGrid(src));
+                    turn++;
+                    System.out.println(turn);
+                    swapColor();
+                    view.repaint();
+                    if(model.getTrapUsed()[dest.getRow()][dest.getCol()] && !model.getTrapRemoved()[dest.getRow()][dest.getCol()]){
+                        view.getGridComponents()[dest.getRow()][dest.getCol()].setImage(null);
+                        //view.getGridComponents()[point.getRow()][point.getCol()].add(new CellComponent(Color.LIGHT_GRAY, view.calculatePoint(point.getRow(), point.getCol()), view.CHESS_SIZE));
+                        model.getTrapRemoved()[dest.getRow()][dest.getCol()] = true;
+                    }
+                    if(model.isHome(dest)){
+                        if((dest.getRow() < 5 && model.getChessPieceOwner(dest) == PlayerColor.BLUE)
+                                || (dest.getRow() > 5 && model.getChessPieceOwner(dest) == PlayerColor.RED)){
+                            win(model.getChessPieceOwner(dest));
+                        }
+                    }
+                }
+            }
+            else{
+                if(model.getChessPieceOwner(dest) == PlayerColor.RED) continue;
+                if(model.isValidCapture(src, dest)){
+                    flag = true;
+                    model.captureChessPiece(src, dest);
+                    view.setChessComponentAtGrid(dest, view.removeChessComponentAtGrid(src));
+                    turn++;
+                    minusChess();
+                    swapColor();
+                    view.repaint();
+
+                    if(model.getTrapUsed()[dest.getRow()][dest.getCol()] && !model.getTrapRemoved()[dest.getRow()][dest.getCol()]){
+                        view.getGridComponents()[dest.getRow()][dest.getCol()].setImage(null);
+                        //view.getGridComponents()[point.getRow()][point.getCol()].add(new CellComponent(Color.LIGHT_GRAY, view.calculatePoint(point.getRow(), point.getCol()), view.CHESS_SIZE));
+                        model.getTrapRemoved()[dest.getRow()][dest.getCol()] = true;
+                    }
+                }
+            }
+        }
+        view.paintComponents(view.getGraphics());
 
     }
 
@@ -424,6 +481,11 @@ public class GameController implements GameListener,Serializable {
                 repaintGreenCell();
             }
             if(model.isTrap(point)){
+                if(model.getTrapUsed()[point.getRow()][point.getCol()] && !model.getTrapRemoved()[point.getRow()][point.getCol()]){
+                    view.getGridComponents()[point.getRow()][point.getCol()].setImage(null);
+                    //view.getGridComponents()[point.getRow()][point.getCol()].add(new CellComponent(Color.LIGHT_GRAY, view.calculatePoint(point.getRow(), point.getCol()), view.CHESS_SIZE));
+                    model.getTrapRemoved()[point.getRow()][point.getCol()] = true;
+                }
                 model.captureChessPiece(selectedPoint, point);
                 model.getGridAt(point).getPiece().setRank(0);
                 view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
