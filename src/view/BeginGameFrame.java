@@ -5,6 +5,7 @@ import model.Chessboard;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class BeginGameFrame extends JFrame {//begin the game
     private  int WIDTH=0;
@@ -17,9 +18,13 @@ public class BeginGameFrame extends JFrame {//begin the game
         this.WIDTH = WIDTH;
         this.HEIGHT = HEIGHT;
         setSize(WIDTH, HEIGHT);
+
         setLocationRelativeTo(null); // Center the window.
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //设置程序关闭按键，如果点击右上方的叉就游戏全部关闭了
         setLayout(null);
+
+        addBackGround();//
+
         addBeginButton();
         addrankingListButton();
         addAIFightButton();
@@ -28,6 +33,20 @@ public class BeginGameFrame extends JFrame {//begin the game
     }
 
 
+    private JLabel addBackGround(){
+        String currentDir = System.getProperty("user.dir");
+        String ImagePath;
+        ImagePath = currentDir + "\\resource\\bk.png";
+        // 背景图片
+        ImageIcon background = new ImageIcon(ImagePath);
+        // 把背景图片显示在一个标签里面
+        JLabel label = new JLabel(background);
+        label.setBounds(-33,-45,600,800);
+        this.getLayeredPane().add(label, new Integer(Integer.MIN_VALUE));
+        ((JPanel)this.getContentPane()).setOpaque(false); //设置透明
+        return label;
+
+    }
     private void addBeginButton() {
         JButton beginButton = new JButton("玩家vs玩家");
 
@@ -60,10 +79,6 @@ public class BeginGameFrame extends JFrame {//begin the game
         add(beginButton);
 
     }
-
-
-
-
     private void addrankingListButton() {
         JButton beginButton = new JButton("排行榜");
 
