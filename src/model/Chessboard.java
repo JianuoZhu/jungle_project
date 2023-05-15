@@ -13,10 +13,29 @@ import java.io.Serializable;
  */
 public class Chessboard implements Serializable {
     private Cell[][] grid;
-   public void setGridBule(int i, int j, String name, int k){
+   public void setGridBule(int i, int j, int rank, int k){
+       String name=null;
+       if(rank==8){name="Elephant";}
+       if(rank==7){name="Lion";}
+       if(rank==6){name="Tiger";}
+       if(rank==5){name="Leopard";}
+       if(rank==4){name="Wolf";}
+       if(rank==3){name="Dog";}
+       if(rank==2){name="Cat";}
+       if(rank==1){name="Rat";}
+
         grid[i][j].setPiece(new ChessPiece(PlayerColor.BLUE,name,k));
     }//used in Gamecontroller to reset chesspieces;
-    public void setGridRed(int i, int j ,String name ,int k){
+    public void setGridRed(int i, int j ,int rank,int k){
+        String name=null;
+        if(rank==8){name="Elephant";}
+        if(rank==7){name="Lion";}
+        if(rank==6){name="Tiger";}
+        if(rank==5){name="Leopard";}
+        if(rank==4){name="Wolf";}
+        if(rank==3){name="Dog";}
+        if(rank==2){name="Cat";}
+        if(rank==1){name="Rat";}
         grid[i][j].setPiece(new ChessPiece(PlayerColor.RED,name,k));
     }//used in GameController to reset ChessPieces;
 

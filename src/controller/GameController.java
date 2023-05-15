@@ -12,6 +12,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.Name;
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
@@ -116,7 +117,7 @@ public class GameController implements GameListener,Serializable {
         frame.setVisible(true);
     }
 //saving and loading
-int [][] ChessArray=new int[9][8];
+    int [][] ChessArray=new int[9][8];
 
     public  void save() {
         for(int i=0;i<9;i++){
@@ -127,15 +128,39 @@ int [][] ChessArray=new int[9][8];
         //
         for (int i = 0; i < CHESSBOARD_ROW_SIZE.getNum(); i++) {
             for (int j = 0; j < CHESSBOARD_COL_SIZE.getNum(); j++) {
+                int NameCount=0;
                 if(model.getGridAt(new ChessboardPoint(i,j)).getPiece()!=null){
                     if(model.getGridAt(new ChessboardPoint(i,j))
+                            .getPiece().getRank()==0){//判断有无踩到陷阱
+                        if(model.getGridAt(new ChessboardPoint(i,j))
+                                .getPiece().getName().equals("Elephant")){NameCount=8;}
+                        if(model.getGridAt(new ChessboardPoint(i,j))
+                                .getPiece().getName().equals("Lion")){NameCount=7;}
+                        if(model.getGridAt(new ChessboardPoint(i,j))
+                                .getPiece().getName().equals("Tiger")){NameCount=6;}
+                        if(model.getGridAt(new ChessboardPoint(i,j))
+                                .getPiece().getName().equals("Leopard")){NameCount=5;}
+                        if(model.getGridAt(new ChessboardPoint(i,j))
+                                .getPiece().getName().equals("Wolf")){NameCount=4;}
+                        if(model.getGridAt(new ChessboardPoint(i,j))
+                                .getPiece().getName().equals("Dog")){NameCount=3;}
+                        if(model.getGridAt(new ChessboardPoint(i,j))
+                                .getPiece().getName().equals("Cat")){NameCount=2;}
+                        if(model.getGridAt(new ChessboardPoint(i,j))
+                                .getPiece().getName().equals("Rat")){NameCount=1;}
+
+                    }
+
+
+
+                    if(model.getGridAt(new ChessboardPoint(i,j))
                             .getPiece().getOwner().equals(PlayerColor.BLUE)){
-                        ChessArray[i][j]=10+model.getGridAt(new ChessboardPoint(i,j))
+                        ChessArray[i][j]=NameCount*100+10+model.getGridAt(new ChessboardPoint(i,j))
                                 .getPiece().getRank();
                     }
                     if(model.getGridAt(new ChessboardPoint(i,j))
                             .getPiece().getOwner().equals(PlayerColor.RED)){
-                        ChessArray[i][j]=20+model.getGridAt(new ChessboardPoint(i,j))
+                        ChessArray[i][j]= NameCount*100+20+model.getGridAt(new ChessboardPoint(i,j))
                                 .getPiece().getRank();
                     }
 
@@ -249,65 +274,38 @@ int [][] ChessArray=new int[9][8];
         }
         return array;
     }
-    public  void  load(){//how to translate array to chessboard
+    public  void  load() {//how to translate array to chessboard
         view.initiateGridComponents();
         model.removeAllpieces();
         view.removeChessComponent(model);
 
         for (int i = 0; i < CHESSBOARD_ROW_SIZE.getNum(); i++) {
             for (int j = 0; j < CHESSBOARD_COL_SIZE.getNum(); j++) {
-                if(readArray()[i][j]/10==2){//owner is red
-                    String name;
-                    if(readArray()[i][j]%20==8){name="Elephant";
-                        model.setGridRed(i,j,name,8);}
-                    if(readArray()[i][j]%20==7){name="Lion";
-                        model.setGridRed(i,j,name,7);}
-                    if(readArray()[i][j]%20==6){name="Tiger";
-                        model.setGridRed(i,j,name,6);}
-                    if(readArray()[i][j]%20==5){name="Leopard";
-                        model.setGridRed(i,j,name,5);}
-                    if(readArray()[i][j]%20==4){name="Wolf";
-                        model.setGridRed(i,j,name,4);}
-                    if(readArray()[i][j]%20==3){name="Dog";
-                        model.setGridRed(i,j,name,3);}
-                    if(readArray()[i][j]%20==2){name="Cat";
-                        model.setGridRed(i,j,name,2);}
-                    if(readArray()[i][j]%20==1){name="Rat";
-                        model.setGridRed(i,j,name,1);}
+                int a = readArray()[i][j] % 100;
+                if (a / 10 == 2) {//owner is red
+                    if(a%10!=0){
+                        model.setGridRed(i, j, a % 10, a % 10);
+                    }else {model.setGridBule(i,j,readArray()[i][j]/100,0);}
+
                 }
-                if(readArray()[i][j]/10==1){
-                    String name;
-                    if(readArray()[i][j]%10==8){name="Elephant";
-                        model.setGridBule(i,j,name,8);}
-                    if(readArray()[i][j]%10==7){name="Lion";
-                        model.setGridBule(i,j,name,7);}
-                    if(readArray()[i][j]%10==6){name="Tiger";
-                        model.setGridBule(i,j,name,6);}
-                    if(readArray()[i][j]%10==5){name="Leopard";
-                        model.setGridBule(i,j,name,5);}
-                    if(readArray()[i][j]%10==4){name="Wolf";
-                        model.setGridBule(i,j,name,4);}
-                    if(readArray()[i][j]%10==3){name="Dog";
-                        model.setGridBule(i,j,name,3);}
-                    if(readArray()[i][j]%10==2){name="Cat";
-                        model.setGridBule(i,j,name,2);}
-                    if(readArray()[i][j]%10==1){name="Rat";
-                        model.setGridBule(i,j,name,1);}
+                if (a / 10 == 1) {
+                    if(a%10!=0){
+                        model.setGridBule(i, j, a % 10, a % 10);
+                    }else {model.setGridBule(i,j,readArray()[i][j]/100,0);}
 
                 }
             }
-        }
-        if(readArray()[0][7]==1) {
-            currentPlayer = PlayerColor.BLUE;  }
-        if(readArray()[0][7]==2) {
+            if (readArray()[0][7] == 1) {
+                currentPlayer = PlayerColor.BLUE;
+            }
+            if (readArray()[0][7] == 2) {
                 currentPlayer = PlayerColor.RED;
             }
             view.initiateChessComponent(model);
             view.paintComponents(view.getGraphics());
 
         }
-
-
+    }
 
         int []dirx={1,0,0,-1};
     int []diry= {0,1,-1,0};//方向数组
@@ -321,15 +319,14 @@ int [][] ChessArray=new int[9][8];
                             int m=i+dirx[k];
                             int n=j+diry[k];
                             if(m>0&&n>0&&m<9&&n<7){
-                                if(model.getGrid()[m][n].getPiece()!=null&&model.getGrid()[m][n].getPiece().getOwner()==PlayerColor.BLUE
-                                        && model.isValidMove(new ChessboardPoint(i,j),new ChessboardPoint(m,n), model.isWaterCell(new ChessboardPoint(m,n)))){
+                                if(model.isValidMove(new ChessboardPoint(i,j),new ChessboardPoint(m,n), model.isWaterCell(new ChessboardPoint(m,n)))){
                                     model.moveChessPiece(new ChessboardPoint(i,j),new ChessboardPoint(m,n));
+                                    view.setChessComponentAtGrid(new ChessboardPoint(m,n),view.getChessComponentAtGrid(new ChessboardPoint(i,j)));
+                                    view.removeChessComponentAtGrid(new ChessboardPoint(i,j));
                                     break label1;
 
                                 }
-
                             }
-
                         }
 
 
