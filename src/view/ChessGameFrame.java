@@ -112,27 +112,36 @@ public class ChessGameFrame extends JFrame implements Serializable {
 
     }
 
-
-    private void  addSaveButton(){
-        JButton button = new JButton("Save");
-        button.setLocation(HEIGTH, HEIGTH / 10 +120);
+    private void addAImoveButton() {
+        JButton button = new JButton("AImove");
+        button.setLocation(HEIGTH, HEIGTH / 10 + 420);
         button.setSize(200, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
-        button.addActionListener(e -> chessboardComponent.getGameController().save());
-
-    }
-    private void  addLoadButton(){
-        JButton button = new JButton("Load");
-        button.setLocation(HEIGTH, HEIGTH / 10 +320);
-        button.setSize(200, 60);
-        button.setFont(new Font("Rockwell", Font.BOLD, 20));
-        add(button);
-        button.addActionListener(e -> chessboardComponent.getGameController().load());
-
+        button.addActionListener(e ->
+                chessboardComponent.getGameController().RedEasyAImove()
+        );
     }
 
 
+        private void addSaveButton () {
+            JButton button = new JButton("Save");
+            button.setLocation(HEIGTH, HEIGTH / 10 + 120);
+            button.setSize(200, 60);
+            button.setFont(new Font("Rockwell", Font.BOLD, 20));
+            add(button);
+            button.addActionListener(e -> chessboardComponent.getGameController().save());
+
+        }
+        private void addLoadButton () {
+            JButton button = new JButton("Load");
+            button.setLocation(HEIGTH, HEIGTH / 10 + 320);
+            button.setSize(200, 60);
+            button.setFont(new Font("Rockwell", Font.BOLD, 20));
+            add(button);
+            button.addActionListener(e -> chessboardComponent.getGameController().load());
+
+        }
 
 
 //    private void addLoadButton() {
@@ -150,4 +159,4 @@ public class ChessGameFrame extends JFrame implements Serializable {
 //    }
 
 
-}
+    }

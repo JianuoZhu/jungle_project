@@ -78,7 +78,20 @@ public class BeginGameFrame extends JFrame {//begin the game
         beginButton.setSize(200, 50);
         beginButton.setFont(new Font("微软雅黑", Font.PLAIN, 24));
         add(beginButton);
+        beginButton.addActionListener(e ->{
+                    SwingUtilities.invokeLater(() -> {
+                        dispose();
+                        ChessGameFrame ChessGameFrame = new ChessGameFrame(1100, 810);
+                        GameController gameController = new GameController
+                                (ChessGameFrame.getChessboardComponent(),new Chessboard(),ChessGameFrame);
+                        ChessGameFrame.current_currentPlayer_JLabel = ChessGameFrame.addCurrentPlayers();
+                        ChessGameFrame.current_turn_JLabel = ChessGameFrame.addCurrentTurns();
+                        ChessGameFrame.setVisible(true);
+                        this.dispose();
+                    });
+                }
 
+        );
     }
     private void addrankingListButton() {
         JButton beginButton = new JButton("排行榜");
