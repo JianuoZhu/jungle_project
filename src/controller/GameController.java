@@ -94,6 +94,8 @@ public class GameController implements GameListener,Serializable {
         currentPlayer = currentPlayer == PlayerColor.BLUE ? PlayerColor.RED : PlayerColor.BLUE;
         gameFrame.remove(ChessGameFrame.current_currentPlayer_JLabel);
         ChessGameFrame.current_currentPlayer_JLabel = gameFrame.addCurrentPlayers();
+        gameFrame.remove(ChessGameFrame.current_turn_JLabel);
+        ChessGameFrame.current_turn_JLabel = gameFrame.addCurrentTurns();
         gameFrame.repaint();
     }
 

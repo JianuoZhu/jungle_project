@@ -15,6 +15,7 @@ public class ChessGameFrame extends JFrame implements Serializable {
     private final int HEIGTH;
 
     public static JLabel current_currentPlayer_JLabel;
+    public static JLabel current_turn_JLabel;
     private final int ONE_CHESS_SIZE;
     private JButton RestartBotton;
     private ChessboardComponent chessboardComponent;
@@ -76,6 +77,17 @@ public class ChessGameFrame extends JFrame implements Serializable {
         return statusLabel;
     }
 
+    public JLabel addCurrentTurns() {
+        String a="CurrentTurn:";
+        JLabel statusLabel = new JLabel();
+        a+=chessboardComponent.getGameController().turn;
+        statusLabel.setText(a);
+        statusLabel.setLocation(HEIGTH, HEIGTH / 7);
+        statusLabel.setSize(300, 60);
+        statusLabel.setFont(new Font("Rockwell", Font.BOLD, 20));
+        add(statusLabel);
+        return statusLabel;
+    }
     /**
      * 在游戏面板中增加一个按钮，如果按下的话就会显示Hello, world!
      */
