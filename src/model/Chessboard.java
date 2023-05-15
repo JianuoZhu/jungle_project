@@ -282,6 +282,7 @@ public class Chessboard implements Serializable {
 //>>>>>>> origin/JnZ
     public boolean isValidCapture(ChessboardPoint src, ChessboardPoint dest) {
         // TODO:Fix this method
+        if(getChessPieceOwner(src) == getChessPieceOwner(dest)) return false;
         if(!getChessPieceAt(src).canCapture(getChessPieceAt(dest)) || isWaterCell(dest) || isWaterCell(src)) return false;
         if(calculateDistance(src, dest) == 1)
             return true;
