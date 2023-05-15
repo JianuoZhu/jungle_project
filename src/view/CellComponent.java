@@ -29,6 +29,11 @@ public class CellComponent extends JPanel implements Serializable {
         return new ImageIcon(this.imagePath).getImage();
     }
 
+    @Override
+    public void setBackground(Color background) {
+        this.background = background;
+    }
+
     public void setImage(String ImagePath) {
         this.imagePath = ImagePath;
     }

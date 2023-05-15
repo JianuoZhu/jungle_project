@@ -231,7 +231,7 @@ public class ChessboardComponent extends JComponent implements Serializable {
                     this.add(cell);
                 }
                 else if(trapCell.contains(temp)){
-                    cell = new TrapComponent(Color.RED, calculatePoint(i, j), CHESS_SIZE);
+                    cell = new TrapComponent(Color.LIGHT_GRAY, calculatePoint(i, j), CHESS_SIZE);
                     this.add(cell);
                 }
                 else if(homeCell.contains(temp)){

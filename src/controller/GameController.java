@@ -128,7 +128,8 @@ public class GameController implements GameListener,Serializable {
         // Serialize the ArrayList to a file
         try {
             ObjectOutputStream outputStream = new MyObjectOutputStream(new FileOutputStream(filePath, true));
-            outputStream.writeObject(objectsToSave);
+            //outputStream.writeObject(objectsToSave);
+            outputStream.writeObject(view);
             outputStream.flush();
             outputStream.close();
         } catch (IOException e) {
@@ -140,9 +141,9 @@ public class GameController implements GameListener,Serializable {
         ArrayList<Object> loadedObjects = new ArrayList<>();
         try {
             ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(filePath));
-            loadedObjects = (ArrayList<Object>) inputStream.readObject();
+            //loadedObjects = (ArrayList<Object>) inputStream.readObject();
             inputStream.close();
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException /*| ClassNotFoundException*/ e) {
             e.printStackTrace();
         }
         //view.removeAll();
@@ -150,7 +151,7 @@ public class GameController implements GameListener,Serializable {
         // Process the loaded objects
         for (Object obj : loadedObjects) {
             if (obj instanceof ChessboardComponent) {
-                //view.setGridComponents(((ChessboardComponent) obj).getGridComponents());
+                view.setGridComponents(((ChessboardComponent) obj).getGridComponents());
                 //view.
                 //view.set
                 //view.set
@@ -191,6 +192,7 @@ public class GameController implements GameListener,Serializable {
                 view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
                 turn++;
                 selectedPoint = null;
+                repaintGreenCell();
                 swapColor();
                 view.repaint();
                 if(model.getTrapUsed()[point.getRow()][point.getCol()] && !model.getTrapRemoved()[point.getRow()][point.getCol()]){
@@ -224,11 +226,13 @@ public class GameController implements GameListener,Serializable {
                 selectedPoint = point;
                 component.setSelected(true);
                 component.repaint();
+                paintAvailableCell();
             }
         } else if (selectedPoint.equals(point)) {
             selectedPoint = null;
             component.setSelected(false);
             component.repaint();
+            repaintGreenCell();
         }
         // TODO: Implement capture function
         else{
@@ -250,12 +254,14 @@ public class GameController implements GameListener,Serializable {
                 view.getChessComponentAtGrid(selectedPoint).setSelected(false);
                 view.getChessComponentAtGrid(selectedPoint).repaint();
                 selectedPoint = null;
+                repaintGreenCell();
             }
             if(model.isTrap(point)){
                 model.captureChessPiece(selectedPoint, point);
                 model.getGridAt(point).getPiece().setRank(0);
                 view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
                 selectedPoint = null;
+                repaintGreenCell();
                 turn++;
                 minusChess();
                 swapColor();
@@ -267,6 +273,7 @@ public class GameController implements GameListener,Serializable {
                 view.getChessComponentAtGrid(selectedPoint).setSelected(false);
                 view.getChessComponentAtGrid(selectedPoint).repaint();
                 selectedPoint = null;
+                repaintGreenCell();
             }
             else if(!model.isValidCapture(selectedPoint, point)){
                 component.setSelected(false);
@@ -274,11 +281,13 @@ public class GameController implements GameListener,Serializable {
                 view.getChessComponentAtGrid(selectedPoint).setSelected(false);
                 view.getChessComponentAtGrid(selectedPoint).repaint();
                 selectedPoint = null;
+                repaintGreenCell();
             }
             else{
                 model.captureChessPiece(selectedPoint, point);
                 view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
                 selectedPoint = null;
+                repaintGreenCell();
                 turn++;
                 minusChess();
                 swapColor();
@@ -294,6 +303,39 @@ public class GameController implements GameListener,Serializable {
         if(currentPlayer == PlayerColor.BLUE) {
             leftChess[1]--;
             if(leftChess[1] == 0) win(PlayerColor.BLUE);
+        }
+    }
+
+    private void paintAvailableCell(){
+        for(int i=0; i < CHESSBOARD_ROW_SIZE.getNum(); i++){
+            for(int j=0; j < CHESSBOARD_COL_SIZE.getNum(); j++){
+                ChessboardPoint dest = new ChessboardPoint(i, j);
+                if(getModel().isValidMove(selectedPoint, dest, view.isWater(dest)) && model.getGridAt(dest).getPiece() == null){
+                    view.getGridComponents()[i][j].setBackground(Color.GREEN);
+                    view.paintComponents(view.getGraphics());
+                }
+                if(model.getGridAt(selectedPoint).getPiece().getRank() == 6 || model.getGridAt(selectedPoint).getPiece().getRank() == 7){
+                    if(!model.isWaterCell(dest) && model.isValidJump(selectedPoint, dest) && model.getGridAt(dest).getPiece() == null) {
+                        view.getGridComponents()[i][j].setBackground(Color.GREEN);
+                        view.paintComponents(view.getGraphics());
+                    }
+                }
+                if(model.getGridAt(dest).getPiece() == null) continue;
+                if(getModel().isValidCapture(selectedPoint, dest)){
+                    view.getGridComponents()[i][j].setBackground(Color.GREEN);
+                    view.paintComponents(view.getGraphics());
+                }
+            }
+        }
+    }
+    private void repaintGreenCell(){
+        for(int i=0; i < CHESSBOARD_ROW_SIZE.getNum(); i++){
+            for(int j=0; j < CHESSBOARD_COL_SIZE.getNum(); j++){
+                if(view.getGridComponents()[i][j].getBackground() == Color.GREEN){
+                    view.getGridComponents()[i][j].setBackground(Color.LIGHT_GRAY);
+                    if(model.isWaterCell(new ChessboardPoint(i, j))) view.getGridComponents()[i][j].setBackground(Color.CYAN);
+                }
+            }
         }
     }
 }
