@@ -46,6 +46,8 @@ public class GameController implements GameListener,Serializable {
     private ChessboardComponent view=null;
     private PlayerColor currentPlayer=null;
     private ChessGameFrame gameFrame=null;
+
+    private int leftChess[] = new int[2];
     public Chessboard getModel() {
         return model;
     }
@@ -73,6 +75,7 @@ public class GameController implements GameListener,Serializable {
         this.model = model;
         this.currentPlayer = PlayerColor.BLUE;
         this.gameFrame = frame;
+        this.leftChess[0] = this.leftChess[1] = 8;
         view.registerController(this);
         initialize();
         view.initiateChessComponent(model);
@@ -118,14 +121,15 @@ public class GameController implements GameListener,Serializable {
 
         // Add the objects to the ArrayList
         objectsToSave.add(view);
-        objectsToSave.add(model);
-        objectsToSave.add(gameFrame);
+        //objectsToSave.add(model);
+        //objectsToSave.add(gameFrame);
 
         System.out.println("Serialized data is saved in " + filePath);
         // Serialize the ArrayList to a file
         try {
-            ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(filePath));
+            ObjectOutputStream outputStream = new MyObjectOutputStream(new FileOutputStream(filePath, true));
             outputStream.writeObject(objectsToSave);
+            outputStream.flush();
             outputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -253,6 +257,7 @@ public class GameController implements GameListener,Serializable {
                 view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
                 selectedPoint = null;
                 turn++;
+                minusChess();
                 swapColor();
                 view.repaint();
             }
@@ -275,9 +280,20 @@ public class GameController implements GameListener,Serializable {
                 view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
                 selectedPoint = null;
                 turn++;
+                minusChess();
                 swapColor();
                 view.repaint();
             }
+        }
+    }
+    private void minusChess(){
+        if(currentPlayer == PlayerColor.RED) {
+            leftChess[0]--;
+            if(leftChess[0] == 0) win(PlayerColor.RED);
+        }
+        if(currentPlayer == PlayerColor.BLUE) {
+            leftChess[1]--;
+            if(leftChess[1] == 0) win(PlayerColor.BLUE);
         }
     }
 }
