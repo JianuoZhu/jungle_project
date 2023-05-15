@@ -174,13 +174,13 @@ public class GameController implements GameListener,Serializable {
 
 
 
-// restart the game
+    // restart the game
     public void Restart(){
         model.RestartPieces();//right;
         view.initiateGridComponents();//right;
         view.initiateChessComponent(model);
-        view.paintComponents(view.getGraphics());
         currentPlayer=PlayerColor.BLUE;
+        view.paintComponents(view.getGraphics());
     }//easy init to be finished;
 
     // click an empty cell
