@@ -15,6 +15,7 @@ public class ChessboardPoint implements Serializable {
         this.col = col;
     }
 
+
     public int getRow() {
         return row;
     }

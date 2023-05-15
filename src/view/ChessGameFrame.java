@@ -29,12 +29,12 @@ public class ChessGameFrame extends JFrame implements Serializable {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //设置程序关闭按键，如果点击右上方的叉就游戏全部关闭了
         setLayout(null);
 
-
         addChessboard();
         //addLabel();
         addRestartButton();
         addSaveButton();
         addLoadButton();
+        addAImoveButton();
     }
 
     public ChessboardComponent getChessboardComponent() {
@@ -53,6 +53,7 @@ public class ChessGameFrame extends JFrame implements Serializable {
         chessboardComponent.setLocation(HEIGTH / 5, HEIGTH / 10);
         add(chessboardComponent);
     }
+
 
     /**
      * 在游戏面板中添加标签
@@ -107,6 +108,17 @@ public class ChessGameFrame extends JFrame implements Serializable {
         add(button);
         button.addActionListener(e ->
             chessboardComponent.getGameController().Restart()
+        );
+
+    }
+    private void addAImoveButton() {
+        JButton button = new JButton("AImove");
+        button.setLocation(HEIGTH, HEIGTH / 10 +420);
+        button.setSize(200, 60);
+        button.setFont(new Font("Rockwell", Font.BOLD, 20));
+        add(button);
+        button.addActionListener(e ->
+                chessboardComponent.getGameController().EasyAImove()
         );
 
     }
