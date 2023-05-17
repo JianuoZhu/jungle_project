@@ -49,6 +49,15 @@ public class Chessboard implements Serializable {
     public boolean[][] getTrapRemoved() {
         return trapRemoved;
     }
+    public void  RestartTrap(){
+        for(int i=0;i<Constant.CHESSBOARD_ROW_SIZE.getNum();i++){
+            for (int j=0;j<Constant.CHESSBOARD_COL_SIZE.getNum();j++){
+                trapUsed[i][j]=false;
+                trapRemoved[i][j]=false;
+            }
+
+        }
+    }
 
     public boolean[][] getTrapUsed() {
         return trapUsed;

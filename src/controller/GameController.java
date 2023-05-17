@@ -10,6 +10,7 @@ import view.*;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -79,6 +80,7 @@ public class GameController implements GameListener,Serializable {
         initialize();
         view.initiateChessComponent(model);
         view.repaint();
+        saveChessBoardStep();
     }
 
     private void initialize() {
@@ -96,6 +98,7 @@ public class GameController implements GameListener,Serializable {
         gameFrame.remove(ChessGameFrame.current_turn_JLabel);
         ChessGameFrame.current_turn_JLabel = gameFrame.addCurrentTurns();
         gameFrame.repaint();
+        saveChessBoardStep();
     }
 
     private void win(PlayerColor winnerColor) {
@@ -116,8 +119,27 @@ public class GameController implements GameListener,Serializable {
     }
 //saving and loading
     int [][] ChessArray=new int[9][8];
+    ArrayList<Integer> ChessBoardArray=new ArrayList<>();//可变数组用来做媒介
+    public void save(){//将当前的一维可变数组转换成二维数组并保存；
+        int m=0;
+        m=ChessBoardArray.size()/8;
+        int[][] saveChessArray=new int[m][8];
+        int count=0;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<8;j++){
+                saveChessArray[i][j]=ChessBoardArray.get(count);
+                count++;
+            }
+        }
+        saveArray(saveChessArray);
 
-    public  void save() {
+    }
+
+    public void removeArrayList(){
+        ChessBoardArray.clear();
+    }
+
+    public  void saveChessBoardStep() {//每走一步将棋盘存入数组
         for(int i=0;i<9;i++){
             for(int j=0;j<8;j++){
                 ChessArray[i][j]=0;
@@ -171,7 +193,13 @@ public class GameController implements GameListener,Serializable {
         if(currentPlayer.equals(PlayerColor.BLUE)){
             ChessArray[0][7]=1;
         }else ChessArray[0][7]=2;//set current player as number
-        saveArray(ChessArray);
+
+        for(int j=0;j<9;j++) {//j代表行数
+            for( int i=0;i<8;i++){//i为列数
+                ChessBoardArray.add(ChessArray[j][i]);
+            }
+        }//将当前棋盘的二维数组存入一个可变一维数组；
+
     }//set array according to chesspieces and save it
     public static void saveArray(int[][] array){
         //1.创建字符输出流
@@ -309,31 +337,7 @@ public class GameController implements GameListener,Serializable {
     int []diry= {0,1,-1,0};//方向数组
 
 //玩家vs电脑
-    public void RedEasyAImove(){//turn 为偶数时AI操作
-         /*label1:   for (int i = 0; i < CHESSBOARD_ROW_SIZE.getNum(); i++) {
-                for (int j = 0; j < CHESSBOARD_COL_SIZE.getNum(); j++) {
-                    if(model.getGrid()[i][j].getPiece()!=null&&model.getGrid()[i][j].getPiece().getOwner()==PlayerColor.RED){
-                        for (int k=0;k<4;k++){
-                            int m=i+dirx[k];
-                            int n=j+diry[k];
-                            if(m>0&&n>0&&m<9&&n<7){
-                                if(model.isValidMove(new ChessboardPoint(i,j),new ChessboardPoint(m,n), model.isWaterCell(new ChessboardPoint(m,n)))){
-                                    model.moveChessPiece(new ChessboardPoint(i,j),new ChessboardPoint(m,n));
-                                    view.setChessComponentAtGrid(new ChessboardPoint(m,n),view.getChessComponentAtGrid(new ChessboardPoint(i,j)));
-                                    view.removeChessComponentAtGrid(new ChessboardPoint(i,j));
-                                    break label1;
-
-                                }
-                            }
-                        }
-
-
-
-
-                    }
-
-                }
-            }*/
+    public void RedEasyAImove(){
         ArrayList<ChessboardPoint> availableChessPosition = new ArrayList<ChessboardPoint>();
         for(int i=0; i < CHESSBOARD_ROW_SIZE.getNum(); i++){
             for(int j=0; j < CHESSBOARD_COL_SIZE.getNum(); j++){
@@ -411,6 +415,9 @@ public class GameController implements GameListener,Serializable {
         ChessGameFrame.current_currentPlayer_JLabel = gameFrame.addCurrentPlayers();
         gameFrame.remove(ChessGameFrame.current_turn_JLabel);
         ChessGameFrame.current_turn_JLabel = gameFrame.addCurrentTurns();
+        model.RestartTrap();
+        removeArrayList();
+        saveChessBoardStep();
         gameFrame.repaint();
     }//easy init to be finished;
 
