@@ -2,6 +2,7 @@ package view;
 
 import controller.GameController;
 import model.Chessboard;
+import model.PlayerColor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -86,6 +87,7 @@ public class BeginGameFrame extends JFrame {//begin the game
                                 (ChessGameFrame.getChessboardComponent(),new Chessboard(),ChessGameFrame);
                         ChessGameFrame.current_currentPlayer_JLabel = ChessGameFrame.addCurrentPlayers();
                         ChessGameFrame.current_turn_JLabel = ChessGameFrame.addCurrentTurns();
+                        ChessGameFrame.AIColor = PlayerColor.RED;
                         ChessGameFrame.setVisible(true);
                         this.dispose();
                     });
