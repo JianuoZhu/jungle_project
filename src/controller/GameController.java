@@ -8,6 +8,8 @@ import model.Chessboard;
 import model.ChessboardPoint;
 import view.*;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,8 +22,7 @@ import static model.Constant.CHESSBOARD_COL_SIZE;
 import static model.Constant.CHESSBOARD_ROW_SIZE;
 
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.*;
 //>>>>>>> origin/JnZ
 
 /**
@@ -194,6 +195,8 @@ public class GameController implements GameListener,Serializable {
             ChessArray[0][7]=1;
         }else ChessArray[0][7]=2;//set current player as number
 
+        ChessArray[1][7]=turn;
+
         for(int j=0;j<9;j++) {//j代表行数
             for( int i=0;i<8;i++){//i为列数
                 ChessBoardArray.add(ChessArray[j][i]);
@@ -238,104 +241,137 @@ public class GameController implements GameListener,Serializable {
             }
         }
     }
-    public static int[][] readArray() {
+    public File ChooseFile(){
+        JFileChooser fileChooser=new JFileChooser();//
+        fileChooser.setCurrentDirectory(new File("."));
+        int returnVal = fileChooser.showOpenDialog(null);
+        File file=null;
+        if (returnVal == JFileChooser.APPROVE_OPTION){
+            file=fileChooser.getSelectedFile();
+        }
+        return file;
+
+    }
+
+
+    public int[][] readArray() throws FileNotFoundException {
         //1.声明一个字符输入流
         FileReader reader = null;
         //2.声明一个字符输入缓冲流
         BufferedReader readerBuf = null;
         //3.声明一个二维数组
         int[][] array = null;
-        try {
-            //4.指定reader的读取路径
-            reader = new FileReader("Array.txt");
-            //5.通过BufferedReader包装字符输入流
-            readerBuf = new BufferedReader(reader);
-            //6.创建一个集合，用来存放读取的文件的数据
-            List<String> strList = new ArrayList<>();
-            //7.用来存放一行的数据
-            String lineStr;
-            //8.逐行读取txt文件中的内容
-            while ((lineStr = readerBuf.readLine()) != null) {
-                //9.把读取的行添加到list中
-                strList.add(lineStr);
-            }
-            //10.获取文件有多少行
-            int lineNum = strList.size();
-            //11.获取数组有多少列
-            String s = strList.get(0);
-            int columnNum = s.split("\\,").length;
-            //12.根据文件行数创建对应的数组
-            array = new int[strList.size()][columnNum];
-            //13.记录输出当前行
-            int count = 0;
-            //14.循环遍历集合，将集合中的数据放入数组中
-            for (String str : strList) {
-                //15.将读取的str按照","分割，用字符串数组来接收
-                String[] strs = str.split("\\,");
-                for (int i = 0; i < columnNum; i++) {
-                    array[count][i] = Integer.valueOf(strs[i]);
+            try {
+                //4.指定reader的读取路径
+                reader = new FileReader(ChooseFile());
+                //5.通过BufferedReader包装字符输入流
+                readerBuf = new BufferedReader(reader);
+                //6.创建一个集合，用来存放读取的文件的数据
+                List<String> strList = new ArrayList<>();
+                //7.用来存放一行的数据
+                String lineStr;
+                //8.逐行读取txt文件中的内容
+                while ((lineStr = readerBuf.readLine()) != null) {
+                    //9.把读取的行添加到list中
+                    strList.add(lineStr);
                 }
-                //16.将行数 + 1
-                count++;
-            }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } finally {
-            //17.关闭字符输入流
-            try {
-                if (reader != null)
-                    reader.close();
+                //10.获取文件有多少行
+                int lineNum = strList.size();
+                //11.获取数组有多少列
+                String s = strList.get(0);
+                int columnNum = s.split("\\,").length;
+                //12.根据文件行数创建对应的数组
+                array = new int[strList.size()][columnNum];
+                //13.记录输出当前行
+                int count = 0;
+                //14.循环遍历集合，将集合中的数据放入数组中
+                for (String str : strList) {
+                    //15.将读取的str按照","分割，用字符串数组来接收
+                    String[] strs = str.split("\\,");
+                    for (int i = 0; i < columnNum; i++) {
+                        array[count][i] = Integer.valueOf(strs[i]);
+                    }
+                    //16.将行数 + 1
+                    count++;
+                }
+
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
+            } finally {
+                //17.关闭字符输入流
+                try {
+                    if (reader != null)
+                        reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                //18.关闭字符输入缓冲流
+                try {
+                    if (readerBuf != null)
+                        readerBuf.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-            //18.关闭字符输入缓冲流
-            try {
-                if (readerBuf != null)
-                    readerBuf.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+
+
         return array;
+
     }
-    public  void  load() {//how to translate array to chessboard
+
+
+    public  void  load() throws FileNotFoundException {
+        //how to translate array to chessboard
         view.initiateGridComponents();
         model.removeAllpieces();
         view.removeChessComponent(model);
+        int[][] readChessBoardNowArray=new int[9][8];
+        int k=0;
+        for(int m=0;m<9;m++){
+            for(int n=0;n<8;n++){
+                readChessBoardNowArray[m][n]=readArray()[readArray().length-9+m][n];
+                //用来记录要load的棋盘
+            }
+        }
 
         for (int i = 0; i < CHESSBOARD_ROW_SIZE.getNum(); i++) {
             for (int j = 0; j < CHESSBOARD_COL_SIZE.getNum(); j++) {
-                int a = readArray()[i][j] % 100;
+                int a = readChessBoardNowArray[i][j] % 100;
                 if (a / 10 == 2) {//owner is red
                     if(a%10!=0){
                         model.setGridRed(i, j, a % 10, a % 10);
-                    }else {model.setGridBule(i,j,readArray()[i][j]/100,0);}
+                    }else {model.setGridBule(i,j,readChessBoardNowArray[i][j]/100,0);}
 
                 }
                 if (a / 10 == 1) {
                     if(a%10!=0){
                         model.setGridBule(i, j, a % 10, a % 10);
-                    }else {model.setGridBule(i,j,readArray()[i][j]/100,0);}
+                    }else {model.setGridBule(i,j,readChessBoardNowArray[i][j]/100,0);}
 
                 }
             }
-            if (readArray()[0][7] == 1) {
+            if (readChessBoardNowArray[0][7] == 1) {
                 currentPlayer = PlayerColor.BLUE;
             }
-            if (readArray()[0][7] == 2) {
+            if (readChessBoardNowArray[0][7] == 2) {
                 currentPlayer = PlayerColor.RED;
             }
-            view.initiateChessComponent(model);
-            view.paintComponents(view.getGraphics());
+
+            turn=readChessBoardNowArray[1][7];
+
 
         }
+        view.initiateChessComponent(model);
+        view.paintComponents(view.getGraphics());
+        gameFrame.remove(ChessGameFrame.current_currentPlayer_JLabel);
+        ChessGameFrame.current_currentPlayer_JLabel = gameFrame.addCurrentPlayers();
+        gameFrame.remove(ChessGameFrame.current_turn_JLabel);
+        ChessGameFrame.current_turn_JLabel = gameFrame.addCurrentTurns();
+
+
     }
-
-        int []dirx={1,0,0,-1};
-    int []diry= {0,1,-1,0};//方向数组
-
 //玩家vs电脑
     public void RedEasyAImove(){
         ArrayList<ChessboardPoint> availableChessPosition = new ArrayList<ChessboardPoint>();
@@ -415,7 +451,7 @@ public class GameController implements GameListener,Serializable {
         ChessGameFrame.current_currentPlayer_JLabel = gameFrame.addCurrentPlayers();
         gameFrame.remove(ChessGameFrame.current_turn_JLabel);
         ChessGameFrame.current_turn_JLabel = gameFrame.addCurrentTurns();
-        model.RestartTrap();
+        model.RestartTrap();//
         removeArrayList();
         saveChessBoardStep();
         gameFrame.repaint();

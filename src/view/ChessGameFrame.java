@@ -4,6 +4,7 @@ import model.PlayerColor;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileNotFoundException;
 import java.io.Serializable;
 
 /**
@@ -88,6 +89,7 @@ public class ChessGameFrame extends JFrame implements Serializable {
         add(statusLabel);
         return statusLabel;
     }
+
     /**
      * 在游戏面板中增加一个按钮，如果按下的话就会显示Hello, world!
      */
@@ -139,7 +141,13 @@ public class ChessGameFrame extends JFrame implements Serializable {
             button.setSize(200, 60);
             button.setFont(new Font("Rockwell", Font.BOLD, 20));
             add(button);
-            button.addActionListener(e -> chessboardComponent.getGameController().load());
+            button.addActionListener(e -> {
+                try {
+                    chessboardComponent.getGameController().load();
+                } catch (FileNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
 
         }
 
