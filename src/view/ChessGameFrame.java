@@ -13,7 +13,7 @@ public class ChessGameFrame extends JFrame implements Serializable {
     //    public final Dimension FRAME_SIZE ;
     private final int WIDTH;
     private final int HEIGTH;
-
+    public PlayerColor AIColor = null;
     public static JLabel current_currentPlayer_JLabel;
     public static JLabel current_turn_JLabel;
     private final int ONE_CHESS_SIZE;
@@ -118,7 +118,13 @@ public class ChessGameFrame extends JFrame implements Serializable {
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
         button.addActionListener(e ->
-                chessboardComponent.getGameController().RedEasyAImove()
+                {
+                    try {
+                        chessboardComponent.getGameController().AIMove();
+                    } catch (InterruptedException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
         );
 
     }

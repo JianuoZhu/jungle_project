@@ -15,6 +15,8 @@ import java.util.Random;
 
 import java.awt.*;
 import java.io.File;
+import java.util.concurrent.TimeUnit;
+
 import static model.Constant.CHESSBOARD_COL_SIZE;
 import static model.Constant.CHESSBOARD_ROW_SIZE;
 
@@ -89,13 +91,18 @@ public class GameController implements GameListener,Serializable {
         }
     }
     // after a valid move swap the player
-    private void swapColor() {
+    private void swapColor() throws InterruptedException {
+        if(currentPlayer == gameFrame.AIColor) TimeUnit.SECONDS.sleep(1);
         currentPlayer = currentPlayer == PlayerColor.BLUE ? PlayerColor.RED : PlayerColor.BLUE;
         gameFrame.remove(ChessGameFrame.current_currentPlayer_JLabel);
         ChessGameFrame.current_currentPlayer_JLabel = gameFrame.addCurrentPlayers();
         gameFrame.remove(ChessGameFrame.current_turn_JLabel);
         ChessGameFrame.current_turn_JLabel = gameFrame.addCurrentTurns();
         gameFrame.repaint();
+        view.paintComponents(view.getGraphics());
+        if(currentPlayer == gameFrame.AIColor){
+            AIMove();
+        }
     }
 
     private void win(PlayerColor winnerColor) {
@@ -309,7 +316,11 @@ public class GameController implements GameListener,Serializable {
     int []diry= {0,1,-1,0};//方向数组
 
 //玩家vs电脑
-    public void RedEasyAImove(){//turn 为偶数时AI操作
+
+    public void AIMove() throws InterruptedException {
+        MediumAIMove(currentPlayer);
+    }
+    public void MediumAIMove(PlayerColor playerColor) throws InterruptedException {//AI操作
          /*label1:   for (int i = 0; i < CHESSBOARD_ROW_SIZE.getNum(); i++) {
                 for (int j = 0; j < CHESSBOARD_COL_SIZE.getNum(); j++) {
                     if(model.getGrid()[i][j].getPiece()!=null&&model.getGrid()[i][j].getPiece().getOwner()==PlayerColor.RED){
@@ -338,7 +349,131 @@ public class GameController implements GameListener,Serializable {
         for(int i=0; i < CHESSBOARD_ROW_SIZE.getNum(); i++){
             for(int j=0; j < CHESSBOARD_COL_SIZE.getNum(); j++){
                 ChessboardPoint point = new ChessboardPoint(i, j);
-                if(model.getGridAt(point).getPiece() != null && model.getChessPieceOwner(point) == PlayerColor.RED){
+                if(model.getGridAt(point).getPiece() != null && model.getChessPieceOwner(point) == playerColor){
+                    availableChessPosition.add(point);
+                }
+            }
+        }
+        boolean eatable = false;
+
+        int p=0, x=0, y=0;
+        ChessboardPoint src = null;
+        boolean flag = false;
+        ChessboardPoint dest = null;
+
+        Random random = new Random();
+        for(int i=0; i<availableChessPosition.size(); i++){
+            p = i;
+            x = availableChessPosition.get(p).getRow();
+            y = availableChessPosition.get(p).getCol();
+            src = availableChessPosition.get(p);
+            dest = new ChessboardPoint(x, y);
+            for (int k = 0; k < 4; k++) {
+                int px = x + dirx[k];
+                int py = y + diry[k];
+                dest = new ChessboardPoint(px, py);
+                if (dest.getRow() < 0 || dest.getRow() >= CHESSBOARD_ROW_SIZE.getNum() || dest.getCol() < 0 || dest.getCol() >= CHESSBOARD_COL_SIZE.getNum())
+                    continue;
+                if (model.getGridAt(dest).getPiece() == null) continue;
+                if (model.getChessPieceOwner(dest) == playerColor) continue;
+                if (model.isValidCapture(src, dest)) {
+                    eatable = true;
+                    break;
+                }
+            }
+            if(eatable) break;
+        }
+        if(!eatable){
+            p = random.nextInt(availableChessPosition.size());
+            x = availableChessPosition.get(p).getRow();
+            y = availableChessPosition.get(p).getCol();
+            src = availableChessPosition.get(p);
+            if (currentPlayer == PlayerColor.RED) dest = new ChessboardPoint(x + 1, y);
+            else dest = new ChessboardPoint(x - 1, y);
+        }
+        while(!flag){
+            if(dest.getRow() < 0 || dest.getRow() >= CHESSBOARD_ROW_SIZE.getNum() || dest.getCol() < 0 || dest.getCol() >= CHESSBOARD_COL_SIZE.getNum()) {
+                dest = new ChessboardPoint(x+random.nextInt(3)-1,y+ random.nextInt(3)-1);
+                continue;
+            }
+            if(model.getGridAt(dest).getPiece() == null){
+                if(model.isValidMove(src, dest, view.isWater(dest))){
+                    flag = true;
+                    model.moveChessPiece(src, dest);
+                    view.setChessComponentAtGrid(dest, view.removeChessComponentAtGrid(src));
+                    turn++;
+                    System.out.println(turn);
+                    swapColor();
+                    view.repaint();
+                    if(model.getTrapUsed()[dest.getRow()][dest.getCol()] && !model.getTrapRemoved()[dest.getRow()][dest.getCol()]){
+                        view.getGridComponents()[dest.getRow()][dest.getCol()].setImage(null);
+                        //view.getGridComponents()[point.getRow()][point.getCol()].add(new CellComponent(Color.LIGHT_GRAY, view.calculatePoint(point.getRow(), point.getCol()), view.CHESS_SIZE));
+                        model.getTrapRemoved()[dest.getRow()][dest.getCol()] = true;
+                    }
+                    if(model.isHome(dest)){
+                        if((dest.getRow() < 5 && !(model.getChessPieceOwner(dest) == playerColor))
+                                || (dest.getRow() > 5 && model.getChessPieceOwner(dest) == playerColor)){
+                            win(model.getChessPieceOwner(dest));
+                        }
+                    }
+                }
+                dest = new ChessboardPoint(x+random.nextInt(3)-1,y+ random.nextInt(3)-1);
+            }
+            else{
+                if(model.getChessPieceOwner(dest) == playerColor) {
+                    dest = new ChessboardPoint(x+random.nextInt(3)-1,y+ random.nextInt(3)-1);
+                    continue;
+                }
+                if(model.isValidCapture(src, dest)){
+                    flag = true;
+                    model.captureChessPiece(src, dest);
+                    view.setChessComponentAtGrid(dest, view.removeChessComponentAtGrid(src));
+                    turn++;
+                    minusChess();
+                    swapColor();
+                    view.repaint();
+
+                    if(model.getTrapUsed()[dest.getRow()][dest.getCol()] && !model.getTrapRemoved()[dest.getRow()][dest.getCol()]){
+                        view.getGridComponents()[dest.getRow()][dest.getCol()].setImage(null);
+                        //view.getGridComponents()[point.getRow()][point.getCol()].add(new CellComponent(Color.LIGHT_GRAY, view.calculatePoint(point.getRow(), point.getCol()), view.CHESS_SIZE));
+                        model.getTrapRemoved()[dest.getRow()][dest.getCol()] = true;
+                    }
+                }
+            }
+        }
+        view.paintComponents(view.getGraphics());
+
+    }
+    public void EasyAIMove(PlayerColor playerColor) throws InterruptedException {//turn 为偶数时AI操作
+         /*label1:   for (int i = 0; i < CHESSBOARD_ROW_SIZE.getNum(); i++) {
+                for (int j = 0; j < CHESSBOARD_COL_SIZE.getNum(); j++) {
+                    if(model.getGrid()[i][j].getPiece()!=null&&model.getGrid()[i][j].getPiece().getOwner()==PlayerColor.RED){
+                        for (int k=0;k<4;k++){
+                            int m=i+dirx[k];
+                            int n=j+diry[k];
+                            if(m>0&&n>0&&m<9&&n<7){
+                                if(model.isValidMove(new ChessboardPoint(i,j),new ChessboardPoint(m,n), model.isWaterCell(new ChessboardPoint(m,n)))){
+                                    model.moveChessPiece(new ChessboardPoint(i,j),new ChessboardPoint(m,n));
+                                    view.setChessComponentAtGrid(new ChessboardPoint(m,n),view.getChessComponentAtGrid(new ChessboardPoint(i,j)));
+                                    view.removeChessComponentAtGrid(new ChessboardPoint(i,j));
+                                    break label1;
+
+                                }
+                            }
+                        }
+
+
+
+
+                    }
+
+                }
+            }*/
+        ArrayList<ChessboardPoint> availableChessPosition = new ArrayList<ChessboardPoint>();
+        for(int i=0; i < CHESSBOARD_ROW_SIZE.getNum(); i++){
+            for(int j=0; j < CHESSBOARD_COL_SIZE.getNum(); j++){
+                ChessboardPoint point = new ChessboardPoint(i, j);
+                if(model.getGridAt(point).getPiece() != null && model.getChessPieceOwner(point) == playerColor){
                     availableChessPosition.add(point);
                 }
             }
@@ -367,15 +502,15 @@ public class GameController implements GameListener,Serializable {
                         model.getTrapRemoved()[dest.getRow()][dest.getCol()] = true;
                     }
                     if(model.isHome(dest)){
-                        if((dest.getRow() < 5 && model.getChessPieceOwner(dest) == PlayerColor.BLUE)
-                                || (dest.getRow() > 5 && model.getChessPieceOwner(dest) == PlayerColor.RED)){
+                        if((dest.getRow() < 5 && !(model.getChessPieceOwner(dest) == playerColor))
+                                || (dest.getRow() > 5 && model.getChessPieceOwner(dest) == playerColor)){
                             win(model.getChessPieceOwner(dest));
                         }
                     }
                 }
             }
             else{
-                if(model.getChessPieceOwner(dest) == PlayerColor.RED) continue;
+                if(model.getChessPieceOwner(dest) == playerColor) continue;
                 if(model.isValidCapture(src, dest)){
                     flag = true;
                     model.captureChessPiece(src, dest);
@@ -409,7 +544,7 @@ public class GameController implements GameListener,Serializable {
 
     // click an empty cell
     @Override
-    public void onPlayerClickCell(ChessboardPoint point, CellComponent component) {
+    public void onPlayerClickCell(ChessboardPoint point, CellComponent component) throws InterruptedException {
         if (selectedPoint != null && model.isValidMove(selectedPoint, point, view.isWater(point))) {
                 model.moveChessPiece(selectedPoint, point);
                 view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
@@ -444,7 +579,7 @@ public class GameController implements GameListener,Serializable {
 
     // click a cell with a chess
 
-    public void onPlayerClickChessPiece(ChessboardPoint point, ChessComponent component) {
+    public void onPlayerClickChessPiece(ChessboardPoint point, ChessComponent component) throws InterruptedException {
         if (selectedPoint == null) {
             if (model.getChessPieceOwner(point).equals(currentPlayer)) {
                 selectedPoint = point;
