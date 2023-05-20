@@ -196,7 +196,7 @@ public class Chessboard implements Serializable {
         || (point.getRow() == 8 && point.getCol() == 2)
         || (point.getRow() == 8 && point.getCol() == 4)
         || (point.getRow() == 7 && point.getCol() == 3)){
-            if(!trapUsed[point.getRow()][point.getCol()]) return true;
+            return true;
         }
         return false;
     }
@@ -252,13 +252,13 @@ public class Chessboard implements Serializable {
                 getChessPieceAt(dest).setStacked(true);
             }
         }*/
-        if (isTrap(dest)){
+        /*if (isTrap(dest)){
             if((getChessPieceOwner(src) == PlayerColor.BLUE && dest.getRow() < 5)
                     || (getChessPieceOwner(src) == PlayerColor.RED && dest.getRow() > 5)){
                 trapUsed[dest.getRow()][dest.getCol()] = true;
                 getChessPieceAt(src).setRank(0);
             }
-        }
+        }*/
         removeChessPiece(dest);
         setChessPiece(dest, removeChessPiece(src));
     }
@@ -317,6 +317,7 @@ public class Chessboard implements Serializable {
 //>>>>>>> origin/JnZ
     public boolean isValidCapture(ChessboardPoint src, ChessboardPoint dest) {
         // TODO:Fix this method
+        if(getGridAt(src).getPiece() == null || getGridAt(dest).getPiece() == null) return false;
         if(getChessPieceOwner(src) == getChessPieceOwner(dest)) return false;
         if(!getChessPieceAt(src).canCapture(getChessPieceAt(dest)) || isWaterCell(dest) || isWaterCell(src)) return false;
         if(calculateDistance(src, dest) == 1)

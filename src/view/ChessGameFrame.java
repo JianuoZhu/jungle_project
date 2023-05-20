@@ -22,6 +22,7 @@ public class ChessGameFrame extends JFrame implements Serializable {
     public PlayerColor AIColor = null;
     public static JLabel current_currentPlayer_JLabel;
     public static JLabel current_turn_JLabel;
+    public static JLabel current_timer_JLabel;
     private final int ONE_CHESS_SIZE;
     private JButton RestartBotton;
     private ChessboardComponent chessboardComponent;
@@ -108,7 +109,14 @@ public class ChessGameFrame extends JFrame implements Serializable {
         add(statusLabel);
         return statusLabel;
     }
+    public JLabel addCurrentTimer() {
+        JLabel timer = chessboardComponent.getGameController().setTimer();
 
+        timer.setLocation(HEIGTH, HEIGTH / 6);
+        timer.setSize(300, 60);
+        add(timer);
+        return timer;
+    }
     public JLabel addBackGround(){
         String currentDir = System.getProperty("user.dir");
         String ImagePath=null;

@@ -67,6 +67,7 @@ public class BeginGameFrame extends JFrame {//begin the game
                         (ChessGameFrame.getChessboardComponent(),new Chessboard(),ChessGameFrame);
                 ChessGameFrame.current_currentPlayer_JLabel = ChessGameFrame.addCurrentPlayers();
                 ChessGameFrame.current_turn_JLabel = ChessGameFrame.addCurrentTurns();
+                ChessGameFrame.current_timer_JLabel = ChessGameFrame.addCurrentTimer();
                 ChessGameFrame.setVisible(true);
                 this.dispose();
                      });

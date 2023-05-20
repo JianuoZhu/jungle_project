@@ -60,7 +60,7 @@ public class GameController implements GameListener,Serializable {
     }
     String playerColor = null;
 
-
+    final int[] _time = {20};
     public  PlayerColor getCurrentPlayer() {
         return currentPlayer;
     }
@@ -101,6 +101,9 @@ public class GameController implements GameListener,Serializable {
         ChessGameFrame.current_currentPlayer_JLabel = gameFrame.addCurrentPlayers();
         gameFrame.remove(ChessGameFrame.current_turn_JLabel);
         ChessGameFrame.current_turn_JLabel = gameFrame.addCurrentTurns();
+        //gameFrame.remove(ChessGameFrame.current_timer_JLabel);
+        //ChessGameFrame.current_timer_JLabel = gameFrame.addCurrentTimer();
+        _time[0] = 20;
         gameFrame.repaint();
         saveChessBoardStep();
         view.paintComponents(view.getGraphics());
@@ -124,6 +127,32 @@ public class GameController implements GameListener,Serializable {
 
         // Set the frame to be visible
         frame.setVisible(true);
+    }
+    public JLabel setTimer(){
+        JLabel timerLabel = new JLabel();
+        timerLabel.setForeground(Color.YELLOW);
+        Timer timer = null;
+        Timer finalTimer = timer;
+        ActionListener timerListener = new ActionListener() {
+            @Override
+            // Update the label text with the current time
+            public void actionPerformed(ActionEvent e) {
+                timerLabel.setText("Timer: " + _time[0]);
+                timerLabel.setForeground(Color.YELLOW);
+                timerLabel.setFont(new Font("Rockwell", Font.BOLD, 28));
+                _time[0]--;
+                if (_time[0] == 0) {
+                    try {
+                        swapColor();
+                    } catch (InterruptedException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            }
+        };
+        timer = new Timer(1000, timerListener);
+        timer.start();
+        return timerLabel;
     }
 //saving and loading
     int [][] ChessArray=new int[9][8];
