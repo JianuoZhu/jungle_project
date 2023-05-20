@@ -8,6 +8,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * 这个类表示游戏过程中的整个游戏界面，是一切的载体
@@ -15,6 +17,7 @@ import java.io.Serializable;
 public class ChessGameFrame extends JFrame implements Serializable {
     //    public final Dimension FRAME_SIZE ;
     private final int WIDTH;
+    public int backgroundnumber =0;
     private final int HEIGTH;
     public PlayerColor AIColor = null;
     public static JLabel current_currentPlayer_JLabel;
@@ -41,6 +44,7 @@ public class ChessGameFrame extends JFrame implements Serializable {
         addAImoveButton();
         addUndoButton();
         addBackGround();
+
     }
 
     public ChessboardComponent getChessboardComponent() {
@@ -50,6 +54,16 @@ public class ChessGameFrame extends JFrame implements Serializable {
     public void setChessboardComponent(ChessboardComponent chessboardComponent) {
         this.chessboardComponent = chessboardComponent;
     }
+    public void changeBackgroundnumber(){
+        if(backgroundnumber==0){
+            backgroundnumber=1;
+        }
+        if(backgroundnumber==1){
+            backgroundnumber=0;
+        }
+
+    }
+
 
     /**
      * 在游戏面板中添加棋盘
@@ -97,8 +111,8 @@ public class ChessGameFrame extends JFrame implements Serializable {
 
     public JLabel addBackGround(){
         String currentDir = System.getProperty("user.dir");
-        String ImagePath;
-        ImagePath = currentDir + "\\resource\\bk1.png";
+        String ImagePath=null;
+            ImagePath = currentDir + "\\resource\\bk1.png";
         // 背景图片
         ImageIcon background = new ImageIcon(ImagePath);
         // 把背景图片显示在一个标签里面

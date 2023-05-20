@@ -36,13 +36,18 @@ public class BeginGameFrame extends JFrame {//begin the game
 
     private JLabel addBackGround(){
         String currentDir = System.getProperty("user.dir");
-        String ImagePath;
+        String ImagePath=null;
         ImagePath = currentDir + "\\resource\\bk.png";
         // 背景图片
         ImageIcon background = new ImageIcon(ImagePath);
         // 把背景图片显示在一个标签里面
-        JLabel label = new JLabel(background);
-        label.setBounds(-33,-45,600,800);
+        background.setImage(background.getImage().getScaledInstance(530, 700,Image.SCALE_DEFAULT ));
+        // 把背景图片显示在一个标签里面
+        JLabel label = new JLabel();
+        label.setSize(530,700);
+        label.setIcon(background);
+        label.setBounds(0,0,530,700);
+        label.setPreferredSize(new Dimension(530, 700));
         this.getLayeredPane().add(label, new Integer(Integer.MIN_VALUE));
         ((JPanel)this.getContentPane()).setOpaque(false); //设置透明
         return label;
