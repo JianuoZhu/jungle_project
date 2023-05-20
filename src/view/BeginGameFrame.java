@@ -6,9 +6,11 @@ import model.PlayerColor;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
-public class BeginGameFrame extends JFrame {//begin the game
+public class BeginGameFrame extends JFrame implements MouseListener {//begin the game
     private  int WIDTH=0;
     private  int HEIGHT=0;
     private final int BUTTON_WIDTH = 200;
@@ -86,19 +88,27 @@ public class BeginGameFrame extends JFrame {//begin the game
         beginButton.addActionListener(e ->{
                     SwingUtilities.invokeLater(() -> {
                         dispose();
-                        ChessGameFrame ChessGameFrame = new ChessGameFrame(1100, 810);
-                        GameController gameController = new GameController
-                                (ChessGameFrame.getChessboardComponent(),new Chessboard(),ChessGameFrame);
-                        ChessGameFrame.current_currentPlayer_JLabel = ChessGameFrame.addCurrentPlayers();
-                        ChessGameFrame.current_turn_JLabel = ChessGameFrame.addCurrentTurns();
-                        ChessGameFrame.AIColor = PlayerColor.RED;
-                        ChessGameFrame.setVisible(true);
+                        SettingFrame settingFrame=new SettingFrame(500,600);
+                        settingFrame.setVisible(true);
                         this.dispose();
                     });
                 }
 
         );
+
     }
+//    {SwingUtilities.invokeLater(() -> {
+//                        dispose();
+//                        ChessGameFrame ChessGameFrame = new ChessGameFrame(1100, 810);
+//                        GameController gameController = new GameController
+//                                (ChessGameFrame.getChessboardComponent(),new Chessboard(),ChessGameFrame);
+//                        ChessGameFrame.current_currentPlayer_JLabel = ChessGameFrame.addCurrentPlayers();
+//                        ChessGameFrame.current_turn_JLabel = ChessGameFrame.addCurrentTurns();
+//                        ChessGameFrame.AIColor = PlayerColor.RED;
+//                        ChessGameFrame.setVisible(true);
+//                        this.dispose();
+//                    });
+//                }
     private void addrankingListButton() {
         JButton beginButton = new JButton("排行榜");
 
@@ -120,4 +130,34 @@ public class BeginGameFrame extends JFrame {//begin the game
     }
 
 
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if (e.getSource().equals("玩家vs电脑")){
+            dispose();
+            new SettingFrame(400, 200);
+
+        }
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
 }
