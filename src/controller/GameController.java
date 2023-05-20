@@ -120,15 +120,16 @@ public class GameController implements GameListener,Serializable {
     }
 
     private void win(PlayerColor winnerColor) {
-        JFrame frame = new JFrame("Pop-up Window");
+        JFrame frame = new JFrame("Winning!");
 
         // Set the size and location of the frame
         frame.setSize(300, 200);
         frame.setLocationRelativeTo(null); // Center the frame on the screen
 
         // Create a new JLabel object with some text
-        JLabel label = new JLabel("Hello, world!");
-
+        JLabel label = new JLabel("Winner:"+winnerColor);
+        label.setLocation(150, 100);
+        label.setFont(new Font("Rockwell", Font.BOLD, 40));
         // Add the label to the frame's content pane
         frame.getContentPane().add(label);
 
@@ -138,8 +139,8 @@ public class GameController implements GameListener,Serializable {
     public JLabel setTimer(){
         JLabel timerLabel = new JLabel();
         timerLabel.setForeground(Color.YELLOW);
-        Timer timer = null;
-        Timer finalTimer = timer;
+        javax.swing.Timer timer = null;
+        javax.swing.Timer finalTimer = timer;
         ActionListener timerListener = new ActionListener() {
             @Override
             // Update the label text with the current time
@@ -157,7 +158,7 @@ public class GameController implements GameListener,Serializable {
                 }
             }
         };
-        timer = new Timer(1000, timerListener);
+        timer = new javax.swing.Timer(1000, timerListener);
         timer.start();
         return timerLabel;
     }
@@ -635,10 +636,10 @@ public class GameController implements GameListener,Serializable {
             ChessGameFrame.current_currentPlayer_JLabel = gameFrame.addCurrentPlayers();
             gameFrame.remove(ChessGameFrame.current_turn_JLabel);
             ChessGameFrame.current_turn_JLabel = gameFrame.addCurrentTurns();
-            gameFrame.repaint();
+            gameFrame.paint(gameFrame.getGraphics());
             p=p-9;
 
-            Thread.currentThread().sleep(100);
+            Thread.currentThread().sleep(1000);
 
 
         }
