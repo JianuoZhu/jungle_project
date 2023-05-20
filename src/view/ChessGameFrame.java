@@ -44,7 +44,7 @@ public class ChessGameFrame extends JFrame implements Serializable {
         addAImoveButton();
         addUndoButton();
         addBackGround();
-        addChangeAId();
+        addReplayButton();
 
     }
 
@@ -141,18 +141,6 @@ public class ChessGameFrame extends JFrame implements Serializable {
 //        button.setFont(new Font("Rockwell", Font.BOLD, 20));
 //        add(button);
 //    }
-    public void addChangeAId(){
-
-        JButton button = new JButton("更改AI难度");
-        button.setLocation(HEIGTH, HEIGTH / 10 +620);
-        button.setSize(200, 60);
-        button.setFont(new Font("微软雅黑", Font.BOLD, 20));
-        add(button);
-        button.addActionListener(e ->
-                chessboardComponent.getGameController().ChangeAIdifficulty()
-        );
-    }
-
     private void addRestartButton() {
         JButton button = new JButton("Restart");
         button.setLocation(HEIGTH, HEIGTH / 10 +220);
@@ -162,6 +150,27 @@ public class ChessGameFrame extends JFrame implements Serializable {
         button.addActionListener(e ->
             chessboardComponent.getGameController().Restart()
         );
+
+    }
+    private void addReplayButton() {
+        JButton button = new JButton("棋局回放");
+        button.setLocation(HEIGTH, HEIGTH / 10 +620);
+        button.setSize(200, 60);
+        button.setFont(new Font("微软雅黑", Font.BOLD, 20));
+        add(button);
+        button.addActionListener(e ->
+        {
+            try {
+                File selectedFile = chessboardComponent.getGameController().chooseFile();
+                if (chessboardComponent.getGameController().CheckError(selectedFile)){
+                    chessboardComponent.getGameController().ChessGameReplay(selectedFile);
+                }
+            } catch (FileNotFoundException ex) {
+                throw new RuntimeException(ex);
+            } catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+        } );
 
     }
 

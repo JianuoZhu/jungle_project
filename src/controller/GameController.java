@@ -49,6 +49,15 @@ public class GameController implements GameListener,Serializable {
     private ChessGameFrame gameFrame=null;
 
     private int leftChess[] = new int[2];
+
+    public int[] getLeftChess() {
+        return leftChess;
+    }
+
+    public void setLeftChess(int[] leftChess) {
+        this.leftChess = leftChess;
+    }
+
     public Chessboard getModel() {
         return model;
     }
@@ -203,6 +212,8 @@ public class GameController implements GameListener,Serializable {
         ChessArray[1][7]=turn;
         ChessArray[2][7]=7;
         ChessArray[3][7]=9;
+        ChessArray[4][7]=getLeftChess()[0];
+        ChessArray[5][7]=getLeftChess()[1];
 
         for(int j=0;j<9;j++) {//j代表行数
             for( int i=0;i<8;i++){//i为列数
@@ -506,6 +517,7 @@ public class GameController implements GameListener,Serializable {
             }
 
             turn=readChessBoardNowArray[1][7];
+            setLeftChess(new int[]{readChessBoardNowArray[4][7], readChessBoardNowArray[5][7]});
 
 
         }
@@ -538,6 +550,73 @@ public class GameController implements GameListener,Serializable {
         }
     }
 
+    public void ChessGameReplay(File selectedFile) throws FileNotFoundException, InterruptedException {//棋局回放
+        ChessBoardArray.clear();
+        for(int j=0;j< readArray(selectedFile).length;j++) {//j代表行数
+            for( int i=0;i<8;i++){//i为列数
+                ChessBoardArray.add(readArray(selectedFile)[j][i]);
+            }
+        }//将当前棋盘的二维数组存入一个可变一维数组；
+
+
+        for(int p=readArray(selectedFile).length-9;p>=0;){
+            view.initiateGridComponents();
+            model.removeAllpieces();
+            view.removeChessComponent(model);
+            int k=0;
+            int[][] readChessBoardNowArray=new int[9][8];
+            for(int m=0;m<9;m++){
+                for(int n=0;n<8;n++){
+                    readChessBoardNowArray[m][n]=readArray(selectedFile)[readArray(selectedFile).length-9+m-p][n];
+                    //用来记录要load的棋盘
+                }
+            }
+
+            for (int i = 0; i < CHESSBOARD_ROW_SIZE.getNum(); i++) {
+                for (int j = 0; j < CHESSBOARD_COL_SIZE.getNum(); j++) {
+                    int a = readChessBoardNowArray[i][j] % 100;
+                    if (a / 10 == 2) {//owner is red
+                        if(a%10!=0){
+                            model.setGridRed(i, j, a % 10, a % 10);
+                        }else {model.setGridBule(i,j,readChessBoardNowArray[i][j]/100,0);}
+
+                    }
+                    if (a / 10 == 1) {
+                        if(a%10!=0){
+                            model.setGridBule(i, j, a % 10, a % 10);
+                        }else {model.setGridBule(i,j,readChessBoardNowArray[i][j]/100,0);}
+
+                    }
+                }
+                if (readChessBoardNowArray[0][7] == 1) {
+                    currentPlayer = PlayerColor.BLUE;
+                }
+                if (readChessBoardNowArray[0][7] == 2) {
+                    currentPlayer = PlayerColor.RED;
+                }
+
+                turn=readChessBoardNowArray[1][7];
+                setLeftChess(new int[]{readChessBoardNowArray[4][7], readChessBoardNowArray[5][7]});
+
+
+            }
+            view.initiateChessComponent(model);
+            view.paintComponents(view.getGraphics());
+            gameFrame.remove(ChessGameFrame.current_currentPlayer_JLabel);
+            ChessGameFrame.current_currentPlayer_JLabel = gameFrame.addCurrentPlayers();
+            gameFrame.remove(ChessGameFrame.current_turn_JLabel);
+            ChessGameFrame.current_turn_JLabel = gameFrame.addCurrentTurns();
+            gameFrame.repaint();
+            p=p-9;
+
+            Thread.currentThread().sleep(100);
+
+
+        }
+
+
+
+    }
 
     public void AIMove() throws InterruptedException {
         if(gettingAId()==0){
