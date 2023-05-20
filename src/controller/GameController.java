@@ -22,6 +22,9 @@ import static model.Constant.CHESSBOARD_COL_SIZE;
 import static model.Constant.CHESSBOARD_ROW_SIZE;
 
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 //>>>>>>> origin/JnZ
 
@@ -102,6 +105,18 @@ public class GameController implements GameListener,Serializable {
     }
     // after a valid move swap the player
     private void swapColor() throws InterruptedException {
+        String currentDir = System.getProperty("user.dir");
+        String musicPath=null;
+        musicPath = currentDir + "\\resource\\eatmusic.wav";
+        try {
+            File audioFile = new File(musicPath); // 指定要播放的音乐文件路径
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if(currentPlayer == gameFrame.AIColor) TimeUnit.SECONDS.sleep(1);
         currentPlayer = currentPlayer == PlayerColor.BLUE ? PlayerColor.RED : PlayerColor.BLUE;
         gameFrame.remove(ChessGameFrame.current_currentPlayer_JLabel);
@@ -639,7 +654,7 @@ public class GameController implements GameListener,Serializable {
             gameFrame.paint(gameFrame.getGraphics());
             p=p-9;
 
-            Thread.currentThread().sleep(1000);
+            Thread.currentThread().sleep(2000);
 
 
         }
