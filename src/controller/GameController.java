@@ -214,7 +214,7 @@ public class GameController implements GameListener,Serializable {
 
 
     }//set array according to chesspieces and save it
-    public static void saveArray(int[][] array){
+    public void saveArray(int[][] array){
         //1.创建字符输出流
         FileWriter writeFile = null;
         try {
