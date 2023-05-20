@@ -5,6 +5,7 @@ import model.PlayerColor;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 
@@ -188,8 +189,9 @@ public class ChessGameFrame extends JFrame implements Serializable {
             add(button);
             button.addActionListener(e -> {
                 try {
-                    if (chessboardComponent.getGameController().CheckError()){
-                        chessboardComponent.getGameController().load();
+                    File selectedFile = chessboardComponent.getGameController().chooseFile();
+                    if (chessboardComponent.getGameController().CheckError(selectedFile)){
+                        chessboardComponent.getGameController().load(selectedFile);
                     }
                 } catch (FileNotFoundException ex) {
                     throw new RuntimeException(ex);

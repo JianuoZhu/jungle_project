@@ -214,12 +214,15 @@ public class GameController implements GameListener,Serializable {
 
 
     }//set array according to chesspieces and save it
-    public static void saveArray(int[][] array){
+    public void saveArray(int[][] array){
         //1.创建字符输出流
+
+        File selectedFile = chooseFile();
         FileWriter writeFile = null;
         try {
             //2.数据想写入的路径及文件
-            File file = new File("Array.txt");
+            //File file = new File("Array.txt");
+            File file = selectedFile;
             //3.如果该文件不存在，就创建
             if(!file.exists()) {
                 file.createNewFile();
@@ -252,21 +255,29 @@ public class GameController implements GameListener,Serializable {
         }
     }
 
-    public File ChooseFile(){
-        JFileChooser fileChooser=new JFileChooser();//
-        fileChooser.setCurrentDirectory(new File("."));
-        int returnVal = fileChooser.showOpenDialog(new ChessGameFrame(1100,810));
-        File file=null;
-        if (returnVal == JFileChooser.APPROVE_OPTION){
-            file=fileChooser.getSelectedFile();
+    public File chooseFile(){
+        JFileChooser fileChooser = new JFileChooser();
+        String currentDir = System.getProperty("user.dir");
+        currentDir += "\\archives";
+        File defaultDir = new File(currentDir);
+        fileChooser.setCurrentDirectory(defaultDir);
+        //fileChooser.setCurrentDirectory(new File("."));
+        int result = fileChooser.showOpenDialog(gameFrame);
+        // Check if a file was selected
+        File selectedFile = null;
+        if (result == JFileChooser.APPROVE_OPTION) {
+            // Get the selected file
+            selectedFile = fileChooser.getSelectedFile();
+
+            // Process the selected file
+            System.out.println("Selected file: " + selectedFile.getAbsolutePath());
         }
-
-        return file;
-
+        return selectedFile;
     }
 
 
-    public int[][] readArray() throws FileNotFoundException {
+    public int[][] readArray(File selectedFile) throws FileNotFoundException {
+
         //1.声明一个字符输入流
         FileReader reader = null;
         //2.声明一个字符输入缓冲流
@@ -275,7 +286,7 @@ public class GameController implements GameListener,Serializable {
         int[][] array = null;
             try {
                 //4.指定reader的读取路径
-                reader = new FileReader("Array.txt");
+                reader = new FileReader(selectedFile);
                 //5.通过BufferedReader包装字符输入流
                 readerBuf = new BufferedReader(reader);
                 //6.创建一个集合，用来存放读取的文件的数据
@@ -385,21 +396,22 @@ public class GameController implements GameListener,Serializable {
         ChessGameFrame.current_currentPlayer_JLabel = gameFrame.addCurrentPlayers();
         gameFrame.remove(ChessGameFrame.current_turn_JLabel);
         ChessGameFrame.current_turn_JLabel = gameFrame.addCurrentTurns();
-
+        gameFrame.repaint();
 
     }
-    public Boolean CheckError() throws FileNotFoundException {
+    public Boolean CheckError(File selectedFile) throws FileNotFoundException {
         ChessBoardArray.clear();
-        for(int j=0;j< readArray().length;j++) {//j代表行数
+
+        for(int j=0;j< readArray(selectedFile).length;j++) {//j代表行数
             for( int i=0;i<8;i++){//i为列数
-                ChessBoardArray.add(readArray()[j][i]);
+                ChessBoardArray.add(readArray(selectedFile)[j][i]);
             }
         }//存储的所有棋盘存入数组；
         int[][] CheckArray=new int[9][8];
 
         for(int m=0;m<9;m++){
             for(int n=0;n<8;n++){
-                CheckArray[m][n]=readArray()[readArray().length-9+m][n];
+                CheckArray[m][n]=readArray(selectedFile)[readArray(selectedFile).length-9+m][n];
                 //用来记录要Check的棋盘
 
                 }
@@ -442,11 +454,11 @@ public class GameController implements GameListener,Serializable {
 
 
 
-    public  void  load() throws FileNotFoundException {
+    public  void  load(File selectedFile) throws FileNotFoundException {
         ChessBoardArray.clear();
-        for(int j=0;j< readArray().length;j++) {//j代表行数
+        for(int j=0;j< readArray(selectedFile).length;j++) {//j代表行数
             for( int i=0;i<8;i++){//i为列数
-                ChessBoardArray.add(readArray()[j][i]);
+                ChessBoardArray.add(readArray(selectedFile)[j][i]);
             }
         }//将当前棋盘的二维数组存入一个可变一维数组；
 
@@ -458,7 +470,7 @@ public class GameController implements GameListener,Serializable {
         int k=0;
         for(int m=0;m<9;m++){
             for(int n=0;n<8;n++){
-                readChessBoardNowArray[m][n]=readArray()[readArray().length-9+m][n];
+                readChessBoardNowArray[m][n]=readArray(selectedFile)[readArray(selectedFile).length-9+m][n];
                 //用来记录要load的棋盘
             }
         }
@@ -496,7 +508,7 @@ public class GameController implements GameListener,Serializable {
         ChessGameFrame.current_currentPlayer_JLabel = gameFrame.addCurrentPlayers();
         gameFrame.remove(ChessGameFrame.current_turn_JLabel);
         ChessGameFrame.current_turn_JLabel = gameFrame.addCurrentTurns();
-
+        gameFrame.repaint();
 
     }
 
@@ -752,10 +764,16 @@ public class GameController implements GameListener,Serializable {
                 repaintGreenCell();
                 swapColor();
                 view.repaint();
-                if(model.getTrapUsed()[point.getRow()][point.getCol()] && !model.getTrapRemoved()[point.getRow()][point.getCol()]){
+                /*if(model.getTrapUsed()[point.getRow()][point.getCol()] && !model.getTrapRemoved()[point.getRow()][point.getCol()]){
                     view.getGridComponents()[point.getRow()][point.getCol()].setImage(null);
                     //view.getGridComponents()[point.getRow()][point.getCol()].add(new CellComponent(Color.LIGHT_GRAY, view.calculatePoint(point.getRow(), point.getCol()), view.CHESS_SIZE));
                     model.getTrapRemoved()[point.getRow()][point.getCol()] = true;
+                }*/
+                if(selectedPoint != null && model.isTrap(selectedPoint)){
+                    if(model.getGridAt(point).getPiece() != null) model.getGridAt(point).getPiece().setOnTrap(false);
+                }
+                if(model.isTrap(point)){
+                    model.getGridAt(point).getPiece().setOnTrap(true);
                 }
                 if(model.isHome(point)){
                     if((point.getRow() < 5 && model.getChessPieceOwner(point) == PlayerColor.BLUE)
@@ -793,18 +811,6 @@ public class GameController implements GameListener,Serializable {
         }
         // TODO: Implement capture function
         else{
-            /*if (model.getChessPieceOwner(point).equals(currentPlayer) && model.getGridAt(point).getPiece().getRank() == -1){
-                model.captureChessPiece(selectedPoint, point);
-                ChessComponent removedChess = view.removeChessComponentAtGrid(selectedPoint);
-                TrapChessComponent trap = (TrapChessComponent) view.getChessComponentAtGrid(point);
-                trap.setStacked(true);
-                trap.setStackedChess(removedChess);
-                trap.setStackedImage(removedChess.getImage());
-                selectedPoint = null;
-                swapColor();
-                view.repaint();
-                return;
-            }*/
             if(view.isWater(selectedPoint) || view.isWater(point)){
                 component.setSelected(false);
                 component.repaint();
@@ -814,13 +820,13 @@ public class GameController implements GameListener,Serializable {
                 repaintGreenCell();
             }
             if(model.isTrap(point)){
-                if(model.getTrapUsed()[point.getRow()][point.getCol()] && !model.getTrapRemoved()[point.getRow()][point.getCol()]){
+                /*if(model.getTrapUsed()[point.getRow()][point.getCol()] && !model.getTrapRemoved()[point.getRow()][point.getCol()]){
                     view.getGridComponents()[point.getRow()][point.getCol()].setImage(null);
                     //view.getGridComponents()[point.getRow()][point.getCol()].add(new CellComponent(Color.LIGHT_GRAY, view.calculatePoint(point.getRow(), point.getCol()), view.CHESS_SIZE));
                     model.getTrapRemoved()[point.getRow()][point.getCol()] = true;
-                }
+                }*/
                 model.captureChessPiece(selectedPoint, point);
-                model.getGridAt(point).getPiece().setRank(0);
+                model.getGridAt(point).getPiece().setOnTrap(true);
                 view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
                 selectedPoint = null;
                 repaintGreenCell();

@@ -11,7 +11,6 @@ public class ChessComponent extends JComponent implements Serializable{
     protected PlayerColor owner;
 
     protected boolean selected;
-
     public boolean isStacked() {
         return stacked;
     }

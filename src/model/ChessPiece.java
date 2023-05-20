@@ -19,7 +19,14 @@ public class ChessPiece implements Serializable {
 
     private ChessPiece StackedChess;
 
+    private  boolean onTrap;
+    public boolean isOnTrap() {
+        return onTrap;
+    }
 
+    public void setOnTrap(boolean onTrap) {
+        this.onTrap = onTrap;
+    }
     public void setName(String name) {
         this.name = name;
     }
@@ -52,6 +59,7 @@ public class ChessPiece implements Serializable {
         this.owner = owner;
         this.name = name;
         this.rank = rank;
+        this.onTrap = false;
     }
 
     public boolean canCapture(ChessPiece target) {
@@ -59,6 +67,7 @@ public class ChessPiece implements Serializable {
         if(target.getRank() == -1) return false;
         if(this.rank == 8 && target.getRank() == 1) return false;
         if(this.rank == 1 && target.getRank() == 8) return true;
+        if(target.onTrap) return true;
         if(this.rank >= target.getRank()) return true;
         return false;
     }
