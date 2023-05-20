@@ -453,6 +453,37 @@ public class GameController implements GameListener,Serializable {
         gameFrame.repaint();
 
     }
+    public void changeBg(){
+        gameFrame.remove(gameFrame.getBacklabel());
+//        gameFrame.setBacklabel(null);
+        gameFrame.repaint();
+//        gameFrame.changeBackgroundnumber();
+//
+//        String currentDir = System.getProperty("user.dir");
+//        String ImagePath=null;
+//        if(gameFrame.backgroundnumber==1){
+//            ImagePath = currentDir + "\\resource\\bk2.png";
+//        }
+//        if(gameFrame.backgroundnumber==0){
+//            ImagePath = currentDir + "\\resource\\bk1.png";
+//        }
+//
+//        // 背景图片
+//        ImageIcon background = new ImageIcon(ImagePath);
+//        // 把背景图片显示在一个标签里面
+//        background.setImage(background.getImage().getScaledInstance(1100, 810,Image.SCALE_DEFAULT ));
+//        // 把背景图片显示在一个标签里面
+//        JLabel label = new JLabel();
+//        label.setSize(1100,810);
+//        label.setIcon(background);
+//        label.setBounds(0,0,1100,810);
+//        label.setPreferredSize(new Dimension(1100, 810));
+//        gameFrame.getLayeredPane().add(label, new Integer(Integer.MIN_VALUE));
+//        ((JPanel)gameFrame.getContentPane()).setOpaque(false); //设置透明
+//        gameFrame.setBacklabel(label);
+//        gameFrame.repaint();
+    }
+
     public Boolean CheckError(File selectedFile) throws FileNotFoundException {
         String fileName = selectedFile.getName();
         if(fileName.endsWith(".txt")) {

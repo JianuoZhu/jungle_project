@@ -35,8 +35,6 @@ public class ChessGameFrame extends JFrame implements Serializable {
         setLocationRelativeTo(null); // Center the window.
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //设置程序关闭按键，如果点击右上方的叉就游戏全部关闭了
         setLayout(null);
-
-
         addChessboard();
         //addLabel();
         addRestartButton();
@@ -44,9 +42,19 @@ public class ChessGameFrame extends JFrame implements Serializable {
         addLoadButton();
         addAImoveButton();
         addUndoButton();
-        addBackGround();
+       backlabel=addBackGround();
         addReplayButton();
+        addChangeBk();
 
+    }
+    JLabel backlabel =null;
+
+    public JLabel getBacklabel() {
+        return backlabel;
+    }
+
+    public void setBacklabel(JLabel backlabel) {
+        this.backlabel = backlabel;
     }
 
     public ChessboardComponent getChessboardComponent() {
@@ -159,6 +167,18 @@ public class ChessGameFrame extends JFrame implements Serializable {
             chessboardComponent.getGameController().Restart()
         );
 
+    }
+    private void addChangeBk() {
+        JButton button = new JButton("更换主题");
+        button.setLocation(HEIGTH-150, HEIGTH / 10 + 620);
+        button.setSize(200, 60);
+        button.setFont(new Font("微软雅黑", Font.BOLD, 20));
+        add(button);
+        button.addActionListener(e ->
+        {   remove(backlabel);
+            this.repaint();
+//            getChessboardComponent().getGameController().changeBg();
+        });
     }
     private void addReplayButton() {
         JButton button = new JButton("棋局回放");
