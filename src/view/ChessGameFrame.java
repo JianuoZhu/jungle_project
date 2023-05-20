@@ -101,7 +101,11 @@ public class ChessGameFrame extends JFrame implements Serializable {
         // 背景图片
         ImageIcon background = new ImageIcon(ImagePath);
         // 把背景图片显示在一个标签里面
-        JLabel label = new JLabel(background);
+        background.setImage(background.getImage().getScaledInstance(1100, 810,Image.SCALE_DEFAULT ));
+        // 把背景图片显示在一个标签里面
+        JLabel label = new JLabel();
+        label.setSize(1100,810);
+        label.setIcon(background);
         label.setBounds(0,0,1100,810);
         label.setPreferredSize(new Dimension(1100, 810));
         this.getLayeredPane().add(label, new Integer(Integer.MIN_VALUE));

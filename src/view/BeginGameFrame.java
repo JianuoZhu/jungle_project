@@ -46,7 +46,6 @@ public class BeginGameFrame extends JFrame {//begin the game
         this.getLayeredPane().add(label, new Integer(Integer.MIN_VALUE));
         ((JPanel)this.getContentPane()).setOpaque(false); //设置透明
         return label;
-
     }
     private void addBeginButton() {
         JButton beginButton = new JButton("玩家vs玩家");
