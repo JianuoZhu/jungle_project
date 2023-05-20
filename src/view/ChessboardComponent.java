@@ -309,4 +309,5 @@ public class ChessboardComponent extends JComponent implements Serializable {
         }
     }
 
+
 }

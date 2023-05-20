@@ -116,11 +116,4 @@ public class BeginGameFrame extends JFrame {//begin the game
     }
 
 
-
-
-
-
-
-
-
 }

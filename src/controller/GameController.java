@@ -203,12 +203,15 @@ public class GameController implements GameListener,Serializable {
         }else ChessArray[0][7]=2;//set current player as number
 
         ChessArray[1][7]=turn;
+        ChessArray[2][7]=7;
+        ChessArray[3][7]=9;
 
         for(int j=0;j<9;j++) {//j代表行数
             for( int i=0;i<8;i++){//i为列数
                 ChessBoardArray.add(ChessArray[j][i]);
             }
         }//将当前棋盘的二维数组存入一个可变一维数组；
+
 
     }//set array according to chesspieces and save it
     public static void saveArray(int[][] array){
@@ -252,11 +255,12 @@ public class GameController implements GameListener,Serializable {
     public File ChooseFile(){
         JFileChooser fileChooser=new JFileChooser();//
         fileChooser.setCurrentDirectory(new File("."));
-        int returnVal = fileChooser.showOpenDialog(null);
+        int returnVal = fileChooser.showOpenDialog(new ChessGameFrame(1100,810));
         File file=null;
         if (returnVal == JFileChooser.APPROVE_OPTION){
             file=fileChooser.getSelectedFile();
         }
+
         return file;
 
     }
@@ -384,9 +388,68 @@ public class GameController implements GameListener,Serializable {
 
 
     }
+    public Boolean CheckError() throws FileNotFoundException {
+        ChessBoardArray.clear();
+        for(int j=0;j< readArray().length;j++) {//j代表行数
+            for( int i=0;i<8;i++){//i为列数
+                ChessBoardArray.add(readArray()[j][i]);
+            }
+        }//存储的所有棋盘存入数组；
+        int[][] CheckArray=new int[9][8];
+
+        for(int m=0;m<9;m++){
+            for(int n=0;n<8;n++){
+                CheckArray[m][n]=readArray()[readArray().length-9+m][n];
+                //用来记录要Check的棋盘
+
+                }
+            }
+        if(CheckArray[2][7]!=7||CheckArray[3][7]!=9){
+            String message = "棋盘并非7*9\n" +
+                    "错误编码： 102\n";
+            JOptionPane.showMessageDialog(null, message);
+            return false;
+
+        }//用来check第二个；
+        for(int m=0;m<9;m++){
+            for(int n=0;n<7;n++){
+                int countmid1=CheckArray[m][n]%100/10;
+                int countmid2=CheckArray[m][n]/100;
+               if(countmid2>8) {
+                   String message = "棋子错误\n" +
+                           "错误编码： 103\n";
+                   JOptionPane.showMessageDialog(null, message);
+                   return false;
+               }else if(countmid1>0&&countmid1!=1&&countmid1!=2){
+                   String message = "棋子错误\n" +
+                           "错误编码： 103\n";
+                   JOptionPane.showMessageDialog(null, message);
+                   return false;
+
+               }
+
+            }
+        }//用来check第三个
+        if(CheckArray[0][7]!=1&&CheckArray[0][7]!=2){
+            String message = "缺少下一步行棋方\n" +
+                    "错误编码： 104\n";
+            JOptionPane.showMessageDialog(null, message);
+            return false;
+
+        }//用来check第四个；
+        return true;
+    }
+
 
 
     public  void  load() throws FileNotFoundException {
+        ChessBoardArray.clear();
+        for(int j=0;j< readArray().length;j++) {//j代表行数
+            for( int i=0;i<8;i++){//i为列数
+                ChessBoardArray.add(readArray()[j][i]);
+            }
+        }//将当前棋盘的二维数组存入一个可变一维数组；
+
         //how to translate array to chessboard
         view.initiateGridComponents();
         model.removeAllpieces();

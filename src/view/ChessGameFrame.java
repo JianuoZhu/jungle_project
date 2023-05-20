@@ -4,6 +4,7 @@ import model.PlayerColor;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 
@@ -30,6 +31,7 @@ public class ChessGameFrame extends JFrame implements Serializable {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //设置程序关闭按键，如果点击右上方的叉就游戏全部关闭了
         setLayout(null);
 
+
         addChessboard();
         //addLabel();
         addRestartButton();
@@ -37,6 +39,7 @@ public class ChessGameFrame extends JFrame implements Serializable {
         addLoadButton();
         addAImoveButton();
         addUndoButton();
+        addBackGround();
     }
 
     public ChessboardComponent getChessboardComponent() {
@@ -89,6 +92,21 @@ public class ChessGameFrame extends JFrame implements Serializable {
         statusLabel.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(statusLabel);
         return statusLabel;
+    }
+
+    public JLabel addBackGround(){
+        String currentDir = System.getProperty("user.dir");
+        String ImagePath;
+        ImagePath = currentDir + "\\resource\\bk1.png";
+        // 背景图片
+        ImageIcon background = new ImageIcon(ImagePath);
+        // 把背景图片显示在一个标签里面
+        JLabel label = new JLabel(background);
+        label.setBounds(0,0,1100,810);
+        label.setPreferredSize(new Dimension(1100, 810));
+        this.getLayeredPane().add(label, new Integer(Integer.MIN_VALUE));
+        ((JPanel)this.getContentPane()).setOpaque(false); //设置透明
+        return label;
     }
 
     /**
@@ -166,7 +184,9 @@ public class ChessGameFrame extends JFrame implements Serializable {
             add(button);
             button.addActionListener(e -> {
                 try {
-                    chessboardComponent.getGameController().load();
+                    if (chessboardComponent.getGameController().CheckError()){
+                        chessboardComponent.getGameController().load();
+                    }
                 } catch (FileNotFoundException ex) {
                     throw new RuntimeException(ex);
                 }
