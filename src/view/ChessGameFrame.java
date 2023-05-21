@@ -42,7 +42,7 @@ public class ChessGameFrame extends JFrame implements Serializable {
         addLoadButton();
         addAImoveButton();
         addUndoButton();
-       backlabel=addBackGround();
+        backlabel=addBackGround(0);
         addReplayButton();
         addChangeBk();
 
@@ -68,10 +68,13 @@ public class ChessGameFrame extends JFrame implements Serializable {
         if(backgroundnumber==0){
             backgroundnumber=1;
         }
-        if(backgroundnumber==1){
+        else if(backgroundnumber==1){
             backgroundnumber=0;
         }
-
+        this.remove(backlabel);
+        //this.backlabel = addBackGround(backgroundnumber);
+        this.paint(this.getGraphics());
+        this.repaint();
     }
 
 
@@ -126,10 +129,11 @@ public class ChessGameFrame extends JFrame implements Serializable {
         add(timer);
         return timer;
     }
-    public JLabel addBackGround(){
+    public JLabel addBackGround(int num){
         String currentDir = System.getProperty("user.dir");
         String ImagePath=null;
-            ImagePath = currentDir + "\\resource\\bk1.png";
+        if(num == 0)    ImagePath = currentDir + "\\resource\\bk1.png";
+        else ImagePath = currentDir + "\\resource\\bk2.png";
         // 背景图片
         ImageIcon background = new ImageIcon(ImagePath);
         // 把背景图片显示在一个标签里面
@@ -175,7 +179,8 @@ public class ChessGameFrame extends JFrame implements Serializable {
         button.setFont(new Font("微软雅黑", Font.BOLD, 20));
         add(button);
         button.addActionListener(e ->
-        {   remove(backlabel);
+        {
+            changeBackgroundnumber();
             this.repaint();
 //            getChessboardComponent().getGameController().changeBg();
         });
