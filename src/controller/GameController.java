@@ -501,6 +501,58 @@ public class GameController implements GameListener,Serializable {
                 ChessBoardArray.add(readArray(selectedFile)[j][i]);
             }
         }//存储的所有棋盘存入数组；
+        for(int p=0;p<readArray(selectedFile).length;p=p+9){
+            if(readArray(selectedFile)[3+p][1]%10>1||readArray(selectedFile)[3+p][2]%10>1||
+            readArray(selectedFile)[3+p][4]%10>1||readArray(selectedFile)[3+p][5]%10>1
+            ||readArray(selectedFile)[4+p][1]%10>1||readArray(selectedFile)[4+p][2]%10>1||
+            readArray(selectedFile)[4+p][4]%10>1||readArray(selectedFile)[4+p][5]%10>1
+            ||readArray(selectedFile)[5+p][1]%10>1||readArray(selectedFile)[5+p][2]%10>1||
+                    readArray(selectedFile)[5+p][4]%10>1||readArray(selectedFile)[5+p][5]%10>1){
+                String message = "非法行棋\n" +
+                        "错误编码： 105\n";
+                JOptionPane.showMessageDialog(null, message);
+                return false;
+
+            }//有无进河
+
+            for(int m=0;m<9;m++){
+                for (int j=0;j<7;j++){
+                    if(m+9+p<readArray(selectedFile).length){
+                        if(readArray(selectedFile)[m+9+p][j]%100%10!=readArray(selectedFile)[m+p][j]%100%10&&readArray(selectedFile)[m+p][j]%100%10!=8
+                                &&readArray(selectedFile)[m+p][j]%100%10>readArray(selectedFile)[m+9+p][j]%100%10&&readArray(selectedFile)[m+9+p][j]!=0){
+                            String message = "非法行棋\n" +
+                                    "错误编码： 105\n";
+                            JOptionPane.showMessageDialog(null, message);
+                            return false;
+                        }
+                        if(readArray(selectedFile)[m+9+p][j]%100/10==readArray(selectedFile)[m+p][j]%100/10&&
+                                readArray(selectedFile)[m+9+p][j]%100%10!=readArray(selectedFile)[m+p][j]%100%10
+                        ){
+                            String message = "非法行棋\n" +
+                                    "错误编码： 105\n";
+                            JOptionPane.showMessageDialog(null, message);
+                            return false;
+                        }
+                    }
+
+                }
+            }//有无小子吃大
+            for(int m=0;m<9;m++) {
+                for (int j = 0; j < 7; j++) {
+                    if(readArray(selectedFile)[0+p][3]%100/10==1||readArray(selectedFile)[8+p][3]%100/10==2){
+                        String message = "非法行棋\n" +
+                                "错误编码： 105\n";
+                        JOptionPane.showMessageDialog(null, message);
+                        return false;
+                    }
+                }
+            }//棋子进自己家
+
+
+
+
+        }
+
         int[][] CheckArray=new int[9][8];
 
         for(int m=0;m<9;m++){
@@ -543,6 +595,13 @@ public class GameController implements GameListener,Serializable {
             return false;
 
         }//用来check第四个；
+
+
+
+
+
+
+
         return true;
     }
 
@@ -627,6 +686,7 @@ public class GameController implements GameListener,Serializable {
     }
 
     public void ChessGameReplay(File selectedFile) throws FileNotFoundException, InterruptedException {//棋局回放
+
         ChessBoardArray.clear();
         for(int j=0;j< readArray(selectedFile).length;j++) {//j代表行数
             for( int i=0;i<8;i++){//i为列数
@@ -634,12 +694,14 @@ public class GameController implements GameListener,Serializable {
             }
         }//将当前棋盘的二维数组存入一个可变一维数组；
 
+        int k=0;
 
-        for(int p=readArray(selectedFile).length-9;p>=0;){
+        int count=-9;
+       label1: for(int p=readArray(selectedFile).length-9;p>=0;){
             view.initiateGridComponents();
             model.removeAllpieces();
             view.removeChessComponent(model);
-            int k=0;
+
             int[][] readChessBoardNowArray=new int[9][8];
             for(int m=0;m<9;m++){
                 for(int n=0;n<8;n++){
@@ -676,6 +738,65 @@ public class GameController implements GameListener,Serializable {
 
 
             }
+            if(3+count>0){
+                if(readArray(selectedFile)[3+count][1]%10>1||readArray(selectedFile)[3+count][2]%10>1||
+                        readArray(selectedFile)[3+count][4]%10>1||readArray(selectedFile)[3+count][5]%10>1
+                        ||readArray(selectedFile)[4+count][1]%10>1||readArray(selectedFile)[4+count][2]%10>1||
+                        readArray(selectedFile)[4+count][4]%10>1||readArray(selectedFile)[4+count][5]%10>1
+                        ||readArray(selectedFile)[5+count][1]%10>1||readArray(selectedFile)[5+count][2]%10>1||
+                        readArray(selectedFile)[5+count][4]%10>1||readArray(selectedFile)[5+count][5]%10>1){
+                    String message = "非法行棋\n" +
+                            "错误编码： 105\n";
+                    JOptionPane.showMessageDialog(null, message);
+                    break label1;
+
+            }
+
+
+
+            }//有无进河
+
+            for(int m=0;m<9;m++){
+                for (int j=0;j<7;j++){
+                    if(m+9+p<readArray(selectedFile).length){
+                        if(m+count>=0){
+                            if(readArray(selectedFile)[m+9+count][j]%100%10!=readArray(selectedFile)[m+count][j]%100%10&&readArray(selectedFile)[m+count][j]%100%10!=8
+                                    &&readArray(selectedFile)[m+count][j]%100%10>readArray(selectedFile)[m+9+count][j]%100%10&&readArray(selectedFile)[m+9+count][j]!=0){
+                                String message = "非法行棋\n" +
+                                        "错误编码： 105\n";
+                                JOptionPane.showMessageDialog(null, message);
+                                break label1;
+                            }
+                            if(readArray(selectedFile)[m+9+count][j]%100/10==readArray(selectedFile)[m+count][j]%100/10&&
+                                    readArray(selectedFile)[m+9+count][j]%100%10!=readArray(selectedFile)[m+count][j]%100%10
+                            ){
+                                String message = "非法行棋\n" +
+                                        "错误编码： 105\n";
+                                JOptionPane.showMessageDialog(null, message);
+                                break label1;
+                            }
+
+                        }
+
+                    }
+
+                }
+            }//有无小子吃大
+            for(int m=0;m<9;m++) {
+                for (int j = 0; j < 7; j++) {
+                    if(count>=0){
+                        if(readArray(selectedFile)[0+count][3]%100/10==1||readArray(selectedFile)[8+count][3]%100/10==2){
+                            String message = "非法行棋\n" +
+                                    "错误编码： 105\n";
+                            JOptionPane.showMessageDialog(null, message);
+                            break label1;
+                        }
+                    }
+
+                }
+            }//棋子进自己家
+
+            count=count+9;
             view.initiateChessComponent(model);
             view.paintComponents(view.getGraphics());
             gameFrame.remove(ChessGameFrame.current_currentPlayer_JLabel);
@@ -685,7 +806,7 @@ public class GameController implements GameListener,Serializable {
             gameFrame.paint(gameFrame.getGraphics());
             p=p-9;
 
-            Thread.currentThread().sleep(2000);
+            Thread.currentThread().sleep(1000);
 
 
         }

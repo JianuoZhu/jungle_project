@@ -4,6 +4,8 @@ import model.PlayerColor;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,7 +16,7 @@ import java.net.URL;
 /**
  * 这个类表示游戏过程中的整个游戏界面，是一切的载体
  */
-public class ChessGameFrame extends JFrame implements Serializable {
+public class ChessGameFrame extends JFrame implements Serializable, MouseListener {
     //    public final Dimension FRAME_SIZE ;
     private final int WIDTH;
     public int backgroundnumber =0;
@@ -190,9 +192,9 @@ public class ChessGameFrame extends JFrame implements Serializable {
         {
             try {
                 File selectedFile = chessboardComponent.getGameController().chooseFile();
-                if (chessboardComponent.getGameController().CheckError(selectedFile)){
+//                if (chessboardComponent.getGameController().CheckError(selectedFile)){
                     chessboardComponent.getGameController().ChessGameReplay(selectedFile);
-                }
+//                }
             } catch (FileNotFoundException ex) {
                 throw new RuntimeException(ex);
             } catch (InterruptedException ex) {
@@ -263,6 +265,32 @@ public class ChessGameFrame extends JFrame implements Serializable {
             });
 
         }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
 
 
 //    private void addLoadButton() {
