@@ -29,9 +29,8 @@ public class BeginGameFrame extends JFrame implements MouseListener {//begin the
         addBackGround();//
 
         addBeginButton();
-        addrankingListButton();
         addAIFightButton();
-        addSettingtButton();
+
 
     }
 
@@ -57,7 +56,7 @@ public class BeginGameFrame extends JFrame implements MouseListener {//begin the
     private void addBeginButton() {
         JButton beginButton = new JButton("玩家vs玩家");
 
-        beginButton.setLocation(BUTTON_WIDTH,BUTTON_HEIGHT / 10 +220);
+        beginButton.setLocation(BUTTON_WIDTH-30,BUTTON_HEIGHT / 10 +320);
         beginButton.setSize(200, 50);
         beginButton.setFont(new Font("微软雅黑", Font.PLAIN, 24));
         add(beginButton);
@@ -82,7 +81,7 @@ public class BeginGameFrame extends JFrame implements MouseListener {//begin the
     private void addAIFightButton() {
         JButton beginButton = new JButton("玩家vs电脑");
 
-        beginButton.setLocation(BUTTON_WIDTH,BUTTON_HEIGHT / 10 +320);
+        beginButton.setLocation(BUTTON_WIDTH-30,BUTTON_HEIGHT / 10 +420);
         beginButton.setSize(200, 50);
         beginButton.setFont(new Font("微软雅黑", Font.PLAIN, 24));
         add(beginButton);
@@ -110,25 +109,6 @@ public class BeginGameFrame extends JFrame implements MouseListener {//begin the
 //                        this.dispose();
 //                    });
 //                }
-    private void addrankingListButton() {
-        JButton beginButton = new JButton("排行榜");
-
-        beginButton.setLocation(BUTTON_WIDTH,BUTTON_HEIGHT / 10 +420);
-        beginButton.setSize(200, 50);
-        beginButton.setFont(new Font("微软雅黑", Font.PLAIN, 24));
-        add(beginButton);
-
-    }
-
-    private void addSettingtButton() {
-        JButton beginButton = new JButton("设置");
-
-        beginButton.setLocation(BUTTON_WIDTH,BUTTON_HEIGHT / 10 +520);
-        beginButton.setSize(200, 50);
-        beginButton.setFont(new Font("微软雅黑", Font.PLAIN, 24));
-        add(beginButton);
-
-    }
 
 
     @Override

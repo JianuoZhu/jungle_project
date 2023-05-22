@@ -67,6 +67,7 @@ public class SettingFrame extends JFrame {
                         ChessGameFrame.current_turn_JLabel = ChessGameFrame.addCurrentTurns();
                         ChessGameFrame.AIColor = PlayerColor.RED;
                         ChessGameFrame.getChessboardComponent().getGameController().settingAId(1);
+                        System.out.println(ChessGameFrame.getChessboardComponent().getGameController().gettingAId());
                         ChessGameFrame.setVisible(true);
                         this.dispose();
                     });

@@ -46,7 +46,6 @@ public class ChessGameFrame extends JFrame implements Serializable, MouseListene
         addUndoButton();
         backlabel=addBackGround(0);
         addReplayButton();
-        addChangeBk();
 
     }
     JLabel backlabel =null;
@@ -174,19 +173,7 @@ public class ChessGameFrame extends JFrame implements Serializable, MouseListene
         );
 
     }
-    private void addChangeBk() {
-        JButton button = new JButton("更换主题");
-        button.setLocation(HEIGTH-150, HEIGTH / 10 + 620);
-        button.setSize(200, 60);
-        button.setFont(new Font("微软雅黑", Font.BOLD, 20));
-        add(button);
-        button.addActionListener(e ->
-        {
-            changeBackgroundnumber();
-            this.repaint();
-//            getChessboardComponent().getGameController().changeBg();
-        });
-    }
+
     private void addReplayButton() {
         JButton button = new JButton("棋局回放");
         button.setLocation(HEIGTH, HEIGTH / 10 +620);

@@ -816,10 +816,10 @@ public class GameController implements GameListener,Serializable {
     }
 
     public void AIMove() throws InterruptedException {
-        if(gettingAId()==0){
+        if(gettingAId()==1){
             MediumAIMove(currentPlayer);
         }
-        if(gettingAId()==1){
+        if(gettingAId()==0){
             EasyAIMove(currentPlayer);
         }
 
