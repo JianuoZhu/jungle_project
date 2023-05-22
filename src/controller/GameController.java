@@ -135,6 +135,18 @@ public class GameController implements GameListener,Serializable {
     }
 
     private void win(PlayerColor winnerColor) {
+        String currentDir = System.getProperty("user.dir");
+        String musicPath=null;
+        musicPath = currentDir + "\\resource\\musicwin.wav";
+        try {
+            File audioFile = new File(musicPath); // 指定要播放的音乐文件路径
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         JFrame frame = new JFrame("Winning!");
 
         // Set the size and location of the frame
