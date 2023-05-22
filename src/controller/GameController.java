@@ -26,6 +26,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
+import javax.swing.Timer;
 //>>>>>>> origin/JnZ
 
 /**
@@ -37,6 +38,12 @@ import javax.swing.*;
  */
 public class GameController implements GameListener,Serializable {
     public int turn=1;
+
+    javax.swing.Timer timer = null;
+
+    public Timer getTimer() {
+        return timer;
+    }
 
     public int getTurn() {
         return turn;
@@ -154,7 +161,6 @@ public class GameController implements GameListener,Serializable {
     public JLabel setTimer(){
         JLabel timerLabel = new JLabel();
         timerLabel.setForeground(Color.YELLOW);
-        javax.swing.Timer timer = null;
         javax.swing.Timer finalTimer = timer;
         ActionListener timerListener = new ActionListener() {
             @Override
@@ -181,6 +187,7 @@ public class GameController implements GameListener,Serializable {
     int [][] ChessArray=new int[9][8];
     ArrayList<Integer> ChessBoardArray=new ArrayList<>();//可变数组用来做媒介
     public void save(){//将当前的一维可变数组转换成二维数组并保存；
+        timer.stop();
         int m=0;
         m=ChessBoardArray.size()/8;
         int[][] saveChessArray=new int[m][8];
@@ -192,7 +199,8 @@ public class GameController implements GameListener,Serializable {
             }
         }
         saveArray(saveChessArray);
-
+        _time[0] = 20;
+        timer.start();
     }
 
     public void removeArrayList(){
@@ -609,6 +617,7 @@ public class GameController implements GameListener,Serializable {
 
 
     public  void  load(File selectedFile) throws FileNotFoundException {
+        timer.stop();
         ChessBoardArray.clear();
         for(int j=0;j< readArray(selectedFile).length;j++) {//j代表行数
             for( int i=0;i<8;i++){//i为列数
@@ -664,7 +673,8 @@ public class GameController implements GameListener,Serializable {
         gameFrame.remove(ChessGameFrame.current_turn_JLabel);
         ChessGameFrame.current_turn_JLabel = gameFrame.addCurrentTurns();
         gameFrame.repaint();
-
+        _time[0] = 20;
+        timer.start();
     }
 
 //玩家vs电脑
@@ -817,10 +827,10 @@ public class GameController implements GameListener,Serializable {
     }
 
     public void AIMove() throws InterruptedException {
-        if(gettingAId()==0){
+        if(gettingAId()==1){
             MediumAIMove(currentPlayer);
         }
-        if(gettingAId()==1){
+        if(gettingAId()==0){
             EasyAIMove(currentPlayer);
         }
 
@@ -1008,6 +1018,7 @@ public class GameController implements GameListener,Serializable {
         model.RestartTrap();//
         removeArrayList();
         saveChessBoardStep();
+        _time[0] = 20;
         gameFrame.repaint();
         Undocount=1;
     }//easy init to be finished;
