@@ -450,6 +450,7 @@ public class GameController implements GameListener,Serializable {
         ChessGameFrame.current_currentPlayer_JLabel = gameFrame.addCurrentPlayers();
         gameFrame.remove(ChessGameFrame.current_turn_JLabel);
         ChessGameFrame.current_turn_JLabel = gameFrame.addCurrentTurns();
+        _time[0] = 20;
         gameFrame.repaint();
 
     }
