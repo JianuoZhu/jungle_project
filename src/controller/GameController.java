@@ -709,8 +709,6 @@ public class GameController implements GameListener,Serializable {
     }
 
     public void ChessGameReplay(File selectedFile) throws FileNotFoundException, InterruptedException {//棋局回放
-
-        ChessBoardArray.clear();
         for(int j=0;j< readArray(selectedFile).length;j++) {//j代表行数
             for( int i=0;i<8;i++){//i为列数
                 ChessBoardArray.add(readArray(selectedFile)[j][i]);
@@ -826,10 +824,13 @@ public class GameController implements GameListener,Serializable {
             ChessGameFrame.current_currentPlayer_JLabel = gameFrame.addCurrentPlayers();
             gameFrame.remove(ChessGameFrame.current_turn_JLabel);
             ChessGameFrame.current_turn_JLabel = gameFrame.addCurrentTurns();
-            gameFrame.paint(gameFrame.getGraphics());
+            gameFrame.paintComponents(ChessGameFrame.current_currentPlayer_JLabel.getGraphics());
+           gameFrame.paintComponents(ChessGameFrame.current_timer_JLabel.getGraphics());
+           gameFrame.paintComponents(ChessGameFrame.current_turn_JLabel.getGraphics());
+           gameFrame.repaint();
             p=p-9;
 
-            Thread.currentThread().sleep(1000);
+            Thread.currentThread().sleep(500);
 
 
         }

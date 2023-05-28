@@ -45,10 +45,10 @@ public class BeginGameFrame extends JFrame implements MouseListener {//begin the
         background.setImage(background.getImage().getScaledInstance(530, 700,Image.SCALE_DEFAULT ));
         // 把背景图片显示在一个标签里面
         JLabel label = new JLabel();
-        label.setSize(530,700);
+        label.setSize(this.WIDTH,this.HEIGHT);
         label.setIcon(background);
-        label.setBounds(0,0,530,700);
-        label.setPreferredSize(new Dimension(530, 700));
+        label.setBounds(0,0,this.WIDTH,this.HEIGHT);
+        label.setPreferredSize(new Dimension(this.WIDTH,this.HEIGHT));
         this.getLayeredPane().add(label, new Integer(Integer.MIN_VALUE));
         ((JPanel)this.getContentPane()).setOpaque(false); //设置透明
         return label;
