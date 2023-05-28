@@ -24,12 +24,31 @@ public class SettingFrame extends JFrame {
         setLayout(null);
         addmidSettingButton();
         addeasySettingButton();
+        addBackGround1();
 
+    }
+    private JLabel addBackGround1(){
+        String currentDir = System.getProperty("user.dir");
+        String ImagePath=null;
+        ImagePath = currentDir + "\\resource\\bk.png";
+        // 背景图片
+        ImageIcon background = new ImageIcon(ImagePath);
+        // 把背景图片显示在一个标签里面
+        background.setImage(background.getImage().getScaledInstance(530, 700,Image.SCALE_DEFAULT ));
+        // 把背景图片显示在一个标签里面
+        JLabel label = new JLabel();
+        label.setSize(530,700);
+        label.setIcon(background);
+        label.setBounds(0,0,530,700);
+        label.setPreferredSize(new Dimension(530, 700));
+        this.getLayeredPane().add(label, new Integer(Integer.MIN_VALUE));
+        ((JPanel)this.getContentPane()).setOpaque(false); //设置透明
+        return label;
     }
     public void addmidSettingButton(){
         JButton beginButton = new JButton("AI难度：中等");
 
-        beginButton.setLocation(BUTTON_WIDTH,BUTTON_HEIGHT / 10 +320);
+        beginButton.setLocation(BUTTON_WIDTH-30,BUTTON_HEIGHT / 10 +320);
         beginButton.setSize(200, 50);
         beginButton.setFont(new Font("微软雅黑", Font.PLAIN, 24));
         add(beginButton);
@@ -53,7 +72,7 @@ public class SettingFrame extends JFrame {
     public void addeasySettingButton(){
         JButton beginButton = new JButton("AI难度：简单");
 
-        beginButton.setLocation(BUTTON_WIDTH,BUTTON_HEIGHT / 10 +220);
+        beginButton.setLocation(BUTTON_WIDTH-30,BUTTON_HEIGHT / 10 +220);
         beginButton.setSize(200, 50);
         beginButton.setFont(new Font("微软雅黑", Font.PLAIN, 24));
         add(beginButton);

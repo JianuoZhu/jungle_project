@@ -70,6 +70,7 @@ public class BeginGameFrame extends JFrame implements MouseListener {//begin the
                 ChessGameFrame.current_turn_JLabel = ChessGameFrame.addCurrentTurns();
                 ChessGameFrame.current_timer_JLabel = ChessGameFrame.addCurrentTimer();
                 ChessGameFrame.setVisible(true);
+
                 this.dispose();
                      });
                 }
@@ -88,7 +89,7 @@ public class BeginGameFrame extends JFrame implements MouseListener {//begin the
         beginButton.addActionListener(e ->{
                     SwingUtilities.invokeLater(() -> {
                         dispose();
-                        SettingFrame settingFrame=new SettingFrame(500,600);
+                        SettingFrame settingFrame=new SettingFrame(530,700);
                         settingFrame.setVisible(true);
                         this.dispose();
                     });

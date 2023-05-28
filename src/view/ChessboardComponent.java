@@ -20,6 +20,11 @@ import static model.Constant.CHESSBOARD_ROW_SIZE;
  * This class represents the checkerboard component object on the panel
  */
 public class ChessboardComponent extends JComponent implements Serializable {
+    public Image getImage() {
+        return new ImageIcon(imagePath).getImage();
+    }
+
+    protected String imagePath;
     public GameController getGameController() {
         return gameController;
     }
@@ -69,7 +74,21 @@ public class ChessboardComponent extends JComponent implements Serializable {
         setSize(width, height);
         System.out.printf("chessboard width, height = [%d : %d], chess size = %d\n", width, height, CHESS_SIZE);
 
+
         initiateGridComponents();
+    }///
+
+    protected void paintComponent1(Graphics g) {//paints the piece
+        super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        //Font font = new Font("楷体", Font.PLAIN, getWidth() / 2);
+        //g2.setFont(font);
+        //g2.drawString("象", getWidth() / 4, getHeight() * 5 / 8);
+        AlphaComposite alpha = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f);
+        g2.setComposite(alpha);
+        g2.drawImage(this.getImage(), 0, 0, getWidth(), getHeight(), this);
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
     }
 
 
