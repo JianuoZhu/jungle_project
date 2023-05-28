@@ -462,6 +462,7 @@ public class GameController implements GameListener,Serializable {
         ChessGameFrame.current_currentPlayer_JLabel = gameFrame.addCurrentPlayers();
         gameFrame.remove(ChessGameFrame.current_turn_JLabel);
         ChessGameFrame.current_turn_JLabel = gameFrame.addCurrentTurns();
+        _time[0] = 20;
         gameFrame.repaint();
 
     }
@@ -710,6 +711,18 @@ public class GameController implements GameListener,Serializable {
 
         int count=-9;
        label1: for(int p=readArray(selectedFile).length-9;p>=0;){
+           String currentDir = System.getProperty("user.dir");
+           String musicPath=null;
+           musicPath = currentDir + "\\resource\\eatmusic.wav";
+           try {
+               File audioFile = new File(musicPath); // 指定要播放的音乐文件路径
+               AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);
+               Clip clip = AudioSystem.getClip();
+               clip.open(audioInputStream);
+               clip.start();
+           } catch (Exception e) {
+               e.printStackTrace();
+           }
             view.initiateGridComponents();
             model.removeAllpieces();
             view.removeChessComponent(model);
