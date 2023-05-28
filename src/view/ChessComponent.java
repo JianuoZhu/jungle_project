@@ -75,6 +75,7 @@ public class ChessComponent extends JComponent implements Serializable{
         }
         if(e.getID() == MouseEvent.MOUSE_ENTERED){
             clickedComponent = (JComponent) getComponentAt(e.getX(), e.getY());
+            if(GameController.current_controller.getCurrentPlayer() != owner) return;
             //clickedComponent.setForeground(Color.BLACK);
             /*clickedComponent.getGraphics().setColor(Color.RED);
             clickedComponent.getGraphics().drawOval(0, 0, getWidth(), getHeight());
