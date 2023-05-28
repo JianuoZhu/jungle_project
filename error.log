@@ -1,5 +1,9 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> origin/JnZ
 java.lang.UnsupportedClassVersionError: Main has been compiled by a more recent version of the Java Runtime (class file version 63.0), this version of the Java Runtime only recognizes class file versions up to 61.0
 	at java.base/java.lang.ClassLoader.defineClass1(Native Method)
 	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:1012)
@@ -13,7 +17,11 @@ java.lang.UnsupportedClassVersionError: Main has been compiled by a more recent 
 	at com.exe4j.runtime.LauncherEngine.launch(LauncherEngine.java:80)
 	at com.exe4j.runtime.WinLauncher.main(WinLauncher.java:94)
 =======
+<<<<<<< HEAD
 =======
+>>>>>>> origin/JnZ
+=======
+>>>>>>> origin/wz
 >>>>>>> origin/JnZ
 Exception in thread "AWT-EventQueue-0" java.lang.NullPointerException: Cannot invoke "java.io.File.getName()" because "selectedFile" is null
 	at controller.GameController.CheckError(GameController.java:488)
@@ -54,8 +62,11 @@ Exception in thread "AWT-EventQueue-0" java.lang.NullPointerException: Cannot in
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> origin/JnZ
 =======
+=======
+>>>>>>> origin/JnZ
 =======
 java.lang.UnsupportedClassVersionError: Main has been compiled by a more recent version of the Java Runtime (class file version 63.0), this version of the Java Runtime only recognizes class file versions up to 61.0
 	at java.base/java.lang.ClassLoader.defineClass1(Native Method)
@@ -70,4 +81,10 @@ java.lang.UnsupportedClassVersionError: Main has been compiled by a more recent 
 	at com.exe4j.runtime.LauncherEngine.launch(LauncherEngine.java:80)
 	at com.exe4j.runtime.WinLauncher.main(WinLauncher.java:94)
 >>>>>>> e77e33e9b5907a04c59432b6b472e530f09125e7
+<<<<<<< HEAD
+>>>>>>> origin/JnZ
+=======
+=======
+>>>>>>> origin/JnZ
+>>>>>>> origin/wz
 >>>>>>> origin/JnZ

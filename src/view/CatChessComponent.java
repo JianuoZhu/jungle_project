@@ -34,7 +34,12 @@ import java.io.Serializable;
             g.drawOval(0, 0, getWidth() , getHeight());
         }
         if (Entered) { // Highlights the model if selected.
+
             g.setColor(Color.RED);
+
+            g.setColor(Color.orange);
+            ((Graphics2D) g).setStroke(new BasicStroke(8.0f));
+
             g.drawRect(0, 0, getWidth() -1, getHeight()-1);
         }
     }
