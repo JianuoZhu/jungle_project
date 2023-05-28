@@ -30,8 +30,8 @@ public class ChessboardComponent extends JComponent implements Serializable {
     }
 
     private CellComponent[][] gridComponents = new CellComponent[CHESSBOARD_ROW_SIZE.getNum()][CHESSBOARD_COL_SIZE.getNum()];
-    public final int CHESS_SIZE;
-
+    public static int CHESS_SIZE = 0;
+    private JComponent clickedComponent;
 
     public Set<ChessboardPoint> getRiverCell() {
         return riverCell;
@@ -69,7 +69,7 @@ public class ChessboardComponent extends JComponent implements Serializable {
         CHESS_SIZE = chessSize;
         final int width = CHESS_SIZE * 7;
         final int height = CHESS_SIZE * 9;//
-        enableEvents(AWTEvent.MOUSE_EVENT_MASK);// Allow mouse events to occur
+        //enableEvents(AWTEvent.MOUSE_EVENT_MASK);// Allow mouse events to occur
         setLayout(null); // Use absolute layout.
         setSize(width, height);
         System.out.printf("chessboard width, height = [%d : %d], chess size = %d\n", width, height, CHESS_SIZE);
@@ -125,7 +125,7 @@ public class ChessboardComponent extends JComponent implements Serializable {
                         gridComponents[i][j].add(
                                 new ElephantChessComponent(
                                         chessPiece.getOwner(),
-                                        CHESS_SIZE));
+                                        CHESS_SIZE, i, j));
                     }
 
                     if(grid[i][j].getPiece().getName().equals("Lion")){
@@ -134,7 +134,7 @@ public class ChessboardComponent extends JComponent implements Serializable {
                         gridComponents[i][j].add(
                                 new LionChessComponent(
                                         chessPiece.getOwner(),
-                                        CHESS_SIZE));
+                                        CHESS_SIZE, i, j));
                     }
                     if (grid[i][j].getPiece().getName().equals("Tiger")){
                         ChessPiece chessPiece = grid[i][j].getPiece();
@@ -142,7 +142,7 @@ public class ChessboardComponent extends JComponent implements Serializable {
                         gridComponents[i][j].add(
                                 new TigerChessComponent(
                                         chessPiece.getOwner(),
-                                        CHESS_SIZE));
+                                        CHESS_SIZE, i, j));
                     }
                     if (grid[i][j].getPiece().getName().equals("Leopard")){
                         ChessPiece chessPiece = grid[i][j].getPiece();
@@ -150,7 +150,7 @@ public class ChessboardComponent extends JComponent implements Serializable {
                         gridComponents[i][j].add(
                                 new LeopardChessComponent(
                                         chessPiece.getOwner(),
-                                        CHESS_SIZE));
+                                        CHESS_SIZE, i, j));
                     }
                     if (grid[i][j].getPiece().getName().equals("Wolf")){
                         ChessPiece chessPiece = grid[i][j].getPiece();
@@ -158,7 +158,7 @@ public class ChessboardComponent extends JComponent implements Serializable {
                         gridComponents[i][j].add(
                                 new WolfChessComponent(
                                         chessPiece.getOwner(),
-                                        CHESS_SIZE));
+                                        CHESS_SIZE, i, j));
                     }
                     if (grid[i][j].getPiece().getName().equals("Dog")){
                         ChessPiece chessPiece = grid[i][j].getPiece();
@@ -166,7 +166,7 @@ public class ChessboardComponent extends JComponent implements Serializable {
                         gridComponents[i][j].add(
                                 new DogChessComponent(
                                         chessPiece.getOwner(),
-                                        CHESS_SIZE));
+                                        CHESS_SIZE, i, j));
                     }
                     if (grid[i][j].getPiece().getName().equals("Cat")){
                         ChessPiece chessPiece = grid[i][j].getPiece();
@@ -174,7 +174,7 @@ public class ChessboardComponent extends JComponent implements Serializable {
                         gridComponents[i][j].add(
                                 new CatChessComponent(
                                         chessPiece.getOwner(),
-                                        CHESS_SIZE));
+                                        CHESS_SIZE, i, j));
                     }
                     if (grid[i][j].getPiece().getName().equals("Rat")){
                         ChessPiece chessPiece = grid[i][j].getPiece();
@@ -182,7 +182,7 @@ public class ChessboardComponent extends JComponent implements Serializable {
                         gridComponents[i][j].add(
                                 new RatChessComponent(
                                         chessPiece.getOwner(),
-                                        CHESS_SIZE));
+                                        CHESS_SIZE, i, j));
                     }
                     /*if (grid[i][j].getPiece().getName().equals("Trap")){
 >>>>>>> origin/JnZ
@@ -246,19 +246,20 @@ public class ChessboardComponent extends JComponent implements Serializable {
                 ChessboardPoint temp = new ChessboardPoint(i, j);
                 CellComponent cell;
                 if (riverCell.contains(temp)) {
-                    cell = new CellComponent(Color.CYAN, calculatePoint(i, j), CHESS_SIZE);
+                    cell = new CellComponent(Color.CYAN, calculatePoint(i, j), CHESS_SIZE, i, j);
+                    cell.setWater(true);
                     this.add(cell);
                 }
                 else if(trapCell.contains(temp)){
-                    cell = new TrapComponent(Color.LIGHT_GRAY, calculatePoint(i, j), CHESS_SIZE);
+                    cell = new TrapComponent(Color.LIGHT_GRAY, calculatePoint(i, j), CHESS_SIZE, i, j);
                     this.add(cell);
                 }
                 else if(homeCell.contains(temp)){
-                    cell = new HomeComponent(Color.WHITE, calculatePoint(i, j), CHESS_SIZE);
+                    cell = new HomeComponent(Color.WHITE, calculatePoint(i, j), CHESS_SIZE, i, j);
                     this.add(cell);
                 }
                 else {
-                    cell = new CellComponent(Color.LIGHT_GRAY, calculatePoint(i, j), CHESS_SIZE);
+                    cell = new CellComponent(Color.LIGHT_GRAY, calculatePoint(i, j), CHESS_SIZE, i, j);
                     this.add(cell);
                 }
                 gridComponents[i][j] = cell;
@@ -291,7 +292,7 @@ public class ChessboardComponent extends JComponent implements Serializable {
         return gridComponents[point.getRow()][point.getCol()];
     }
 
-    private ChessboardPoint getChessboardPoint(Point point) {
+    public ChessboardPoint getChessboardPoint(Point point) {
         System.out.println("[" + point.y/CHESS_SIZE +  ", " +point.x/CHESS_SIZE + "] Clicked");
         return new ChessboardPoint(point.y/CHESS_SIZE, point.x/CHESS_SIZE);
     }
@@ -309,7 +310,7 @@ public class ChessboardComponent extends JComponent implements Serializable {
     @Override
     protected void processMouseEvent(MouseEvent e) {
         if (e.getID() == MouseEvent.MOUSE_PRESSED) {
-            JComponent clickedComponent = (JComponent) getComponentAt(e.getX(), e.getY());
+            clickedComponent = (JComponent) getComponentAt(e.getX(), e.getY());
             if (clickedComponent.getComponentCount() == 0) {
                 System.out.print("None chess here and ");
                 try {
@@ -321,6 +322,32 @@ public class ChessboardComponent extends JComponent implements Serializable {
                 System.out.print("One chess here and ");
                 try {
                     gameController.onPlayerClickChessPiece(getChessboardPoint(e.getPoint()), (ChessComponent) clickedComponent.getComponents()[0]);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        }
+        if(e.getID() == MouseEvent.MOUSE_ENTERED){
+            clickedComponent = (JComponent) getComponentAt(e.getX(), e.getY());
+            //clickedComponent.setForeground(Color.BLACK);
+            if (clickedComponent.getComponentCount() != 0) {
+                /*clickedComponent.getGraphics().setColor(Color.RED);
+                clickedComponent.getGraphics().drawOval(0, 0, getWidth(), getHeight());
+                clickedComponent.paint(clickedComponent.getGraphics());*/
+                try {
+                    gameController.onPlayerEnterCell(getChessboardPoint(e.getPoint()), (ChessComponent) clickedComponent.getComponents()[0]);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        }
+        if(e.getID() == MouseEvent.MOUSE_EXITED){
+            if (clickedComponent.getComponentCount() != 0) {
+                /*clickedComponent.getGraphics().setColor(Color.RED);
+                clickedComponent.getGraphics().drawOval(0, 0, getWidth(), getHeight());
+                clickedComponent.paint(clickedComponent.getGraphics());*/
+                try {
+                    gameController.onPlayerExitCell(getChessboardPoint(e.getPoint()), (ChessComponent) clickedComponent.getComponents()[0]);
                 } catch (InterruptedException ex) {
                     throw new RuntimeException(ex);
                 }

@@ -2,7 +2,7 @@
 <exe4j version="9.0" transformSequenceNumber="3">
   <directoryPresets config="E:/OneDrive/Code/jungle_project/out/artifacts/ChessDemo_jar" />
   <application name="project" distributionSourceDir="E:/OneDrive/Code/jungle_project" />
-  <executable name="project" wrapperType="embed" executableMode="gui" />
+  <executable name="project" wrapperType="embed" executableDir="." executableMode="gui" />
   <java mainClass="Main" minVersion="1.7" maxVersion="19.0.2" allowBetaVM="true">
     <classPath>
       <archive location="E:/OneDrive/Code/jungle_project/out/artifacts/ChessDemo_jar/ChessDemo.jar" failOnError="false" />

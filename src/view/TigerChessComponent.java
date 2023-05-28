@@ -9,8 +9,8 @@ import java.io.Serializable;
 public class TigerChessComponent extends ChessComponent implements Serializable {
 
 
-    public TigerChessComponent(PlayerColor owner, int size) {
-        super(owner, size);
+    public TigerChessComponent(PlayerColor owner, int size, int x, int y) {
+        super(owner, size, x, y);
         String currentDir = System.getProperty("user.dir");
         String ImagePath;
         if(owner.getColor() == Color.BLUE) ImagePath = currentDir + "\\resource\\tiger_b.jpg";
@@ -34,6 +34,10 @@ public class TigerChessComponent extends ChessComponent implements Serializable 
         if (isSelected()) { // Highlights the model if selected.
             g.setColor(Color.RED);
             g.drawOval(0, 0, getWidth() , getHeight());
+        }
+        if (Entered) { // Highlights the model if selected.
+            g.setColor(Color.RED);
+            g.drawRect(0, 0, getWidth() , getHeight());
         }
     }
 }

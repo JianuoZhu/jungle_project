@@ -26,6 +26,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
+import javax.swing.Timer;
 //>>>>>>> origin/JnZ
 
 /**
@@ -36,7 +37,14 @@ import javax.swing.*;
  *
  */
 public class GameController implements GameListener,Serializable {
+    public static GameController current_controller;
     public int turn=1;
+
+    javax.swing.Timer timer = null;
+
+    public Timer getTimer() {
+        return timer;
+    }
 
     public int getTurn() {
         return turn;
@@ -83,6 +91,15 @@ public class GameController implements GameListener,Serializable {
     // Record whether there is a selected piece before
     private ChessboardPoint selectedPoint;
 
+    public void setSelectedComponent(ChessComponent selectedComponent) {
+        this.selectedComponent = selectedComponent;
+    }
+
+    public ChessComponent getSelectedComponent() {
+        return selectedComponent;
+    }
+
+    private ChessComponent selectedComponent;
     public GameController(ChessboardComponent view, Chessboard model, ChessGameFrame frame) {
         this.view = view;
         this.model = model;
@@ -166,7 +183,6 @@ public class GameController implements GameListener,Serializable {
     public JLabel setTimer(){
         JLabel timerLabel = new JLabel();
         timerLabel.setForeground(Color.YELLOW);
-        javax.swing.Timer timer = null;
         javax.swing.Timer finalTimer = timer;
         ActionListener timerListener = new ActionListener() {
             @Override
@@ -193,6 +209,7 @@ public class GameController implements GameListener,Serializable {
     int [][] ChessArray=new int[9][8];
     ArrayList<Integer> ChessBoardArray=new ArrayList<>();//可变数组用来做媒介
     public void save(){//将当前的一维可变数组转换成二维数组并保存；
+        timer.stop();
         int m=0;
         m=ChessBoardArray.size()/8;
         int[][] saveChessArray=new int[m][8];
@@ -204,7 +221,8 @@ public class GameController implements GameListener,Serializable {
             }
         }
         saveArray(saveChessArray);
-
+        _time[0] = 20;
+        timer.start();
     }
 
     public void removeArrayList(){
@@ -621,6 +639,7 @@ public class GameController implements GameListener,Serializable {
 
 
     public  void  load(File selectedFile) throws FileNotFoundException {
+        timer.stop();
         ChessBoardArray.clear();
         for(int j=0;j< readArray(selectedFile).length;j++) {//j代表行数
             for( int i=0;i<8;i++){//i为列数
@@ -676,7 +695,8 @@ public class GameController implements GameListener,Serializable {
         gameFrame.remove(ChessGameFrame.current_turn_JLabel);
         ChessGameFrame.current_turn_JLabel = gameFrame.addCurrentTurns();
         gameFrame.repaint();
-
+        _time[0] = 20;
+        timer.start();
     }
 
 //玩家vs电脑
@@ -699,8 +719,6 @@ public class GameController implements GameListener,Serializable {
     }
 
     public void ChessGameReplay(File selectedFile) throws FileNotFoundException, InterruptedException {//棋局回放
-
-        ChessBoardArray.clear();
         for(int j=0;j< readArray(selectedFile).length;j++) {//j代表行数
             for( int i=0;i<8;i++){//i为列数
                 ChessBoardArray.add(readArray(selectedFile)[j][i]);
@@ -824,14 +842,17 @@ public class GameController implements GameListener,Serializable {
             count=count+9;
             view.initiateChessComponent(model);
             view.paintComponents(view.getGraphics());
-            gameFrame.remove(ChessGameFrame.current_currentPlayer_JLabel);
+            /*gameFrame.remove(ChessGameFrame.current_currentPlayer_JLabel);
             ChessGameFrame.current_currentPlayer_JLabel = gameFrame.addCurrentPlayers();
             gameFrame.remove(ChessGameFrame.current_turn_JLabel);
             ChessGameFrame.current_turn_JLabel = gameFrame.addCurrentTurns();
-            gameFrame.paint(gameFrame.getGraphics());
-            p=p-9;
+            //gameFrame.paintComponents(ChessGameFrame.current_currentPlayer_JLabel.getGraphics());
+           //gameFrame.paintComponents(ChessGameFrame.current_timer_JLabel.getGraphics());
+           //gameFrame.paintComponents(ChessGameFrame.current_turn_JLabel.getGraphics());
+           gameFrame.repaint();
+            p=p-9;*/
 
-            Thread.currentThread().sleep(1000);
+            Thread.currentThread().sleep(500);
 
 
         }
@@ -1032,6 +1053,7 @@ public class GameController implements GameListener,Serializable {
         model.RestartTrap();//
         removeArrayList();
         saveChessBoardStep();
+        _time[0] = 20;
         gameFrame.repaint();
         Undocount=1;
     }//easy init to be finished;
@@ -1040,38 +1062,50 @@ public class GameController implements GameListener,Serializable {
     @Override
     public void onPlayerClickCell(ChessboardPoint point, CellComponent component) throws InterruptedException {
         if (selectedPoint != null && model.isValidMove(selectedPoint, point, view.isWater(point))) {
-                model.moveChessPiece(selectedPoint, point);
-                view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
-                turn++;
-                System.out.println(turn);
-                selectedPoint = null;
-                repaintGreenCell();
-                swapColor();
-                view.repaint();
-                /*if(model.getTrapUsed()[point.getRow()][point.getCol()] && !model.getTrapRemoved()[point.getRow()][point.getCol()]){
-                    view.getGridComponents()[point.getRow()][point.getCol()].setImage(null);
-                    //view.getGridComponents()[point.getRow()][point.getCol()].add(new CellComponent(Color.LIGHT_GRAY, view.calculatePoint(point.getRow(), point.getCol()), view.CHESS_SIZE));
-                    model.getTrapRemoved()[point.getRow()][point.getCol()] = true;
-                }*/
-                if(selectedPoint != null && model.isTrap(selectedPoint)){
-                    if(model.getGridAt(point).getPiece() != null) model.getGridAt(point).getPiece().setOnTrap(false);
+
+            selectedComponent.x = point.getRow();
+            selectedComponent.y = point.getCol();
+            model.moveChessPiece(selectedPoint, point);
+            view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
+            turn++;
+            System.out.println(turn);
+            selectedPoint = null;
+            repaintGreenCell();
+            swapColor();
+            view.repaint();
+            /*if(model.getTrapUsed()[point.getRow()][point.getCol()] && !model.getTrapRemoved()[point.getRow()][point.getCol()]){
+                view.getGridComponents()[point.getRow()][point.getCol()].setImage(null);
+                //view.getGridComponents()[point.getRow()][point.getCol()].add(new CellComponent(Color.LIGHT_GRAY, view.calculatePoint(point.getRow(), point.getCol()), view.CHESS_SIZE));
+                model.getTrapRemoved()[point.getRow()][point.getCol()] = true;
+            }*/
+            if(selectedPoint != null && model.isTrap(selectedPoint)){
+                if(model.getGridAt(point).getPiece() != null) model.getGridAt(point).getPiece().setOnTrap(false);
+            }
+            if(model.isTrap(point)){
+                model.getGridAt(point).getPiece().setOnTrap(true);
+            }
+            if(model.isHome(point)){
+                if((point.getRow() < 5 && model.getChessPieceOwner(point) == PlayerColor.BLUE)
+                    || (point.getRow() > 5 && model.getChessPieceOwner(point) == PlayerColor.RED)){
+                    win(model.getChessPieceOwner(point));
                 }
-                if(model.isTrap(point)){
-                    model.getGridAt(point).getPiece().setOnTrap(true);
-                }
-                if(model.isHome(point)){
-                    if((point.getRow() < 5 && model.getChessPieceOwner(point) == PlayerColor.BLUE)
-                        || (point.getRow() > 5 && model.getChessPieceOwner(point) == PlayerColor.RED)){
-                        win(model.getChessPieceOwner(point));
-                    }
-                }
+            }
             // TODO: if the chess enter Dens or Traps and so on
         }
         else{
 
         }
     }
-
+    public void onPlayerEnterCell(ChessboardPoint point, ChessComponent component) throws InterruptedException {
+        component.setEntered(true);
+        component.repaint();
+        view.paint(view.getGraphics());
+    }
+    public void onPlayerExitCell(ChessboardPoint point, ChessComponent component) throws InterruptedException {
+        component.setEntered(false);
+        component.repaint();
+        view.paint(view.getGraphics());
+    }
     @Override
     public void onPlayerClickChessPiece(ChessboardPoint point, ElephantChessComponent component) {
 
@@ -1083,12 +1117,14 @@ public class GameController implements GameListener,Serializable {
         if (selectedPoint == null) {
             if (model.getChessPieceOwner(point).equals(currentPlayer)) {
                 selectedPoint = point;
+                selectedComponent = component;
                 component.setSelected(true);
                 component.repaint();
                 paintAvailableCell();
             }
         } else if (selectedPoint.equals(point)) {
             selectedPoint = null;
+            selectedComponent = null;
             component.setSelected(false);
             component.repaint();
             repaintGreenCell();
@@ -1101,6 +1137,7 @@ public class GameController implements GameListener,Serializable {
                 view.getChessComponentAtGrid(selectedPoint).setSelected(false);
                 view.getChessComponentAtGrid(selectedPoint).repaint();
                 selectedPoint = null;
+                selectedComponent = null;
                 repaintGreenCell();
             }
             if(model.isTrap(point)){
@@ -1109,12 +1146,16 @@ public class GameController implements GameListener,Serializable {
                     //view.getGridComponents()[point.getRow()][point.getCol()].add(new CellComponent(Color.LIGHT_GRAY, view.calculatePoint(point.getRow(), point.getCol()), view.CHESS_SIZE));
                     model.getTrapRemoved()[point.getRow()][point.getCol()] = true;
                 }*/
+                selectedComponent.x = point.getRow();
+                selectedComponent.y = point.getCol();
                 model.captureChessPiece(selectedPoint, point);
                 model.getGridAt(point).getPiece().setOnTrap(true);
                 view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
                 selectedPoint = null;
+                selectedComponent = null;
                 repaintGreenCell();
                 turn++;
+
                 minusChess();
                 swapColor();
                 view.repaint();
@@ -1125,6 +1166,7 @@ public class GameController implements GameListener,Serializable {
                 view.getChessComponentAtGrid(selectedPoint).setSelected(false);
                 view.getChessComponentAtGrid(selectedPoint).repaint();
                 selectedPoint = null;
+                selectedComponent = null;
                 repaintGreenCell();
             }
             else if(!model.isValidCapture(selectedPoint, point)){
@@ -1133,12 +1175,16 @@ public class GameController implements GameListener,Serializable {
                 view.getChessComponentAtGrid(selectedPoint).setSelected(false);
                 view.getChessComponentAtGrid(selectedPoint).repaint();
                 selectedPoint = null;
+                selectedComponent = null;
                 repaintGreenCell();
             }
             else{
+                selectedComponent.x = point.getRow();
+                selectedComponent.y = point.getCol();
                 model.captureChessPiece(selectedPoint, point);
                 view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
                 selectedPoint = null;
+                selectedComponent = null;
                 repaintGreenCell();
                 turn++;
                 minusChess();

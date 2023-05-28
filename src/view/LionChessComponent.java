@@ -9,8 +9,8 @@ import java.io.Serializable;
 
 public class LionChessComponent extends ChessComponent implements Serializable {
 
-    public LionChessComponent(PlayerColor owner, int size) {
-        super(owner, size);
+    public LionChessComponent(PlayerColor owner, int size, int x, int y) {
+        super(owner, size, x, y);
         String currentDir = System.getProperty("user.dir");
         String ImagePath;
         if(owner.getColor() == Color.BLUE) ImagePath = currentDir + "\\resource\\lion_b.jpg";
@@ -33,6 +33,10 @@ public class LionChessComponent extends ChessComponent implements Serializable {
         if (isSelected()) { // Highlights the model if selected.
             g.setColor(Color.RED);
             g.drawOval(0, 0, getWidth() , getHeight());
+        }
+        if (Entered) { // Highlights the model if selected.
+            g.setColor(Color.YELLOW);
+            g.drawRect(0, 0, getWidth() , getHeight());
         }
     }
 }

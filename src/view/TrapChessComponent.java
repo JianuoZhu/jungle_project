@@ -28,8 +28,8 @@ public class TrapChessComponent extends ChessComponent implements Serializable {
         return stackedChess;
     }
 
-    public TrapChessComponent(PlayerColor owner, int size) {
-        super(owner, size);
+    public TrapChessComponent(PlayerColor owner, int size, int x, int y) {
+        super(owner, size, x, y);
         String currentDir = System.getProperty("user.dir");
         String ImagePath;
         ImagePath = currentDir + "\\resource\\trap_c.jpg";
