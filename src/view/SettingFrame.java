@@ -6,6 +6,8 @@ import model.PlayerColor;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class SettingFrame extends JFrame {
     private final int BUTTON_WIDTH = 200;
@@ -30,7 +32,7 @@ public class SettingFrame extends JFrame {
     private JLabel addBackGround1(){
         String currentDir = System.getProperty("user.dir");
         String ImagePath=null;
-        ImagePath = currentDir + "\\resource\\bk.png";
+        ImagePath = currentDir + "\\resource\\bk10.jpg";
         // 背景图片
         ImageIcon background = new ImageIcon(ImagePath);
         // 把背景图片显示在一个标签里面
@@ -52,6 +54,32 @@ public class SettingFrame extends JFrame {
         beginButton.setSize(200, 50);
         beginButton.setFont(new Font("微软雅黑", Font.PLAIN, 24));
         add(beginButton);
+        beginButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                // 当鼠标进入按钮时，将按钮的背景色设置为黄色
+                e.getComponent().setBackground(Color.YELLOW);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                // 当鼠标离开按钮时，将按钮的背景色设置为白色
+                e.getComponent().setBackground(Color.WHITE);
+            }
+        });
+        beginButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                // 当鼠标进入按钮时，将按钮的背景色设置为黄色
+                e.getComponent().setBackground(Color.YELLOW);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                // 当鼠标离开按钮时，将按钮的背景色设置为白色
+                e.getComponent().setBackground(Color.WHITE);
+            }
+        });
         beginButton.addActionListener(e ->{
                     SwingUtilities.invokeLater(() -> {
                         dispose();
@@ -76,6 +104,19 @@ public class SettingFrame extends JFrame {
         beginButton.setSize(200, 50);
         beginButton.setFont(new Font("微软雅黑", Font.PLAIN, 24));
         add(beginButton);
+        beginButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                // 当鼠标进入按钮时，将按钮的背景色设置为黄色
+                e.getComponent().setBackground(Color.YELLOW);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                // 当鼠标离开按钮时，将按钮的背景色设置为白色
+                e.getComponent().setBackground(Color.WHITE);
+            }
+        });
         beginButton.addActionListener(e ->{
                     SwingUtilities.invokeLater(() -> {
                         dispose();
