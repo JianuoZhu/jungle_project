@@ -4,6 +4,7 @@ import model.PlayerColor;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -174,6 +175,20 @@ public class ChessGameFrame extends JFrame implements Serializable, MouseListene
         button.setSize(200, 60);
         button.setFont(new Font("微软雅黑", Font.BOLD, 20));
         add(button);
+       button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                // 当鼠标进入按钮时，将按钮的背景色设置为黄色
+                e.getComponent().setBackground(Color.YELLOW);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                // 当鼠标离开按钮时，将按钮的背景色设置为白色
+                e.getComponent().setBackground(Color.WHITE);
+            }
+        });
+
         button.addActionListener(e ->
             chessboardComponent.getGameController().Restart()
         );
@@ -186,6 +201,20 @@ public class ChessGameFrame extends JFrame implements Serializable, MouseListene
         button.setSize(200, 60);
         button.setFont(new Font("微软雅黑", Font.BOLD, 20));
         add(button);
+        button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                // 当鼠标进入按钮时，将按钮的背景色设置为黄色
+                e.getComponent().setBackground(Color.YELLOW);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                // 当鼠标离开按钮时，将按钮的背景色设置为白色
+                e.getComponent().setBackground(Color.WHITE);
+            }
+        });
+
         button.addActionListener(e ->
         {
             try {
@@ -213,6 +242,19 @@ public class ChessGameFrame extends JFrame implements Serializable, MouseListene
         button.setSize(200, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
+        button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                // 当鼠标进入按钮时，将按钮的背景色设置为黄色
+                e.getComponent().setBackground(Color.YELLOW);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                // 当鼠标离开按钮时，将按钮的背景色设置为白色
+                e.getComponent().setBackground(Color.WHITE);
+            }
+        });
         button.addActionListener(e ->
                 {
                     try {
@@ -230,6 +272,19 @@ public class ChessGameFrame extends JFrame implements Serializable, MouseListene
         button.setSize(200, 60);
         button.setFont(new Font("微软雅黑", Font.BOLD, 20));
         add(button);
+        button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                // 当鼠标进入按钮时，将按钮的背景色设置为黄色
+                e.getComponent().setBackground(Color.YELLOW);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                // 当鼠标离开按钮时，将按钮的背景色设置为白色
+                e.getComponent().setBackground(Color.WHITE);
+            }
+        });
         button.addActionListener(e -> {
             try {
                 chessboardComponent.getGameController().UnDo();
@@ -247,6 +302,19 @@ public class ChessGameFrame extends JFrame implements Serializable, MouseListene
             button.setSize(200, 60);
             button.setFont(new Font("微软雅黑", Font.BOLD, 20));
             add(button);
+            button.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    // 当鼠标进入按钮时，将按钮的背景色设置为黄色
+                    e.getComponent().setBackground(Color.YELLOW);
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    // 当鼠标离开按钮时，将按钮的背景色设置为白色
+                    e.getComponent().setBackground(Color.WHITE);
+                }
+            });
             button.addActionListener(e -> chessboardComponent.getGameController().save());
 
         }
@@ -256,6 +324,19 @@ public class ChessGameFrame extends JFrame implements Serializable, MouseListene
             button.setSize(200, 60);
             button.setFont(new Font("微软雅黑", Font.BOLD, 20));
             add(button);
+            button.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    // 当鼠标进入按钮时，将按钮的背景色设置为黄色
+                    e.getComponent().setBackground(Color.YELLOW);
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    // 当鼠标离开按钮时，将按钮的背景色设置为白色
+                    e.getComponent().setBackground(Color.WHITE);
+                }
+            });
             button.addActionListener(e -> {
                 try {
                     chessboardComponent.getGameController().getTimer().stop();
