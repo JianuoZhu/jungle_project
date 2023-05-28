@@ -44,7 +44,7 @@ public class ChessGameFrame extends JFrame implements Serializable, MouseListene
         addLoadButton();
         addAImoveButton();
         addUndoButton();
-        backlabel=addBackGround(0);
+        addBackGround();
         addReplayButton();
 
     }
@@ -87,6 +87,10 @@ public class ChessGameFrame extends JFrame implements Serializable, MouseListene
         chessboardComponent.setLocation(HEIGTH / 5, HEIGTH / 10);
         add(chessboardComponent);
     }
+    public void settingbacknumber(int a){
+        this.backgroundnumber=a;
+    }
+
 
 
     /**
@@ -130,11 +134,13 @@ public class ChessGameFrame extends JFrame implements Serializable, MouseListene
         add(timer);
         return timer;
     }
-    public JLabel addBackGround(int num){
+    public JLabel addBackGround(){
         String currentDir = System.getProperty("user.dir");
         String ImagePath=null;
-        if(num == 0)    ImagePath = currentDir + "\\resource\\bk1.png";
-        else ImagePath = currentDir + "\\resource\\bk2.png";
+
+
+        ImagePath = currentDir + "\\resource\\bk5.jpg";
+
         // 背景图片
         ImageIcon background = new ImageIcon(ImagePath);
         // 把背景图片显示在一个标签里面
@@ -163,10 +169,10 @@ public class ChessGameFrame extends JFrame implements Serializable, MouseListene
 //        add(button);
 //    }
     private void addRestartButton() {
-        JButton button = new JButton("Restart");
+        JButton button = new JButton("重开");
         button.setLocation(HEIGTH, HEIGTH / 10 +220);
         button.setSize(200, 60);
-        button.setFont(new Font("Rockwell", Font.BOLD, 20));
+        button.setFont(new Font("微软雅黑", Font.BOLD, 20));
         add(button);
         button.addActionListener(e ->
             chessboardComponent.getGameController().Restart()
@@ -231,19 +237,19 @@ public class ChessGameFrame extends JFrame implements Serializable, MouseListene
 
 
         private void addSaveButton () {
-            JButton button = new JButton("Save");
+            JButton button = new JButton("存档");
             button.setLocation(HEIGTH, HEIGTH / 10 + 120);
             button.setSize(200, 60);
-            button.setFont(new Font("Rockwell", Font.BOLD, 20));
+            button.setFont(new Font("微软雅黑", Font.BOLD, 20));
             add(button);
             button.addActionListener(e -> chessboardComponent.getGameController().save());
 
         }
         private void addLoadButton () {
-            JButton button = new JButton("Load");
+            JButton button = new JButton("读取");
             button.setLocation(HEIGTH, HEIGTH / 10 + 320);
             button.setSize(200, 60);
-            button.setFont(new Font("Rockwell", Font.BOLD, 20));
+            button.setFont(new Font("微软雅黑", Font.BOLD, 20));
             add(button);
             button.addActionListener(e -> {
                 try {
