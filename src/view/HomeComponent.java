@@ -5,8 +5,8 @@ import java.awt.*;
 import java.io.Serializable;
 
 public class HomeComponent extends CellComponent implements Serializable {
-    public HomeComponent(Color background, Point location, int size) {
-        super(background, location, size);
+    public HomeComponent(Color background, Point location, int size, int x, int y) {
+        super(background, location, size, x, y);
         String currentDir = System.getProperty("user.dir");
         String ImagePath;
         ImagePath = currentDir + "\\resource\\home.png";

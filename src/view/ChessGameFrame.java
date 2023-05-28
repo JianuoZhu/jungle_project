@@ -191,7 +191,12 @@ public class ChessGameFrame extends JFrame implements Serializable, MouseListene
             try {
                 File selectedFile = chessboardComponent.getGameController().chooseFile();
 //                if (chessboardComponent.getGameController().CheckError(selectedFile)){
+                    remove(ChessGameFrame.current_currentPlayer_JLabel);
+                    remove(ChessGameFrame.current_turn_JLabel);
+                    JLabel temp = (ChessGameFrame.current_timer_JLabel);
+                    this.paint(this.getGraphics());
                     chessboardComponent.getGameController().ChessGameReplay(selectedFile);
+                    this.add(temp);
 //                }
             } catch (FileNotFoundException ex) {
                 throw new RuntimeException(ex);

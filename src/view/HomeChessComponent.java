@@ -8,8 +8,8 @@ import java.io.Serializable;
 public class HomeChessComponent extends ChessComponent implements Serializable {
 
 
-    public HomeChessComponent(PlayerColor owner, int size) {
-        super(owner, size);
+    public HomeChessComponent(PlayerColor owner, int size, int x, int y) {
+        super(owner, size, x, y);
         String currentDir = System.getProperty("user.dir");
         String ImagePath;
         ImagePath = currentDir + "\\resource\\home.png";

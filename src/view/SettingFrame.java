@@ -58,6 +58,8 @@ public class SettingFrame extends JFrame {
                         ChessGameFrame ChessGameFrame = new ChessGameFrame(1100, 810);
                         GameController gameController = new GameController
                                 (ChessGameFrame.getChessboardComponent(),new Chessboard(),ChessGameFrame);
+
+                        GameController.current_controller = gameController;
                         ChessGameFrame.current_currentPlayer_JLabel = ChessGameFrame.addCurrentPlayers();
                         ChessGameFrame.current_turn_JLabel = ChessGameFrame.addCurrentTurns();
                         ChessGameFrame.AIColor = PlayerColor.RED;
@@ -82,6 +84,7 @@ public class SettingFrame extends JFrame {
                         ChessGameFrame ChessGameFrame = new ChessGameFrame(1100, 810);
                         GameController gameController = new GameController
                                 (ChessGameFrame.getChessboardComponent(),new Chessboard(),ChessGameFrame);
+                        GameController.current_controller = gameController;
                         ChessGameFrame.current_currentPlayer_JLabel = ChessGameFrame.addCurrentPlayers();
                         ChessGameFrame.current_turn_JLabel = ChessGameFrame.addCurrentTurns();
                         ChessGameFrame.AIColor = PlayerColor.RED;

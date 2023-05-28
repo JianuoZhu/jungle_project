@@ -7,8 +7,8 @@ import java.awt.*;
 import java.io.Serializable;
 
 public class DogChessComponent extends ChessComponent implements Serializable {
-    public DogChessComponent(PlayerColor owner, int size) {
-        super(owner, size);
+    public DogChessComponent(PlayerColor owner, int size, int x, int y) {
+        super(owner, size, x, y);
         String currentDir = System.getProperty("user.dir");
         String ImagePath;
         if(owner.getColor() == Color.BLUE) ImagePath = currentDir + "\\resource\\dog_b.jpg";
@@ -33,6 +33,9 @@ public class DogChessComponent extends ChessComponent implements Serializable {
             g.setColor(Color.RED);
             g.drawOval(0, 0, getWidth() , getHeight());
         }
-
+        if (Entered) { // Highlights the model if selected.
+            g.setColor(Color.RED);
+            g.drawRect(0, 0, getWidth() , getHeight());
+        }
     }
 }

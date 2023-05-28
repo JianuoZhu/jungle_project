@@ -7,8 +7,8 @@ import java.awt.*;
 import java.io.Serializable;
 
  public  class  CatChessComponent extends  ChessComponent implements Serializable {
-    public CatChessComponent(PlayerColor owner, int size) {
-        super(owner, size);
+    public CatChessComponent(PlayerColor owner, int size, int x, int y) {
+        super(owner, size, x, y);
         String currentDir = System.getProperty("user.dir");
         String ImagePath;
         if(owner.getColor() == Color.BLUE) ImagePath = currentDir + "\\resource\\cat_b.jpg";
@@ -33,6 +33,9 @@ import java.io.Serializable;
             g.setColor(Color.RED);
             g.drawOval(0, 0, getWidth() , getHeight());
         }
-
+        if (Entered) { // Highlights the model if selected.
+            g.s
+            g.drawRect(0, 0, getWidth() -1, getHeight()-1);
+        }
     }
 }
