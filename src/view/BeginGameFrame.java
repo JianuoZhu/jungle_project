@@ -22,6 +22,7 @@ public class BeginGameFrame extends JFrame implements MouseListener {//begin the
     private final int BUTTON_HEIGHT = 50;
     private JFrame BeginLabel;
     public BeginGameFrame(int WIDTH, int HEIGHT) {
+        //Cursor c1 = new Cursor()
         setTitle("2023 CS109 Project Demo"); //设置标题
         this.WIDTH = WIDTH;
         this.HEIGHT = HEIGHT;
