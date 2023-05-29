@@ -37,7 +37,7 @@ public class CellComponent extends JPanel implements Serializable {
         setSize(size, size);
         String currentDir = System.getProperty("user.dir");
         String ImagePath;
-        ImagePath = currentDir + "\\resource\\bk8.png";
+        ImagePath = currentDir + "\\resource\\grass_3.jpg";
         setImage(ImagePath);
         enableEvents(AWTEvent.MOUSE_EVENT_MASK);
         this.background = background;
